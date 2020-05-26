@@ -1,0 +1,3 @@
+[submodule "gameEngine/gwcSandbox/gwcSandbox/vendor/spdlog"]
+	path = gameEngine/gwcSandbox/gwcSandbox/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
