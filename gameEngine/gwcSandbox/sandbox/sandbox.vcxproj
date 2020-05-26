@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GE_PLATFORM_WINDOWS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)gwcSandbox\src;$(SolutionDir)gwcSandbox\vendor\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)gwcSandbox\src;$(SolutionDir)gwcSandbox\vendor\spdlog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GE_PLATFORM_WINDOWS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)gwcSandbox\src;$(SolutionDir)gwcSandbox\vendor\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)gwcSandbox\src;$(SolutionDir)gwcSandbox\vendor\spdlog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
