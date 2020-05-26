@@ -25,7 +25,7 @@ project "gwcEngine"
 		"%{prj.name}/src/**.cpp"
 	}
 
-	include
+	includedirs
 	{
 		"%{prj.name}/vendor/spdlog/include"
 	}
@@ -42,7 +42,7 @@ project "gwcEngine"
 		"GE_BUILD_DLL"
 	}
 
-	postbuild
+	postbuildcommands
 	{
 		("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputDir .. "/sandbox")
 	}
@@ -77,15 +77,15 @@ project "sandbox"
 		"%{prj.name}/src/**.cpp"
 	}
 
-	include
+	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include",
+		"gwcEngine/vendor/spdlog/include",
 		"gwcEngine/src"
 	}
 
 	links
 	{
-		gwcEngine
+		"gwcEngine"
 	}
 
 	filter "system:windows"
