@@ -10,6 +10,10 @@ workspace "gwcEngine"
 
 outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "gwcEngine/vendor/GLFW/include"
+include "/gwcEngine/vendor/GLFW"
+
 project "gwcEngine"
 
 	location"gwcEngine"
@@ -27,8 +31,16 @@ project "gwcEngine"
 
 	includedirs
 	{
+--		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include"
+--		"%{IncludeDir.GLFW}"
 	}
+	
+--	links
+--	{
+--		"GLFW",
+--		"opengl32.lib"
+--	}
 
 	filter "system:windows"
 		cppdialect "C++17"
