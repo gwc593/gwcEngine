@@ -25,7 +25,11 @@ project "gwcEngine"
 		"%{prj.name}/src/**.cpp"
 	}
 
+<<<<<<< HEAD
 	includedirs
+=======
+	include
+>>>>>>> 9661e15652e4a9ca94e48d1d2d6c6b6c466c3f04
 	{
 		"%{prj.name}/vendor/spdlog/include"
 	}
@@ -42,7 +46,11 @@ project "gwcEngine"
 		"GE_BUILD_DLL"
 	}
 
+<<<<<<< HEAD
 	postbuildcommands
+=======
+	postbuild
+>>>>>>> 9661e15652e4a9ca94e48d1d2d6c6b6c466c3f04
 	{
 		("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputDir .. "/sandbox")
 	}
@@ -59,6 +67,7 @@ project "gwcEngine"
 	filter "configurations:Debug"
 		defines "GE_DIST"
 		optimize "On"
+<<<<<<< HEAD
 
 
 project "sandbox"
@@ -112,4 +121,7 @@ project "sandbox"
 		defines "GE_DIST"
 		optimize "On"
 
+=======
+	
+>>>>>>> 9661e15652e4a9ca94e48d1d2d6c6b6c466c3f04
 
