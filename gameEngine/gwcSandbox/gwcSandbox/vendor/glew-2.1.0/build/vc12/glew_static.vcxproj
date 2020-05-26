@@ -83,7 +83,7 @@
     <TargetName>glew32s</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\..\..\gameEngine\gwcSandbox\deps\GLEW\lib\Release\x64</OutDir>
+    <OutDir>$(SolutionDir)gwcSandbox\vendor\glew-2.1.0\bin\$(Configuration)-$(PlatformName)</OutDir>
     <IntDir>tmp\$(TargetName)\$(Configuration)\$(PlatformName)\</IntDir>
     <TargetName>glew32s</TargetName>
   </PropertyGroup>
@@ -93,7 +93,7 @@
     <TargetName>glew32sd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\..\..\gameEngine\gwcSandbox\deps\GLEW\lib\Debug\x64</OutDir>
+    <OutDir>$(SolutionDir)gwcSandbox\vendor\glew-2.1.0\bin\$(Configuration)-$(PlatformName)</OutDir>
     <IntDir>tmp\$(TargetName)\$(Configuration)\$(PlatformName)\</IntDir>
     <TargetName>glew32sd</TargetName>
   </PropertyGroup>
