@@ -4,28 +4,50 @@
     <Filter Include="gwcEngine">
       <UniqueIdentifier>{5C388210-C8A2-3687-11E1-E72C7D8A14DC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="gwcEngine\core">
+      <UniqueIdentifier>{5482CA2C-4050-BE32-29E4-2E5915519A97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{4A63C33C-3630-1E48-5F49-0CF04B7553D6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gwcEngine.h" />
-    <ClInclude Include="src\gwcEngine\EntryPoint.h">
-      <Filter>gwcEngine</Filter>
+    <ClInclude Include="src\gwcEngine\core\EntryPoint.h">
+      <Filter>gwcEngine\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\Log.h">
-      <Filter>gwcEngine</Filter>
+    <ClInclude Include="src\gwcEngine\core\Log.h">
+      <Filter>gwcEngine\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\application.h">
-      <Filter>gwcEngine</Filter>
+    <ClInclude Include="src\gwcEngine\core\Window.h">
+      <Filter>gwcEngine\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\core.h">
-      <Filter>gwcEngine</Filter>
+    <ClInclude Include="src\gwcEngine\core\application.h">
+      <Filter>gwcEngine\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\core\core.h">
+      <Filter>gwcEngine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\WindowsWindow.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Events\Event.h" />
+    <ClInclude Include="src\gwcEngine\Events\KeyEvent.h" />
+    <ClInclude Include="src\gwcEngine\Events\MouseEvent.h" />
+    <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\gwcEngine\Log.cpp">
-      <Filter>gwcEngine</Filter>
+    <ClCompile Include="src\gwcEngine\core\Log.cpp">
+      <Filter>gwcEngine\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\gwcEngine\application.cpp">
-      <Filter>gwcEngine</Filter>
+    <ClCompile Include="src\gwcEngine\core\Window.cpp">
+      <Filter>gwcEngine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\core\application.cpp">
+      <Filter>gwcEngine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\WindowsWindow.cpp">
+      <Filter>platform</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

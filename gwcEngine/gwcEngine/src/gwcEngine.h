@@ -2,9 +2,9 @@
 #include<iostream>
 
 //For use in gwcEngine applications
-#include"gwcEngine/application.h"
-#include"gwcEngine/Log.h"
+#include"gwcEngine/core/application.h"
+#include"gwcEngine/core/Log.h"
 
 // !!!!!!!!! Entry point !!!!!!
-#include"gwcEngine/EntryPoint.h"
+#include"gwcEngine/core/EntryPoint.h"
 

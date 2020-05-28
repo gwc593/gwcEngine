@@ -31,16 +31,16 @@ project "gwcEngine"
 
 	includedirs
 	{
---		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
---		"%{IncludeDir.GLFW}"
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
 	}
 	
---	links
---	{
---		"GLFW",
---		"opengl32.lib"
---	}
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
+	}
 
 	filter "system:windows"
 		cppdialect "C++17"
@@ -61,7 +61,7 @@ project "gwcEngine"
 
 
 	filter "configurations:Debug"
-		defines "GE_DEBUG"
+		defines {"GE_DEBUG","GE_ENABLE_ASSERTS"}
 		symbols "On"
 
 	filter "configurations:Release"
@@ -92,7 +92,7 @@ project "sandbox"
 	includedirs
 	{
 		"gwcEngine/vendor/spdlog/include",
-		"gwcEngine/src"
+		"gwcEngine/src",
 	}
 
 	links
