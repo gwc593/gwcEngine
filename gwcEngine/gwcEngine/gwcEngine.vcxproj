@@ -76,7 +76,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GE_DEBUG;GE_ENABLE_ASSERTS;GE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -103,7 +104,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -128,7 +130,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -146,12 +149,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\gwcEngine.h" />
-    <ClInclude Include="src\gwcEngine\core\EntryPoint.h" />
-    <ClInclude Include="src\gwcEngine\core\Log.h" />
-    <ClInclude Include="src\gwcEngine\core\Window.h" />
-    <ClInclude Include="src\gwcEngine\core\application.h" />
-    <ClInclude Include="src\gwcEngine\core\core.h" />
+    <ClInclude Include="src\gwcEngine\Core\EntryPoint.h" />
+    <ClInclude Include="src\gwcEngine\Core\Log.h" />
+    <ClInclude Include="src\gwcEngine\Core\Window.h" />
+    <ClInclude Include="src\gwcEngine\Core\application.h" />
+    <ClInclude Include="src\gwcEngine\Core\core.h" />
     <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\gwcEngine\Events\Event.h" />
     <ClInclude Include="src\gwcEngine\Events\KeyEvent.h" />
@@ -159,9 +163,12 @@
     <ClInclude Include="src\platform\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\gwcEngine\core\Log.cpp" />
-    <ClCompile Include="src\gwcEngine\core\Window.cpp" />
-    <ClCompile Include="src\gwcEngine\core\application.cpp" />
+    <ClCompile Include="src\gepch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Core\Log.cpp" />
+    <ClCompile Include="src\gwcEngine\Core\Window.cpp" />
+    <ClCompile Include="src\gwcEngine\Core\application.cpp" />
     <ClCompile Include="src\platform\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>

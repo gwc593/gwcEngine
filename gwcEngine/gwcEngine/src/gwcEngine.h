@@ -1,5 +1,4 @@
 #pragma once
-#include<iostream>
 
 //For use in gwcEngine applications
 #include"gwcEngine/core/application.h"

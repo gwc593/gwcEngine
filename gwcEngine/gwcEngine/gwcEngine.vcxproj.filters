@@ -4,47 +4,60 @@
     <Filter Include="gwcEngine">
       <UniqueIdentifier>{5C388210-C8A2-3687-11E1-E72C7D8A14DC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="gwcEngine\core">
-      <UniqueIdentifier>{5482CA2C-4050-BE32-29E4-2E5915519A97}</UniqueIdentifier>
+    <Filter Include="gwcEngine\Core">
+      <UniqueIdentifier>{34F6B82C-20C4-AC32-0958-1D59F5C48897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gwcEngine\Events">
+      <UniqueIdentifier>{C064F143-AC5D-1096-D58F-F51AC1E7EFA1}</UniqueIdentifier>
     </Filter>
     <Filter Include="platform">
       <UniqueIdentifier>{4A63C33C-3630-1E48-5F49-0CF04B7553D6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\gwcEngine.h" />
-    <ClInclude Include="src\gwcEngine\core\EntryPoint.h">
-      <Filter>gwcEngine\core</Filter>
+    <ClInclude Include="src\gwcEngine\Core\EntryPoint.h">
+      <Filter>gwcEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\core\Log.h">
-      <Filter>gwcEngine\core</Filter>
+    <ClInclude Include="src\gwcEngine\Core\Log.h">
+      <Filter>gwcEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\core\Window.h">
-      <Filter>gwcEngine\core</Filter>
+    <ClInclude Include="src\gwcEngine\Core\Window.h">
+      <Filter>gwcEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\core\application.h">
-      <Filter>gwcEngine\core</Filter>
+    <ClInclude Include="src\gwcEngine\Core\application.h">
+      <Filter>gwcEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\core\core.h">
-      <Filter>gwcEngine\core</Filter>
+    <ClInclude Include="src\gwcEngine\Core\core.h">
+      <Filter>gwcEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h">
+      <Filter>gwcEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Events\Event.h">
+      <Filter>gwcEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Events\KeyEvent.h">
+      <Filter>gwcEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Events\MouseEvent.h">
+      <Filter>gwcEngine\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\WindowsWindow.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\Events\Event.h" />
-    <ClInclude Include="src\gwcEngine\Events\KeyEvent.h" />
-    <ClInclude Include="src\gwcEngine\Events\MouseEvent.h" />
-    <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\gwcEngine\core\Log.cpp">
-      <Filter>gwcEngine\core</Filter>
+    <ClCompile Include="src\gepch.cpp" />
+    <ClCompile Include="src\gwcEngine\Core\Log.cpp">
+      <Filter>gwcEngine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\gwcEngine\core\Window.cpp">
-      <Filter>gwcEngine\core</Filter>
+    <ClCompile Include="src\gwcEngine\Core\Window.cpp">
+      <Filter>gwcEngine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\gwcEngine\core\application.cpp">
-      <Filter>gwcEngine\core</Filter>
+    <ClCompile Include="src\gwcEngine\Core\application.cpp">
+      <Filter>gwcEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>platform</Filter>

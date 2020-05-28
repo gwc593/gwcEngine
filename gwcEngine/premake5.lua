@@ -23,6 +23,9 @@ project "gwcEngine"
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
 
+	pchheader "gepch.h"
+	pchsource "gwcEngine/src/gepch.cpp"
+	
 	files
 	{
 		"%{prj.name}/src/**.h",
