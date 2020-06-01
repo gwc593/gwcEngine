@@ -65,14 +65,17 @@ project "gwcEngine"
 
 	filter "configurations:Debug"
 		defines {"GE_DEBUG","GE_ENABLE_ASSERTS"}
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "GE_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Debug"
 		defines "GE_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 
@@ -117,14 +120,17 @@ project "sandbox"
 
 	filter "configurations:Debug"
 		defines "GE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "GE_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Debug"
 		defines "GE_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 

@@ -20,6 +20,12 @@
     <ClInclude Include="src\gwcEngine\Core\EntryPoint.h">
       <Filter>gwcEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Core\Layer.h">
+      <Filter>gwcEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Core\LayerStack.h">
+      <Filter>gwcEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\Log.h">
       <Filter>gwcEngine\Core</Filter>
     </ClInclude>
@@ -50,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp" />
+    <ClCompile Include="src\gwcEngine\Core\Layer.cpp">
+      <Filter>gwcEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Core\LayerStack.cpp">
+      <Filter>gwcEngine\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\gwcEngine\Core\Log.cpp">
       <Filter>gwcEngine\Core</Filter>
     </ClCompile>

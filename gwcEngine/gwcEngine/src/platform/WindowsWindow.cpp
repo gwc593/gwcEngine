@@ -16,7 +16,11 @@ namespace gwcEngine
 
 	Window* Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		#ifdef GE_PLATFORM_WINDOWS
+				return new WindowsWindow(props);
+		#endif // GE_PLATFORM_WINDOWS
+
+				return nullptr;
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
