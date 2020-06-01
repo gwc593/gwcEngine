@@ -68,7 +68,7 @@ namespace gwcEngine
 									  data.EventCallback(event);
 								  });
 
-		//window resize event
+		//window close event
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 								  {
 									  WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -77,6 +77,7 @@ namespace gwcEngine
 									  data.EventCallback(event);
 								  });
 
+		//keyboard input callback
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 						   {
 							   WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -105,12 +106,59 @@ namespace gwcEngine
 								   }
 								}
 						   });
-						   
+						  
+		glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* window, int entered)
+								   {
+									   WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
+									   WindowFocusEvent event(entered);
 
-		//TODO GWC - Impliment Mouse button callbacks https://www.youtube.com/watch?v=r74WxFMIEdU&list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&index=12
-		//TODO GWC - Impliment Mouse move callbacks https://www.youtube.com/watch?v=r74WxFMIEdU&list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&index=12
-		//TODO GWC - Impliment Mouse scroll callbacks https://www.youtube.com/watch?v=r74WxFMIEdU&list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&index=12
+									   data.EventCallback(event);
+								   });
+
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
+								   {
+									   switch (action) {
+										   case GLFW_PRESS:
+										   {
+											   WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+											   MouseButtonPressedEvent event(button);
+
+											   Data.EventCallback(event);
+											   break;
+										   }
+
+										   case GLFW_RELEASE:
+										   {
+											   WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+											   MouseButtonReleasedEvent event(button);
+
+											   Data.EventCallback(event);
+											   break;
+										   }
+									   }
+
+								   });
+
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset)
+		{
+			WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			MouseScrollEvent event((float)xoffset, (float)yoffset);
+
+			Data.EventCallback(event);
+		});
+
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos)
+								 {
+									 WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+									 MouseMovedEvent event(xpos, ypos);
+
+									 Data.EventCallback(event);
+								 });
 	}
 
 	void WindowsWindow::Shutdown()

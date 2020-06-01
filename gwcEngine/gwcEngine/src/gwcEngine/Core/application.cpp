@@ -3,8 +3,6 @@
 #include "Application.h"
 #include<GLFW/glfw3.h>
 namespace gwcEngine {
-	//TODO-GWC understand std::bind
-	//TODO-GWC understand std::placeholders
 
 	Application::Application()
 	{

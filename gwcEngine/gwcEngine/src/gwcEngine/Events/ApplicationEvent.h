@@ -41,4 +41,26 @@ namespace gwcEngine
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
 	};
+
+	class GE_API WindowFocusEvent : public Event
+	{
+	public:
+		WindowFocusEvent(int entered)
+			:m_entered(entered){}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "WindowFocusEvent::" << m_entered;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(WindowFocus)
+		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+
+	private:
+
+		int m_entered;
+
+	};
 }
