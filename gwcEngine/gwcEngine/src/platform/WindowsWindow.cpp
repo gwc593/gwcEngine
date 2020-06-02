@@ -5,6 +5,7 @@
 #include"gwcEngine/Events/KeyEvent.h"
 #include"gwcEngine/Events/MouseEvent.h"
 
+#include<glad/glad.h>
 namespace gwcEngine 
 {
 	static bool s_GLFWInitialized = false;
@@ -54,6 +55,11 @@ namespace gwcEngine
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+
+		//initialise Glad
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		GE_CORE_ASSERT(status, "Failed to initialise Glad...");
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVsync(true);
 

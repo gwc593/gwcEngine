@@ -1,7 +1,8 @@
 #include "gepch.h"
 
 #include "Application.h"
-#include<GLFW/glfw3.h>
+#include<glad/glad.h>
+
 namespace gwcEngine {
 
 	Application::Application()

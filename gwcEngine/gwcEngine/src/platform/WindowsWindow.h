@@ -1,7 +1,9 @@
 #pragma once
 #include "gwcEngine/core/Window.h"
 #include "gwcEngine/core/Log.h"
+
 #include<GLFW/glfw3.h>
+struct GLFWwindow;
 
 namespace gwcEngine {
 	class WindowsWindow : public Window
