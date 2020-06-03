@@ -5,7 +5,8 @@
 #include"gwcEngine/Events/KeyEvent.h"
 #include"gwcEngine/Events/MouseEvent.h"
 
-#include<glad/glad.h>
+#include"platform/OpenGL/OpenGLContext.h"
+
 namespace gwcEngine 
 {
 	static bool s_GLFWInitialized = false;
@@ -40,7 +41,10 @@ namespace gwcEngine
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
+
 		GE_CORE_INFO("Creating window {0} ({1},{2})", props.Title, props.Width, props.Height);
+
+		
 
 		if (!s_GLFWInitialized) {
 
@@ -54,11 +58,11 @@ namespace gwcEngine
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
+		m_Context = new OpenGLContext(m_Window);
 
-		//initialise Glad
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		GE_CORE_ASSERT(status, "Failed to initialise Glad...");
+		m_Context->Init();
+
+
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVsync(true);
@@ -165,7 +169,7 @@ namespace gwcEngine
 								 {
 									 WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-									 MouseMovedEvent event(xpos, ypos);
+									 MouseMovedEvent event((float)xpos, (float)ypos);
 
 									 Data.EventCallback(event);
 								 });
@@ -179,7 +183,7 @@ namespace gwcEngine
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVsync(bool enabled)

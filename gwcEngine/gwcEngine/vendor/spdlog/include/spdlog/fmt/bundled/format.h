@@ -32,7 +32,6 @@
 
 #ifndef FMT_FORMAT_H_
 #define FMT_FORMAT_H_
-
 #include <algorithm>
 #include <cerrno>
 #include <cmath>

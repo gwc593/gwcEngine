@@ -20,8 +20,10 @@ include "gwcEngine/vendor/Glad"
 project "gwcEngine"
 
 	location"gwcEngine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
@@ -51,8 +53,6 @@ project "gwcEngine"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 	defines
@@ -63,33 +63,30 @@ project "gwcEngine"
 		"GLFW_INCLUDE_NONE"
 	}
 
-	postbuildcommands
-	{
-		("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputDir .. "/sandbox")
-	}
-
 
 	filter "configurations:Debug"
 		defines {"GE_DEBUG","GE_ENABLE_ASSERTS"}
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "GE_RELEASE"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
-	filter "configurations:Debug"
+	filter "configurations:Dist"
 		defines "GE_DIST"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 
 project "sandbox"
 	location"sandbox"
 	kind "ConsoleApp"
-
+	
+	cppdialect "C++17"
 	language "C++"
+	staticruntime "On"
 
 
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
@@ -113,8 +110,6 @@ project "sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 	defines
@@ -126,17 +121,15 @@ project "sandbox"
 
 	filter "configurations:Debug"
 		defines "GE_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "GE_RELEASE"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
-	filter "configurations:Debug"
+	filter "configurations:Dist"
 		defines "GE_DIST"
-		buildoptions "/MD"
-		optimize "On"
-
-
+		runtime "Release"
+		optimize "on"

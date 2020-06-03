@@ -4,6 +4,7 @@
 #ifndef SPDLOG_COMPILED_LIB
 #error Please define SPDLOG_COMPILED_LIB to compile this file.
 #endif
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <spdlog/spdlog-inl.h>
 #include <spdlog/common-inl.h>

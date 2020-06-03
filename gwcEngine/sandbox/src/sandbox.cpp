@@ -25,7 +25,7 @@ public:
 		if (e.GetEventType() == gwcEngine::EventType::MouseButtonPressed) {
 			gwcEngine::MouseButtonPressedEvent& event = (gwcEngine::MouseButtonPressedEvent&)e;
 			if (event.GetButton() == (int)gwcEngine::MouseCode::Button0) {
-				GE_TRACE("Mouse Clicked");
+				GE_TRACE("Triangle Clicked");
 				return true;
 			}
 		}

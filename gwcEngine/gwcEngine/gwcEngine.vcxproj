@@ -23,19 +23,19 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -54,69 +54,49 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\Debug-windows-x86_64\gwcEngine\</OutDir>
     <IntDir>..\bin-int\Debug-windows-x86_64\gwcEngine\</IntDir>
     <TargetName>gwcEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\Release-windows-x86_64\gwcEngine\</OutDir>
     <IntDir>..\bin-int\Release-windows-x86_64\gwcEngine\</IntDir>
     <TargetName>gwcEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Dist-windows-x86_64\gwcEngine\</OutDir>
     <IntDir>..\bin-int\Dist-windows-x86_64\gwcEngine\</IntDir>
     <TargetName>gwcEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-<<<<<<< HEAD
-      <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GLFW_INCLUDE_NONE;GE_DEBUG;GE_ENABLE_ASSERTS;GE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-=======
-      <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GE_DEBUG;GE_ENABLE_ASSERTS;GE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
->>>>>>> 7a2a62514ac3da87fcdf5a4effd926cd09472f20
+      <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GLFW_INCLUDE_NONE;GE_DEBUG;GE_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>Full</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/MDd /MD %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Debug-windows-x86_64\gwcEngine\gwcEngine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\gwcEngine\gwcEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\gwcEngine\gwcEngine.dll ..\bin\Debug-windows-x86_64\sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\gwcEngine\gwcEngine.dll ..\bin\Debug-windows-x86_64\sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-<<<<<<< HEAD
       <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GLFW_INCLUDE_NONE;GE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-=======
-      <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
->>>>>>> 7a2a62514ac3da87fcdf5a4effd926cd09472f20
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -124,48 +104,46 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Release-windows-x86_64\gwcEngine\gwcEngine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\gwcEngine\gwcEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\gwcEngine\gwcEngine.dll ..\bin\Release-windows-x86_64\sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\gwcEngine\gwcEngine.dll ..\bin\Release-windows-x86_64\sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-<<<<<<< HEAD
-      <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-=======
-      <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
->>>>>>> 7a2a62514ac3da87fcdf5a4effd926cd09472f20
+      <PreprocessorDefinitions>GLEW_STATIC;GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GLFW_INCLUDE_NONE;GE_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Disabled</Optimization>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Dist-windows-x86_64\gwcEngine\gwcEngine.lib</ImportLibrary>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\gwcEngine\gwcEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\gwcEngine\gwcEngine.dll ..\bin\Dist-windows-x86_64\sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\gwcEngine\gwcEngine.dll ..\bin\Dist-windows-x86_64\sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\gwcEngine.h" />
     <ClInclude Include="src\gwcEngine\Core\EntryPoint.h" />
+    <ClInclude Include="src\gwcEngine\Core\Input.h" />
     <ClInclude Include="src\gwcEngine\Core\KeyCodes.h" />
     <ClInclude Include="src\gwcEngine\Core\Layer.h" />
     <ClInclude Include="src\gwcEngine\Core\LayerStack.h" />
@@ -178,7 +156,8 @@
     <ClInclude Include="src\gwcEngine\Events\Event.h" />
     <ClInclude Include="src\gwcEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\gwcEngine\Events\MouseEvent.h" />
-    <ClInclude Include="src\gwcEngine\Core\Input.h" />
+    <ClInclude Include="src\gwcEngine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\platform\WindowsInput.h" />
     <ClInclude Include="src\platform\WindowsWindow.h" />
   </ItemGroup>
@@ -191,6 +170,7 @@
     <ClCompile Include="src\gwcEngine\Core\Log.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Window.cpp" />
     <ClCompile Include="src\gwcEngine\Core\application.cpp" />
+    <ClCompile Include="src\platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\platform\WindowsInput.cpp" />
     <ClCompile Include="src\platform\WindowsWindow.cpp" />
   </ItemGroup>

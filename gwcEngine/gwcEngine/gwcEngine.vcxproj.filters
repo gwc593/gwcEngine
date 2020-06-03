@@ -20,6 +20,12 @@
     <ClInclude Include="src\gwcEngine\Core\EntryPoint.h">
       <Filter>gwcEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Core\Input.h">
+      <Filter>gwcEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Core\KeyCodes.h">
+      <Filter>gwcEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\Layer.h">
       <Filter>gwcEngine\Core</Filter>
     </ClInclude>
@@ -27,6 +33,9 @@
       <Filter>gwcEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\Log.h">
+      <Filter>gwcEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Core\MouseButtonCodes.h">
       <Filter>gwcEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\Window.h">
@@ -50,13 +59,14 @@
     <ClInclude Include="src\gwcEngine\Events\MouseEvent.h">
       <Filter>gwcEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\platform\WindowsInput.h">
+      <Filter>platform</Filter>
+    </ClInclude>
     <ClInclude Include="src\platform\WindowsWindow.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\Core\Input.h" />
-    <ClInclude Include="src\platform\WindowsInput.h" />
-    <ClInclude Include="src\gwcEngine\Core\KeyCodes.h" />
-    <ClInclude Include="src\gwcEngine\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\gwcEngine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\platform\OpenGL\OpenGLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp" />
@@ -75,9 +85,12 @@
     <ClCompile Include="src\gwcEngine\Core\application.cpp">
       <Filter>gwcEngine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\WindowsInput.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>platform</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\WindowsInput.cpp" />
+    <ClCompile Include="src\platform\OpenGL\OpenGLContext.cpp" />
   </ItemGroup>
 </Project>
