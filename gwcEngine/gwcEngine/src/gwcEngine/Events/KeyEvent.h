@@ -6,6 +6,7 @@ namespace gwcEngine
 
 	class GE_API KeyEvent :public Event
 	{
+	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)

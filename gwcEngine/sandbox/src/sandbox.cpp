@@ -1,9 +1,11 @@
 #include<gwcEngine.h>
 
-class ExampleLayer : public gwcEngine::Layer
+
+
+class Target : public gwcEngine::Layer
 {
 public:
-	ExampleLayer()
+	Target()
 		:Layer("Example")
 	{
 
@@ -11,12 +13,30 @@ public:
 
 	void OnUpdate() override
 	{
-		//GE_INFO("ExampleLayer::Update");
+		if (gwcEngine::Input::IsKeyPressed(GE_KEY_TAB))
+		{
+			//GE_INFO("Tab is pressed");
+		}
+	}
+
+	bool OnClick(gwcEngine::Event& e)
+	{
+		
+		if (e.GetEventType() == gwcEngine::EventType::MouseButtonPressed) {
+			gwcEngine::MouseButtonPressedEvent& event = (gwcEngine::MouseButtonPressedEvent&)e;
+			if (event.GetButton() == (int)gwcEngine::MouseCode::Button0) {
+				GE_TRACE("Mouse Clicked");
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	void OnEvent(gwcEngine::Event& event) override
 	{
-		GE_TRACE("{0}", event.ToString());
+		gwcEngine::EventDispatcher dp(event);
+		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(Target::OnClick));
 	}
 };
 
@@ -27,7 +47,7 @@ class Sandbox : public gwcEngine::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		PushLayer(new Target());
 	}
 
 	~Sandbox()

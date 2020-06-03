@@ -3,6 +3,8 @@
 #include"LayerStack.h"
 #include"gwcEngine/Events/Event.h"
 #include"gwcEngine/Events/ApplicationEvent.h"
+#include"gwcEngine/Events/KeyEvent.h"
+#include"gwcEngine/Events/MouseEvent.h"
 #include"Window.h"
 
 namespace gwcEngine {
@@ -20,12 +22,19 @@ namespace gwcEngine {
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
+
+		Window& GetWindow() { return *m_Window; }
+
+
+		inline static Application* Get() { return s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+
+		static Application* s_Instance;
 	};
 
 	//to be defined in client

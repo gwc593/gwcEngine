@@ -154,9 +154,11 @@
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\gwcEngine.h" />
     <ClInclude Include="src\gwcEngine\Core\EntryPoint.h" />
+    <ClInclude Include="src\gwcEngine\Core\KeyCodes.h" />
     <ClInclude Include="src\gwcEngine\Core\Layer.h" />
     <ClInclude Include="src\gwcEngine\Core\LayerStack.h" />
     <ClInclude Include="src\gwcEngine\Core\Log.h" />
+    <ClInclude Include="src\gwcEngine\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\gwcEngine\Core\Window.h" />
     <ClInclude Include="src\gwcEngine\Core\application.h" />
     <ClInclude Include="src\gwcEngine\Core\core.h" />
@@ -164,6 +166,8 @@
     <ClInclude Include="src\gwcEngine\Events\Event.h" />
     <ClInclude Include="src\gwcEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\gwcEngine\Events\MouseEvent.h" />
+    <ClInclude Include="src\gwcEngine\Core\Input.h" />
+    <ClInclude Include="src\platform\WindowsInput.h" />
     <ClInclude Include="src\platform\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +179,7 @@
     <ClCompile Include="src\gwcEngine\Core\Log.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Window.cpp" />
     <ClCompile Include="src\gwcEngine\Core\application.cpp" />
+    <ClCompile Include="src\platform\WindowsInput.cpp" />
     <ClCompile Include="src\platform\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
