@@ -65,8 +65,20 @@
     <ClInclude Include="src\gwcEngine\Events\MouseEvent.h">
       <Filter>gwcEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Buffer.h">
+      <Filter>gwcEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\GraphicsContext.h">
       <Filter>gwcEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Renderer.h">
+      <Filter>gwcEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Shader.h">
+      <Filter>gwcEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\OpenGL\OpenGLBuffer.h">
+      <Filter>platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\OpenGL\OpenGLContext.h">
       <Filter>platform\OpenGL</Filter>
@@ -77,10 +89,6 @@
     <ClInclude Include="src\platform\WindowsWindow.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\Renderer\Shader.h" />
-    <ClInclude Include="src\gwcEngine\Renderer\Buffer.h" />
-    <ClInclude Include="src\platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\gwcEngine\Renderer\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp" />
@@ -99,6 +107,18 @@
     <ClCompile Include="src\gwcEngine\Core\application.cpp">
       <Filter>gwcEngine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Buffer.cpp">
+      <Filter>gwcEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Renderer.cpp">
+      <Filter>gwcEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Shader.cpp">
+      <Filter>gwcEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\platform\OpenGL\OpenGLContext.cpp">
       <Filter>platform\OpenGL</Filter>
     </ClCompile>
@@ -108,9 +128,5 @@
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>platform</Filter>
     </ClCompile>
-    <ClCompile Include="src\gwcEngine\Renderer\Shader.cpp" />
-    <ClCompile Include="src\gwcEngine\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\gwcEngine\Renderer\Renderer.cpp" />
   </ItemGroup>
 </Project>
