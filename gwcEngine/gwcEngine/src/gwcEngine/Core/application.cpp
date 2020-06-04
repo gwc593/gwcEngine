@@ -18,24 +18,44 @@ namespace gwcEngine {
 		//Todo - develope front end components or integrte IMGUI_LAYER.... maybe? i dont want to though
 		
 		/// first triangle
+		//Todo - gwc abstract vertex data to be platform independent.
 		glGenVertexArrays(1, &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
 
+<<<<<<< HEAD
 		//triagle vertex data
+=======
+
+>>>>>>> 1d48859dafbe6d5ac6a6c01556f3a8669b9decb3
 		float vertices[3 * 3] = {
 			-0.5f, -0.5f, 0.0f,
 			0.5f, -0.5f, 0.0f,
 			0.0f, 0.5f, 0.0f
 		};		
 
+<<<<<<< HEAD
 		uint32_t indices[3] = { 0,1,2 };
 		
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+=======
+		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+>>>>>>> 1d48859dafbe6d5ac6a6c01556f3a8669b9decb3
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+<<<<<<< HEAD
 		
+=======
+
+		uint32_t indices[3] = { 0,1,2 };
+
+		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices)/sizeof(uint32_t)));
+
+		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+
+>>>>>>> 1d48859dafbe6d5ac6a6c01556f3a8669b9decb3
 		std::string vertexSrc = R"(
 			#version 330 core
 			

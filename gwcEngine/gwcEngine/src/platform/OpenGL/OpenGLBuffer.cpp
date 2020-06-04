@@ -11,7 +11,11 @@ namespace gwcEngine
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* verticies, uint32_t size)
 	{
 		glCreateBuffers(1, &m_RendererID);
+<<<<<<< HEAD
 		Bind();
+=======
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+>>>>>>> 1d48859dafbe6d5ac6a6c01556f3a8669b9decb3
 		glBufferData(GL_ARRAY_BUFFER, size, verticies, GL_STATIC_DRAW);
 	}
 
@@ -38,7 +42,11 @@ namespace gwcEngine
 		m_count(count)
 	{
 		glCreateBuffers(1, &m_RendererID);
+<<<<<<< HEAD
 		Bind();
+=======
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+>>>>>>> 1d48859dafbe6d5ac6a6c01556f3a8669b9decb3
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count*sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
 
