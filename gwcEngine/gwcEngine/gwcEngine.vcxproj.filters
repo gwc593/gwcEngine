@@ -91,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\gwcEngine\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\gwcEngine\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\platform\OpenGL\OpenGLRendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp" />
@@ -132,5 +135,8 @@
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\gwcEngine\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\gwcEngine\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>

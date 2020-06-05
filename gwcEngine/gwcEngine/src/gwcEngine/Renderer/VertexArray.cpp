@@ -8,11 +8,11 @@ namespace gwcEngine
 	VertexArray* VertexArray::Create()
 	{
 		switch (Renderer::GetAPI()) {
-		case RendererAPI::None:
+		case RendererAPI::API::None:
 			GE_CORE_ASSERT(false, "No rendering API selected...");
 			return nullptr;
 
-		case RendererAPI::OpenGL: return new OpenGLVertexArray();
+		case RendererAPI::API::OpenGL: return new OpenGLVertexArray();
 
 
 		}

@@ -17,13 +17,13 @@ namespace gwcEngine
 		glfwMakeContextCurrent(m_windowHandle);
 		//initialise Glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
 		GE_CORE_ASSERT(status, "Failed to initialise Glad...");
 
 		GE_CORE_INFO("OpenGL info:");
 		GE_CORE_INFO("  Vendor: {0}",glGetString(GL_VENDOR));
 		GE_CORE_INFO("  Renderer: {0}",glGetString(GL_RENDERER));
 		GE_CORE_INFO("  Version: {0}",glGetString(GL_VERSION));
-
 
 	}
 

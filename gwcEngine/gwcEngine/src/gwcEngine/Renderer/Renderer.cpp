@@ -3,5 +3,20 @@
 
 namespace gwcEngine
 {
-	RendererAPI Renderer::s_RendereAPI = RendererAPI::OpenGL;
+	void Renderer::BeginScene()
+	{
+		//TODO - view space stuff here
+		//shader data cube maps etc etc
+	}
+
+	void Renderer::EndScene()
+	{
+
+	}
+
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray)
+	{
+		vertexArray->Bind();
+		RenderCommand::DrawIndexed(vertexArray);
+	}
 }

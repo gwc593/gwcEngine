@@ -1,32 +1,14 @@
 #include "gepch.h"
-
 #include "Application.h"
-#include "Input.h"
-#include<glad/glad.h>
+
+#include"gwcEngine/Renderer/Renderer.h"
+#include"Input.h"
 
 namespace gwcEngine {
 
 	Application*  Application::s_Instance = nullptr;
 
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type) {
-			case ShaderDataType::Float1: return GL_FLOAT;
-			case ShaderDataType::Float2: return GL_FLOAT;
-			case ShaderDataType::Float3: return GL_FLOAT;
-			case ShaderDataType::Float4: return GL_FLOAT;
-			case ShaderDataType::Mat3:   return GL_FLOAT;
-			case ShaderDataType::Mat4:   return GL_FLOAT;
-			case ShaderDataType::Int:    return GL_INT;
-			case ShaderDataType::Int2:   return GL_INT;
-			case ShaderDataType::Int3:   return GL_INT;
-			case ShaderDataType::Int4:   return GL_INT;
-			case ShaderDataType::Bool:   return GL_BOOL;
-		}
 
-		GE_CORE_ASSERT(false, "unsupported ShaderDataType");
-		return 0;
-	}
 
 	Application::Application()
 	{
@@ -149,19 +131,18 @@ namespace gwcEngine {
 	{
 		while (m_Running) 
 		{
-			glClearColor(0.15f, 0.15f, 0.15f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
 
-			
+			RenderCommand::SetClearColour();
+			RenderCommand::Clear();
+
+			Renderer::BeginScene();
+
 			m_Shader->Bind();
 
-			m_SquareVertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_SquareVertexArray);
+			Renderer::Submit(m_VertexArray);
 
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-			
-
+			Renderer::EndScene();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

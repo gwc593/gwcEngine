@@ -1,23 +1,21 @@
 #pragma once
-
+#include "RendererAPI.h"
+#include"RenderCommand.h"
 namespace gwcEngine
 {
-	enum class RendererAPI
-	{
-		None = 0,
-		OpenGL,
-		DirectX,
-		Vulkan,
-		Metal
-	};
 	class Renderer
 	{
 
 	public:
-		inline static RendererAPI GetAPI() { return s_RendereAPI; }
+
+		static void BeginScene(); //TODO - take in scene params, lights etc
+		static void EndScene();
+
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
 	private:
-		static RendererAPI s_RendereAPI;
 
 	};
 	
