@@ -89,6 +89,8 @@
     <ClInclude Include="src\platform\WindowsWindow.h">
       <Filter>platform</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\VertexArray.h" />
+    <ClInclude Include="src\platform\OpenGL\OpenGLVertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp" />
@@ -128,5 +130,7 @@
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>platform</Filter>
     </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\platform\OpenGL\OpenGLVertexArray.cpp" />
   </ItemGroup>
 </Project>

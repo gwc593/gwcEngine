@@ -8,55 +8,110 @@ namespace gwcEngine {
 
 	Application*  Application::s_Instance = nullptr;
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch (type) {
+			case ShaderDataType::Float1: return GL_FLOAT;
+			case ShaderDataType::Float2: return GL_FLOAT;
+			case ShaderDataType::Float3: return GL_FLOAT;
+			case ShaderDataType::Float4: return GL_FLOAT;
+			case ShaderDataType::Mat3:   return GL_FLOAT;
+			case ShaderDataType::Mat4:   return GL_FLOAT;
+			case ShaderDataType::Int:    return GL_INT;
+			case ShaderDataType::Int2:   return GL_INT;
+			case ShaderDataType::Int3:   return GL_INT;
+			case ShaderDataType::Int4:   return GL_INT;
+			case ShaderDataType::Bool:   return GL_BOOL;
+		}
+
+		GE_CORE_ASSERT(false, "unsupported ShaderDataType");
+		return 0;
+	}
+
 	Application::Application()
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());	
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
-
 		s_Instance = this;
 
 		//Todo - develope front end components or integrte IMGUI_LAYER.... maybe? i dont want to though
 		
 		/// first triangle
-		//Todo - gwc abstract vertex data to be platform independent.
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
-
+		m_VertexArray.reset(VertexArray::Create());
 
 		//triagle vertex data
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f
+		float vertices[3 * 7] = {
+		// -----Position-----  ------Colour-------
+			-0.5f, -0.5f, 0.0f, 1.0, 0.0, 0.0, 1.0,
+			0.5f, -0.5f, 0.0f,  0.0, 1.0, 0.0, 1.0,
+			0.0f, 0.5f, 0.0f,   0.0, 0.0, 1.0, 1.0
 		};		
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
+		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		
+		BufferLayout layout = {
+			{ShaderDataType::Float3, "a_Position"},
+			{ShaderDataType::Float4, "a_Colour"}
+		};
+		m_VertexBuffer->SetLayout(layout);
+
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
 		uint32_t indices[3] = { 0,1,2 };
-		
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+#pragma region Square
+		m_SquareVertexArray.reset(VertexArray::Create());
 
-		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		float SquareVertices[4 * 7] = {
+			// -----Position-----  ------Colour-------
+				-0.75f, 0.75f, 0.0f, 0.0, 0.0, 0.0, 1.0,
+				-0.75f, -0.75f, 0.0f,  0.0, 0.0, 0.0, 1.0,
+				0.75f, -0.75f, 0.0f,   0.0, 0.0, 0.0, 1.0,
+				0.75f, 0.75f, 0.0f,   0.0, 0.0, 0.0, 1.0
+		};
+		std::shared_ptr<VertexBuffer> SquareVB;
+		SquareVB.reset(VertexBuffer::Create(SquareVertices, sizeof(SquareVertices)));
 
 
 
+		SquareVB->SetLayout(layout);
+
+		m_SquareVertexArray->AddVertexBuffer(SquareVB);
+
+		uint32_t SquareIndices[6] = { 0,1,3,
+									3,1,2};
+
+		std::shared_ptr<IndexBuffer> SquareIB;
+		SquareIB.reset(IndexBuffer::Create(SquareIndices, sizeof(SquareIndices) / sizeof(uint32_t)));
+
+		m_SquareVertexArray->SetIndexBuffer(SquareIB);
+
+#pragma endregion
+
+
+
+
+		//create a basic shader
 		std::string vertexSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Colour;
 
 			out vec3 v_Position;
+			out vec4 v_Colour;
 			
 			void main()
 			{
 				gl_Position = vec4(a_Position,1.0);
 				v_Position = a_Position;
+				v_Colour = a_Colour;
 			}
 		)";
-
-		
 
 		std::string fragmentSrc = R"(
 			#version 330 core
@@ -64,18 +119,15 @@ namespace gwcEngine {
 			layout(location = 0) out vec4 color;
 			
 			in vec3 v_Position;
+			in vec4 v_Colour;
 			void main()
 			{
-				color = vec4((v_Position+0.5)*0.5, 1.0);
+				color = v_Colour;
 			}
 		)";
 
-		
-
-
 		m_Shader.reset(new Shader(vertexSrc,fragmentSrc));
 
-		/// first triangle end
 	}
 
 	Application::~Application()
@@ -102,8 +154,14 @@ namespace gwcEngine {
 
 			
 			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			m_SquareVertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			m_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			
+
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

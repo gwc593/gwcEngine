@@ -160,8 +160,10 @@
     <ClInclude Include="src\gwcEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\gwcEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\gwcEngine\Renderer\Shader.h" />
+    <ClInclude Include="src\gwcEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\platform\WindowsInput.h" />
     <ClInclude Include="src\platform\WindowsWindow.h" />
   </ItemGroup>
@@ -177,8 +179,10 @@
     <ClCompile Include="src\gwcEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\Shader.cpp" />
+    <ClCompile Include="src\gwcEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\platform\WindowsInput.cpp" />
     <ClCompile Include="src\platform\WindowsWindow.cpp" />
   </ItemGroup>
@@ -193,4 +197,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project> 
+</Project>

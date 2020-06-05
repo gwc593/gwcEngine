@@ -25,7 +25,7 @@ public:
 		if (e.GetEventType() == gwcEngine::EventType::MouseButtonPressed) {
 			gwcEngine::MouseButtonPressedEvent& event = (gwcEngine::MouseButtonPressedEvent&)e;
 			if (event.GetButton() == (int)gwcEngine::MouseCode::Button0) {
-				GE_TRACE("Triangle Clicked");
+				GE_TRACE("Hi Simon!");
 				return true;
 			}
 		}
@@ -35,6 +35,7 @@ public:
 
 	void OnEvent(gwcEngine::Event& event) override
 	{
+		GE_TRACE(event.ToString());
 		gwcEngine::EventDispatcher dp(event);
 		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(Target::OnClick));
 	}
