@@ -1,7 +1,6 @@
 #include<gwcEngine.h>
 
 
-
 class Target : public gwcEngine::Layer
 {
 public:

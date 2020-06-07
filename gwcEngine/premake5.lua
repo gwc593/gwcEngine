@@ -13,6 +13,7 @@ outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "gwcEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "gwcEngine/vendor/Glad/include"
+IncludeDir["glm"] = "gwcEngine/vendor/glm"
 
 include "gwcEngine/vendor/GLFW"
 include "gwcEngine/vendor/Glad"
@@ -34,7 +35,9 @@ project "gwcEngine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -42,7 +45,8 @@ project "gwcEngine"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}"
 	}
 	
 	links
@@ -95,13 +99,16 @@ project "sandbox"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
 	{
 		"gwcEngine/vendor/spdlog/include",
 		"gwcEngine/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links

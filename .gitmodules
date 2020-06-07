@@ -4,3 +4,6 @@
 [submodule "gwcEngine/gwcEngine/vendor/GLFW"]
 	path = gwcEngine/gwcEngine/vendor/GLFW
 	url = https://github.com/glfw/glfw.git
+[submodule "gwcEngine/gwcEngine/vendor/glm"]
+	path = gwcEngine/gwcEngine/vendor/glm
+	url = https://github.com/g-truc/glm
