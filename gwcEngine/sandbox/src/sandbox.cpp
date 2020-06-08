@@ -5,39 +5,162 @@ class Target : public gwcEngine::Layer
 {
 public:
 	Target()
-		:Layer("Example")
+		:Layer("Example"), m_Camera(-1.6f,1.6f,-0.9f,0.9f)
 	{
+		/// first triangle
+		m_VertexArray.reset(gwcEngine::VertexArray::Create());
 
+		//triagle vertex data
+		float vertices[3 * 7] = {
+			// -----Position-----  ------Colour-------
+				-0.5f, -0.5f, 0.0f, 1.0, 0.0, 0.0, 1.0,
+				0.5f, -0.5f, 0.0f,  0.0, 1.0, 0.0, 1.0,
+				0.0f, 0.5f, 0.0f,   0.0, 0.0, 1.0, 1.0
+		};
+		std::shared_ptr<gwcEngine::VertexBuffer> m_VertexBuffer;
+		m_VertexBuffer.reset(gwcEngine::VertexBuffer::Create(vertices, sizeof(vertices)));
+
+		gwcEngine::BufferLayout layout = {
+			{gwcEngine::ShaderDataType::Float3, "a_Position"},
+			{gwcEngine::ShaderDataType::Float4, "a_Colour"}
+		};
+		m_VertexBuffer->SetLayout(layout);
+
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+
+		uint32_t indices[3] = { 0,1,2 };
+
+		std::shared_ptr<gwcEngine::IndexBuffer> m_IndexBuffer;
+		m_IndexBuffer.reset(gwcEngine::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+
+#pragma region Square
+		m_SquareVertexArray.reset(gwcEngine::VertexArray::Create());
+
+		float SquareVertices[4 * 7] = {
+			// -----Position-----  ------Colour-------
+				-0.75f, 0.75f, 0.0f, 0.0, 0.0, 0.0, 1.0,
+				-0.75f, -0.75f, 0.0f,  0.0, 0.0, 0.0, 1.0,
+				0.75f, -0.75f, 0.0f,   0.0, 0.0, 0.0, 1.0,
+				0.75f, 0.75f, 0.0f,   0.0, 0.0, 0.0, 1.0
+		};
+		std::shared_ptr<gwcEngine::VertexBuffer> SquareVB;
+		SquareVB.reset(gwcEngine::VertexBuffer::Create(SquareVertices, sizeof(SquareVertices)));
+
+
+
+		SquareVB->SetLayout(layout);
+
+		m_SquareVertexArray->AddVertexBuffer(SquareVB);
+
+		uint32_t SquareIndices[6] = { 0,1,3,
+									3,1,2 };
+
+		std::shared_ptr<gwcEngine::IndexBuffer> SquareIB;
+		SquareIB.reset(gwcEngine::IndexBuffer::Create(SquareIndices, sizeof(SquareIndices) / sizeof(uint32_t)));
+
+		m_SquareVertexArray->SetIndexBuffer(SquareIB);
+
+#pragma endregion
+
+
+
+
+		//create a basic shader
+		std::string vertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Colour;
+
+			uniform mat4 u_ViewProjection;
+			out vec3 v_Position;
+			out vec4 v_Colour;
+			
+			void main()
+			{
+				gl_Position = u_ViewProjection * vec4(a_Position,1.0);
+				v_Position = a_Position;
+				v_Colour = a_Colour;
+			}
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+			
+			in vec3 v_Position;
+			in vec4 v_Colour;
+			void main()
+			{
+				color = v_Colour;
+			}
+		)";
+
+		m_Shader.reset(new gwcEngine::Shader(vertexSrc, fragmentSrc));
 	}
 
 	void OnUpdate() override
 	{
-		if (gwcEngine::Input::IsKeyPressed(GE_KEY_TAB))
-		{
-			//GE_INFO("Tab is pressed");
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::W)) {
+			glm::vec3 pos = m_Camera.GetPostion();
+			m_Camera.SetPosition({ pos.x, pos.y += 1.0*gwcEngine::Time::GetDeltaTime(), pos.z });
 		}
+
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::A)) {
+			glm::vec3 pos = m_Camera.GetPostion();
+			m_Camera.SetPosition({ pos.x -= 1.0 * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
+		}
+
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::S)) {
+			glm::vec3 pos = m_Camera.GetPostion();
+			m_Camera.SetPosition({ pos.x, pos.y -= 1.0 * gwcEngine::Time::GetDeltaTime(), pos.z });
+		}
+
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::D)) {
+			glm::vec3 pos = m_Camera.GetPostion();
+			m_Camera.SetPosition({ pos.x += 1.0 * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
+		}
+
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::E)) {
+			float pos = m_Camera.GetRotation();
+			m_Camera.SetRotation(pos - 20.0f * gwcEngine::Time::GetDeltaTime());
+		}
+
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::Q)) {
+			float pos = m_Camera.GetRotation();
+			m_Camera.SetRotation(pos + 20.0f * gwcEngine::Time::GetDeltaTime());
+		}
+
+
+
+		gwcEngine::RenderCommand::Clear();
+
+		gwcEngine::Renderer::BeginScene(m_Camera);
+
+		gwcEngine::Renderer::Submit(m_SquareVertexArray, m_Shader);
+		gwcEngine::Renderer::Submit(m_VertexArray, m_Shader);
+		//m_Camera.SetPosition({ 0.5,0.0,0.0 });
+		//m_Camera.SetRotation(45);
+		dx += 0.1;
+		gwcEngine::Renderer::EndScene();
 	}
 
-	bool OnClick(gwcEngine::Event& e)
-	{
-		
-		if (e.GetEventType() == gwcEngine::EventType::MouseButtonPressed) {
-			gwcEngine::MouseButtonPressedEvent& event = (gwcEngine::MouseButtonPressedEvent&)e;
-			if (event.GetButton() == (int)gwcEngine::MouseCode::Button0) {
-				GE_TRACE("screen clicked!");
-				return true;
-			}
-		}
-		
-		return false;
-	}
+
 
 	void OnEvent(gwcEngine::Event& event) override
 	{
-		//GE_TRACE(event.ToString());
-		gwcEngine::EventDispatcher dp(event);
-		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(Target::OnClick));
+
 	}
+
+private:
+	float dx = 0;
+	std::shared_ptr<gwcEngine::VertexArray> m_VertexArray;
+	std::shared_ptr<gwcEngine::Shader> m_Shader;
+
+	std::shared_ptr<gwcEngine::VertexArray> m_SquareVertexArray;
+	gwcEngine::OrthographicCamera m_Camera;
 };
 
 

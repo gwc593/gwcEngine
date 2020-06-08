@@ -1,17 +1,11 @@
 #pragma once
 #include"core.h"
+#include"Window.h"
 #include"LayerStack.h"
 #include"gwcEngine/Events/Event.h"
 #include"gwcEngine/Events/ApplicationEvent.h"
-#include"gwcEngine/Events/KeyEvent.h"
-#include"gwcEngine/Events/MouseEvent.h"
-#include"Window.h"
 
-#include"gwcEngine/Renderer/Buffer.h"
-#include"gwcEngine/Renderer/VertexArray.h"
-
-//temp
-#include"gwcEngine/Renderer/Shader.h"
+#include "Time.h"
 
 namespace gwcEngine {
 
@@ -35,17 +29,18 @@ namespace gwcEngine {
 		inline static Application* Get() { return s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
+	
+	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0f;
 
-		std::shared_ptr<VertexArray> m_VertexArray;
-		std::shared_ptr<Shader> m_Shader;
+	private:
 
-		std::shared_ptr<VertexArray> m_SquareVertexArray;
 
 		static Application* s_Instance;
+
 	};
 
 	//to be defined in client

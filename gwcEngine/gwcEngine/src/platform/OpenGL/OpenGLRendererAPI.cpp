@@ -6,12 +6,13 @@ namespace gwcEngine
 {
 	void OpenGLRendererAPI::Clear()
 	{
-		glClearColor(0.15, 0.15, 0.15, 1);
+		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::SetClearColour()
+	void OpenGLRendererAPI::SetClearColour(const glm::vec4& colour)
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(colour.r, colour.g, colour.b, colour.a);
 	}
 
 	void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)

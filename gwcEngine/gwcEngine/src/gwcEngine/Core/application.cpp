@@ -4,6 +4,7 @@
 #include"gwcEngine/Renderer/Renderer.h"
 #include"Input.h"
 
+#include<GLFW/glfw3.h>
 
 namespace gwcEngine {
 
@@ -15,101 +16,10 @@ namespace gwcEngine {
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());	
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+		
+		Time::Init();
+
 		s_Instance = this;
-
-		//Todo - develope front end components or integrte IMGUI_LAYER.... maybe? i dont want to though
-		
-		/// first triangle
-		m_VertexArray.reset(VertexArray::Create());
-
-		//triagle vertex data
-		float vertices[3 * 7] = {
-		// -----Position-----  ------Colour-------
-			-0.5f, -0.5f, 0.0f, 1.0, 0.0, 0.0, 1.0,
-			0.5f, -0.5f, 0.0f,  0.0, 1.0, 0.0, 1.0,
-			0.0f, 0.5f, 0.0f,   0.0, 0.0, 1.0, 1.0
-		};		
-		std::shared_ptr<VertexBuffer> m_VertexBuffer;
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		
-		BufferLayout layout = {
-			{ShaderDataType::Float3, "a_Position"},
-			{ShaderDataType::Float4, "a_Colour"}
-		};
-		m_VertexBuffer->SetLayout(layout);
-
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-		uint32_t indices[3] = { 0,1,2 };
-
-		std::shared_ptr<IndexBuffer> m_IndexBuffer;
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-#pragma region Square
-		m_SquareVertexArray.reset(VertexArray::Create());
-
-		float SquareVertices[4 * 7] = {
-			// -----Position-----  ------Colour-------
-				-0.75f, 0.75f, 0.0f, 0.0, 0.0, 0.0, 1.0,
-				-0.75f, -0.75f, 0.0f,  0.0, 0.0, 0.0, 1.0,
-				0.75f, -0.75f, 0.0f,   0.0, 0.0, 0.0, 1.0,
-				0.75f, 0.75f, 0.0f,   0.0, 0.0, 0.0, 1.0
-		};
-		std::shared_ptr<VertexBuffer> SquareVB;
-		SquareVB.reset(VertexBuffer::Create(SquareVertices, sizeof(SquareVertices)));
-
-
-
-		SquareVB->SetLayout(layout);
-
-		m_SquareVertexArray->AddVertexBuffer(SquareVB);
-
-		uint32_t SquareIndices[6] = { 0,1,3,
-									3,1,2};
-
-		std::shared_ptr<IndexBuffer> SquareIB;
-		SquareIB.reset(IndexBuffer::Create(SquareIndices, sizeof(SquareIndices) / sizeof(uint32_t)));
-
-		m_SquareVertexArray->SetIndexBuffer(SquareIB);
-
-#pragma endregion
-
-
-
-
-		//create a basic shader
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Colour;
-
-			out vec3 v_Position;
-			out vec4 v_Colour;
-			
-			void main()
-			{
-				gl_Position = vec4(a_Position,1.0);
-				v_Position = a_Position;
-				v_Colour = a_Colour;
-			}
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-			
-			in vec3 v_Position;
-			in vec4 v_Colour;
-			void main()
-			{
-				color = v_Colour;
-			}
-		)";
-
-		m_Shader.reset(new Shader(vertexSrc,fragmentSrc));
 
 	}
 
@@ -131,20 +41,11 @@ namespace gwcEngine {
 
 	void Application::Run()
 	{
+		RenderCommand::SetClearColour(glm::vec4(0.15,0.15,0.15,1));
+		float time;
 		while (m_Running) 
 		{
-
-			RenderCommand::SetClearColour();
-			RenderCommand::Clear();
-
-			Renderer::BeginScene();
-
-			m_Shader->Bind();
-
-			Renderer::Submit(m_SquareVertexArray);
-			Renderer::Submit(m_VertexArray);
-
-			Renderer::EndScene();
+			Time::BeginFrame();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
@@ -157,9 +58,6 @@ namespace gwcEngine {
 	{
 
 		EventDispatcher dispatcher(e);
-
-		//display to consol the event.
-		//GE_CORE_TRACE("{0}", e.ToString());
 
 		//if the event 'e' is the same type as the template used for Dispatch, then dispatch it using the function bound by the bind event function.
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));

@@ -72,6 +72,9 @@
     <ClInclude Include="src\gwcEngine\Core\MouseButtonCodes.h">
       <Filter>src\gwcEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Core\Time.h">
+      <Filter>src\gwcEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\Window.h">
       <Filter>src\gwcEngine\Core</Filter>
     </ClInclude>
@@ -97,6 +100,9 @@
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\GraphicsContext.h">
+      <Filter>src\gwcEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\OrthographicCamera.h">
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\RenderCommand.h">
@@ -1356,6 +1362,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\platform\OpenGL\OpenGLTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
@@ -1377,6 +1384,9 @@
       <Filter>src\gwcEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\Buffer.cpp">
+      <Filter>src\gwcEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\OrthographicCamera.cpp">
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\RenderCommand.cpp">
@@ -1412,5 +1422,7 @@
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>src\platform</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\OpenGL\OpenGLTime.cpp" />
+    <ClCompile Include="src\gwcEngine\Core\Time.cpp" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 #pragma once
-
 #include<string>
+#include<glm/glm.hpp>
 namespace gwcEngine
 {
 	class Shader
@@ -11,6 +11,8 @@ namespace gwcEngine
 
 		void Bind() const;
 		void Unbind() const;
+
+		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 
 	private:
 		uint32_t m_Renderer_ID;

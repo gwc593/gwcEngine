@@ -1,6 +1,7 @@
 #pragma once
 
 #include"gwcEngine/Renderer/VertexArray.h"
+#include <glm/glm.hpp>
 
 namespace gwcEngine
 {
@@ -20,7 +21,7 @@ namespace gwcEngine
 		virtual void Clear() = 0;
 
 		//todo - vect4 implimentation?
-		virtual void SetClearColour() = 0;
+		virtual void SetClearColour(const glm::vec4& colour) = 0;
 
 		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 

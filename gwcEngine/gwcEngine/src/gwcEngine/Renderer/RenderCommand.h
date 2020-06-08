@@ -11,9 +11,9 @@ namespace gwcEngine
 		};
 
 		//todo - vect4 implimentation?
-		inline static void SetClearColour() 
+		inline static void SetClearColour(const glm::vec4& colour) 
 		{
-			s_RendererAPI->SetClearColour();
+			s_RendererAPI->SetClearColour(colour);
 		}
 
 
