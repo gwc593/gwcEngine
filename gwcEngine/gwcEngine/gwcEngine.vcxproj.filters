@@ -1363,6 +1363,7 @@
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\OpenGL\OpenGLTime.h" />
+    <ClInclude Include="src\gwcEngine\Renderer\PerspectiveCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
@@ -1424,5 +1425,6 @@
     </ClCompile>
     <ClCompile Include="src\platform\OpenGL\OpenGLTime.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Time.cpp" />
+    <ClCompile Include="src\gwcEngine\Renderer\PerspectiveCamera.cpp" />
   </ItemGroup>
 </Project>

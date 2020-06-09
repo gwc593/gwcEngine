@@ -22,6 +22,7 @@ namespace gwcEngine
 
 	private:
 		static Time* s_Time;
+		
 
 	};
 }

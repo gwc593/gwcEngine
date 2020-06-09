@@ -160,6 +160,7 @@
     <ClInclude Include="src\gwcEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\gwcEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\gwcEngine\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\gwcEngine\Renderer\PerspectiveCamera.h" />
     <ClInclude Include="src\gwcEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\gwcEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\gwcEngine\Renderer\RendererAPI.h" />
@@ -593,6 +594,7 @@
     <ClCompile Include="src\gwcEngine\Core\application.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\gwcEngine\Renderer\PerspectiveCamera.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\RendererAPI.cpp" />

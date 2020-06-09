@@ -12,8 +12,7 @@ namespace gwcEngine
 		m_TempTime = glfwGetTime();
 		m_DeltaTime = m_TempTime-m_LastFrameTime;
 		m_LastFrameTime = m_TempTime;
-		m_Time += m_DeltaTime;
-		
+		m_Time += m_DeltaTime;		
 	}
 
 	void OpenGLTime::EndFrameImpl()

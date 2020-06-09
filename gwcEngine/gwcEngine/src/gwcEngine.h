@@ -19,6 +19,7 @@
 #include "gwcEngine/Renderer/VertexArray.h"
 
 #include "gwcEngine/Renderer/OrthographicCamera.h"
+#include "gwcEngine/Renderer/PerspectiveCamera.h"
 
 // !!!!!!!!! Entry point !!!!!!
 #include"gwcEngine/core/EntryPoint.h"
