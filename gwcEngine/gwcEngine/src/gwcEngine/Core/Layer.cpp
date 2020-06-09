@@ -13,4 +13,11 @@ namespace gwcEngine
 
 	}
 
+	void Layer::OnUpdateBase()
+	{
+		//Base behaviour
+
+		OnUpdate();
+	}
+
 }

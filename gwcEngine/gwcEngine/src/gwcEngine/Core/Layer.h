@@ -13,6 +13,7 @@ namespace gwcEngine {
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate() {}
+		void OnUpdateBase();
 		virtual void OnEvent(Event& e) {}
 
 		//todo gwc - do not allow this in dist builds
@@ -20,6 +21,7 @@ namespace gwcEngine {
 
 	protected:
 		std::string m_DebugName;
+		
 	};
 }
 

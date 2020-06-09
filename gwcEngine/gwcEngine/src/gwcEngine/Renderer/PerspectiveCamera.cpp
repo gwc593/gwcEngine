@@ -2,7 +2,7 @@
 #include "PerspectiveCamera.h"
 #include "Renderer.h"
 #include <glm/gtc/matrix_transform.hpp>
-
+#include<glad/glad.h>
 namespace gwcEngine
 {
 
@@ -21,6 +21,9 @@ namespace gwcEngine
 		m_Position = glm::vec3(0.0f,0.0f,3.0f);
 		CalculateProjectionMatrix();
 		CalculateViewMatrix();
+
+		//todo set depth buffer range to be consistent with the clipping planes of the camera
+		glDepthRange(m_NearClip, m_FarClip);
 
 	}
 

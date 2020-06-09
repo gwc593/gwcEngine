@@ -13,6 +13,7 @@ namespace gwcEngine
 
 	}
 
+	//todo - camera polymorphic
 	void Renderer::BeginScene(PerspectiveCamera& camera)
 	{
 		//TODO - view space stuff here

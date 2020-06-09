@@ -6,8 +6,8 @@ class Target : public gwcEngine::Layer
 public:
 	Target()
 		:Layer("Example"), 
-		m_Camera(-1.6f,1.6f,-0.9f,0.9f), //orthographic camera initializer
-		//m_Camera(70.0f,1.78f,0.0f,1000.0f), //perspective camera initializer
+		//m_Camera(-1.6f,1.6f,-0.9f,0.9f), //orthographic camera initializer
+		m_Camera(70.0f,1.78f,0.05f,100.0f), //perspective camera initializer
 		m_squarePosition(glm::vec3(0.0f))
 	{
 		/// first triangle
@@ -128,7 +128,7 @@ public:
 			glm::vec3 pos = m_Camera.GetPostion();
 			m_Camera.SetPosition({ pos.x += 1.0 * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
 		}
-		/*
+		
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::E)) {
 			m_camerRot -= 1.0f * gwcEngine::Time::GetDeltaTime();
 			m_Camera.SetRotation(glm::vec3(0, m_camerRot, 0));
@@ -138,7 +138,6 @@ public:
 			m_camerRot += 1.0f * gwcEngine::Time::GetDeltaTime();
 			m_Camera.SetRotation(glm::vec3(0, m_camerRot, 0));
 		}
-		*/
 		
 	}
 
@@ -170,13 +169,12 @@ public:
 		
 	}
 
-
+	
 	void OnUpdate() override
 	{
 		CameraController();
 		SquareController();
 
-		GE_TRACE(m_camerRot);
 		gwcEngine::RenderCommand::Clear();
 
 		gwcEngine::Renderer::BeginScene(m_Camera);
@@ -189,11 +187,18 @@ public:
 		gwcEngine::Renderer::EndScene();
 	}
 
-
+	bool onClicked(const gwcEngine::MouseButtonPressedEvent& e)
+	{
+		if(e.GetButton() == (int)gwcEngine::MouseCode::Button0)
+			GE_TRACE("you clicked the fancy triangle");
+		return true;
+	}
 
 	void OnEvent(gwcEngine::Event& event) override
 	{
+		gwcEngine::EventDispatcher dp(event);
 
+		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(Target::onClicked));
 	}
 
 private:

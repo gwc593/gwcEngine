@@ -15,7 +15,7 @@ namespace gwcEngine
 	void OpenGLContext::Init()
 	{
 		glfwMakeContextCurrent(m_windowHandle);
-		//initialise Glad
+		//initialize Glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 		GE_CORE_ASSERT(status, "Failed to initialise Glad...");
@@ -24,6 +24,11 @@ namespace gwcEngine
 		GE_CORE_INFO("  Vendor: {0}",glGetString(GL_VENDOR));
 		GE_CORE_INFO("  Renderer: {0}",glGetString(GL_RENDERER));
 		GE_CORE_INFO("  Version: {0}",glGetString(GL_VERSION));
+
+		//depth testing
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LEQUAL);
 
 	}
 

@@ -21,6 +21,11 @@
 #include "gwcEngine/Renderer/OrthographicCamera.h"
 #include "gwcEngine/Renderer/PerspectiveCamera.h"
 
+////events///
+#include "gwcEngine/Events/ApplicationEvent.h"
+#include "gwcEngine/Events/KeyEvent.h"
+#include "gwcEngine/Events/MouseEvent.h"
+
 // !!!!!!!!! Entry point !!!!!!
 #include"gwcEngine/core/EntryPoint.h"
 

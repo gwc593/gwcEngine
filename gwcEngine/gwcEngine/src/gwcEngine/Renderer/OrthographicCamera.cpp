@@ -2,6 +2,7 @@
 #include "OrthographicCamera.h"
 #include "Renderer.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include<glad/glad.h>
 namespace gwcEngine
 {
 
@@ -17,6 +18,7 @@ namespace gwcEngine
 
 		m_Rotation = 0.0f;
 		m_Position = glm::vec3(0.0f);
+		glDepthRange(0.0f, 1.0f);
 	}
 
 	void OrthographicCamera::CalculateViewMatrix()

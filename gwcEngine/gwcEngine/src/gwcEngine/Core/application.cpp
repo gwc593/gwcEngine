@@ -48,7 +48,7 @@ namespace gwcEngine {
 			Time::BeginFrame();
 
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdateBase();
 
 			m_Window->OnUpdate();
 		}
