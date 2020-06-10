@@ -105,6 +105,9 @@
     <ClInclude Include="src\gwcEngine\Renderer\OrthographicCamera.h">
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\PerspectiveCamera.h">
+      <Filter>src\gwcEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\RenderCommand.h">
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClInclude>
@@ -127,6 +130,12 @@
       <Filter>src\platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\OpenGL\OpenGLShader.h">
+      <Filter>src\platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\OpenGL\OpenGLTime.h">
       <Filter>src\platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\OpenGL\OpenGLVertexArray.h">
@@ -1362,8 +1371,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\platform\OpenGL\OpenGLTime.h" />
-    <ClInclude Include="src\gwcEngine\Renderer\PerspectiveCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
@@ -1378,6 +1385,9 @@
     <ClCompile Include="src\gwcEngine\Core\Log.cpp">
       <Filter>src\gwcEngine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\gwcEngine\Core\Time.cpp">
+      <Filter>src\gwcEngine\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\gwcEngine\Core\Window.cpp">
       <Filter>src\gwcEngine\Core</Filter>
     </ClCompile>
@@ -1388,6 +1398,9 @@
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\OrthographicCamera.cpp">
+      <Filter>src\gwcEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\PerspectiveCamera.cpp">
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\RenderCommand.cpp">
@@ -1414,6 +1427,12 @@
     <ClCompile Include="src\platform\OpenGL\OpenGLRendererAPI.cpp">
       <Filter>src\platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\OpenGL\OpenGLTime.cpp">
+      <Filter>src\platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\platform\OpenGL</Filter>
     </ClCompile>
@@ -1423,8 +1442,5 @@
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>src\platform</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\OpenGL\OpenGLTime.cpp" />
-    <ClCompile Include="src\gwcEngine\Core\Time.cpp" />
-    <ClCompile Include="src\gwcEngine\Renderer\PerspectiveCamera.cpp" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #include"gepch.h"
 #include"Renderer.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
 namespace gwcEngine
 {
 

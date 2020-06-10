@@ -9,11 +9,24 @@ namespace gwcEngine
 
 	void Time::Init()
 	{
-		if (Renderer::GetAPI() == RendererAPI::API::OpenGL) {
-			s_Time = new OpenGLTime;
-			return;
+		switch (Renderer::GetAPI()) 
+		{
+			case RendererAPI::API::OpenGL:
+			{
+				s_Time = new OpenGLTime;
+				return;
+			}
+
+			case RendererAPI::API::None:
+			{
+				GE_CORE_ASSERT(false, "No rendering API selected...");
+				s_Time = nullptr;
+				return;
+			}
 		}
 
+
+		GE_CORE_ASSERT(false, "Invalid rendering API selected...");
 		s_Time = nullptr;
 	}
 
