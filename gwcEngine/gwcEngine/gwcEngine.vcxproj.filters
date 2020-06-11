@@ -13,6 +13,9 @@
     <Filter Include="src\gwcEngine\Core">
       <UniqueIdentifier>{6B169D8A-57FA-5DE0-C05A-5833AC5D4862}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\gwcEngine\ECS">
+      <UniqueIdentifier>{FD6FAFF4-6986-AD8A-B2FD-38AC1E537E12}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\gwcEngine\Events">
       <UniqueIdentifier>{B76E5EAB-A3FD-E774-4C1C-FC6F388AF81A}</UniqueIdentifier>
     </Filter>
@@ -89,6 +92,12 @@
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\core.h">
       <Filter>src\gwcEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\ECS\Components.h">
+      <Filter>src\gwcEngine\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\ECS\ECS.h">
+      <Filter>src\gwcEngine\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h">
       <Filter>src\gwcEngine\Events</Filter>
@@ -1377,8 +1386,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\ECS\ECS.h" />
-    <ClInclude Include="src\gwcEngine\ECS\Components.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
