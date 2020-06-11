@@ -23,11 +23,6 @@ namespace gwcEngine
 		std::shared_ptr<VertexBuffer> m_VB;
 		std::shared_ptr<IndexBuffer> m_IB;
 		std::shared_ptr<VertexArray> m_VA;
-		float* m_vertexData;
-		uint32_t* m_indexData;
-		uint32_t m_vertexDataSize;
-		uint32_t m_indexCount;
-		BufferLayout m_layout;
 
 	private:
 		//void InitVertexArray();

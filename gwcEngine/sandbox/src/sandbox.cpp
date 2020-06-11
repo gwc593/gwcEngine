@@ -33,7 +33,6 @@ public:
 
 		triangle.SetVertexBuffer(vertices, sizeof(vertices), layout);
 		triangle.SetIndexBuffer(indices, 3);
-		triangle.InitVertexArray();
 		
 		
 
@@ -56,13 +55,8 @@ public:
 									3,1,2 };
 		square.SetVertexBuffer(SquareVertices, sizeof(SquareVertices), layout2);
 		square.SetIndexBuffer(SquareIndices, 6);
-		square.InitVertexArray();
 		
 #pragma endregion
-
-
-
-
 
 
 		//create a basic shader
