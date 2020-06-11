@@ -26,14 +26,14 @@ namespace gwcEngine
 	}
 
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* indicies, uint32_t size)
+	IndexBuffer* IndexBuffer::Create(uint32_t* indicies, uint32_t count)
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			GE_CORE_ASSERT(false, "No rendering API selected...");
 			return nullptr;
 
-		case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indicies, size);
+		case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indicies, count);
 
 
 		}

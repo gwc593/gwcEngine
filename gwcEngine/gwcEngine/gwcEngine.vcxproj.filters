@@ -7,6 +7,9 @@
     <Filter Include="src\gwcEngine">
       <UniqueIdentifier>{339A3C50-9F5A-B886-6895-0104D414FD62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\gwcEngine\Components">
+      <UniqueIdentifier>{68D990B6-54FE-DF36-7D49-C5C669CDDE54}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\gwcEngine\Core">
       <UniqueIdentifier>{6B169D8A-57FA-5DE0-C05A-5833AC5D4862}</UniqueIdentifier>
     </Filter>
@@ -50,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="src\gwcEngine.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Components\Mesh.h">
+      <Filter>src\gwcEngine\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\EntryPoint.h">
       <Filter>src\gwcEngine\Core</Filter>
@@ -1375,6 +1381,9 @@
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Components\Mesh.cpp">
+      <Filter>src\gwcEngine\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Core\Layer.cpp">
       <Filter>src\gwcEngine\Core</Filter>

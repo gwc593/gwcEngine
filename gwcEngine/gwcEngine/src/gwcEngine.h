@@ -26,6 +26,9 @@
 #include "gwcEngine/Events/KeyEvent.h"
 #include "gwcEngine/Events/MouseEvent.h"
 
+//models 
+
+#include"gwcEngine/Components/Mesh.h"
 // !!!!!!!!! Entry point !!!!!!
 #include"gwcEngine/core/EntryPoint.h"
 

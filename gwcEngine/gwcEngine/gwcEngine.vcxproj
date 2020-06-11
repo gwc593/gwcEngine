@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\gwcEngine.h" />
+    <ClInclude Include="src\gwcEngine\Components\Mesh.h" />
     <ClInclude Include="src\gwcEngine\Core\EntryPoint.h" />
     <ClInclude Include="src\gwcEngine\Core\Input.h" />
     <ClInclude Include="src\gwcEngine\Core\KeyCodes.h" />
@@ -587,6 +588,7 @@
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\gwcEngine\Components\Mesh.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Layer.cpp" />
     <ClCompile Include="src\gwcEngine\Core\LayerStack.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Log.cpp" />

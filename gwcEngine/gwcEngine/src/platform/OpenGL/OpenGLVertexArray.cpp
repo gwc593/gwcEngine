@@ -48,6 +48,7 @@ namespace gwcEngine
 
 	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
 	{
+		Bind();
 		GE_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout defined...");
 
 		glBindVertexArray(m_RendererID);
@@ -69,13 +70,17 @@ namespace gwcEngine
 		}
 
 		m_VertexBuffers.push_back(vertexBuffer);
+
+		Unbind();
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
 	{
+		Bind();
 		glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
 
 		m_IndexBuffer = indexBuffer;
+		Unbind();
 	}
 }
