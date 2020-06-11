@@ -8,12 +8,14 @@
 //TODO TOMORROW - make this a part of every layer.
 gwcEngine::ECSManager layerECSManager;
 
+
 gwcEngine::Entity& triangleEnt = layerECSManager.AddEntity();
 gwcEngine::Entity& SquareEnt = layerECSManager.AddEntity();
 
 glm::vec4 redColour = { 1.0f,0.0f,0.0f, 1.0f };
 glm::vec4 greenColour = { 0.0f,1.0f,0.0f, 1.0f };
 glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
+
 
 class Target : public gwcEngine::Layer
 {
@@ -25,8 +27,10 @@ public:
 		m_squarePosition(glm::vec3(0.0f))
 	{
 		
+
 		triangleEnt.AddComponent<gwcEngine::Mesh>();
 		SquareEnt.AddComponent<gwcEngine::Mesh>();
+
 
 #pragma region TriangleMeshData
 		float vertices[3 * 3] = {
@@ -227,7 +231,9 @@ public:
 	}
 
 private:
-	gwcEngine::ECSManager layerECSManager;
+
+	//gwcEngine::OrthographicCamera m_Camera;
+
 	gwcEngine::PerspectiveCamera m_Camera;
 
 	std::shared_ptr<gwcEngine::Shader> m_UnlitColour;
