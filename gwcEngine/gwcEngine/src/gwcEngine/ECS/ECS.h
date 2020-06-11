@@ -65,22 +65,24 @@ namespace gwcEngine
 
 		template <typename T> bool HasComponent()
 		{
-			return m_ComponentBitset[GetComponentID<T>];
+			return m_ComponentBitset[GetComponentID<T>()];
 		}
 
 		template <typename T, typename... TArgs>
 		T& AddComponent(TArgs&&... mArgs)
 		{
-			T* c(new T(std::forward<TArgs>(mArgs)...));
-			c->entity = this;
-			std::unique_ptr<Component> uPtr{ c };
+			//Todo - Validation that T is indeed a subclass of Component base.
+			T* _comp(new T(std::forward<TArgs>(mArgs)...));
+			
+			_comp->entity = this;
+			std::unique_ptr<Component> uPtr{ _comp };
 			m_Components.emplace_back(std::move(uPtr));
 
-			m_ComponentArray[GetComponentTypeID<T>()] = c;
+			m_ComponentArray[GetComponentTypeID<T>()] = _comp;
 			m_ComponentBitset[GetComponentTypeID<T>()] = true;
 
-			c->Init();
-			return *c;
+			_comp->Init();
+			return *_comp;
 		}
 
 		template <typename T> T& GetComponent()
@@ -106,39 +108,39 @@ namespace gwcEngine
 
 		void OnUpdate()
 		{
-			for (auto& ent : entities) ent->OnUpdate();
+			for (auto& ent : m_Entities) ent->OnUpdate();
 		}
 
 		void Draw()
 		{
-			for (auto& ent : entities) ent->Draw();
+			for (auto& ent : m_Entities) ent->Draw();
 		}
 
 		bool OnEvent(const Event& e)
 		{
-			for (auto& ent : entities) return ent->OnEvent(e);
+			for (auto& ent : m_Entities) return ent->OnEvent(e);
 		}
 
 		void Refresh()
 		{
-			entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+			m_Entities.erase(std::remove_if(std::begin(m_Entities), std::end(m_Entities),
 										  [](const std::unique_ptr<Entity>& mEntity)
 										  {
 											  return !mEntity->IsActive();
-										  }), std::end(entities));
+										  }), std::end(m_Entities));
 		}
 
 		Entity& AddEntity()
 		{
 			Entity* e = new Entity();
 			std::unique_ptr<Entity> uPtr{ e };
-			entities.emplace_back(std::move(uPtr));
+			m_Entities.emplace_back(std::move(uPtr));
 
 			return *e;
 		}
 
 	private:
-		std::vector<std::unique_ptr<Entity>> entities;
+		std::vector<std::unique_ptr<Entity>> m_Entities;
 
 
 	};
