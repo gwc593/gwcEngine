@@ -1377,6 +1377,8 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\ECS\ECS.h" />
+    <ClInclude Include="src\gwcEngine\ECS\Components.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">

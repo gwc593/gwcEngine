@@ -3,6 +3,8 @@
 #include<iostream>
 #include<stdio.h>
 #include<memory>
+#include<bitset>
+#include<array>
 #include<utility>
 #include<algorithm>
 #include<functional>

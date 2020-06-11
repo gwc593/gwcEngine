@@ -8,8 +8,7 @@ namespace gwcEngine
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
 	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
-		//TODO - view space stuff here
-		//shader data cube maps etc etc
+		//TODO -shader data cube maps etc etc
 		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
 	}
@@ -17,8 +16,7 @@ namespace gwcEngine
 	//todo - camera polymorphic
 	void Renderer::BeginScene(PerspectiveCamera& camera)
 	{
-		//TODO - view space stuff here
-		//shader data cube maps etc etc
+		//TODO - shader data cube maps etc etc
 		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
 	}

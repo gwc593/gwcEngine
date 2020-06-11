@@ -22,7 +22,7 @@ namespace gwcEngine
 		CalculateProjectionMatrix();
 		CalculateViewMatrix();
 
-		//todo set depth buffer range to be consistent with the clipping planes of the camera
+		
 		glDepthRange(m_NearClip, m_FarClip);
 
 	}

@@ -18,6 +18,7 @@ namespace gwcEngine
 		//Base behaviour
 
 		OnUpdate();
+
 	}
 
 }

@@ -1,8 +1,9 @@
 #pragma once
 #include"gwcEngine/Renderer/VertexArray.h"
+#include"gwcEngine/ECS/ECS.h"
 namespace gwcEngine 
 {
-	class Mesh
+	class Mesh :public Component
 	{
 	public:
 		Mesh();
@@ -18,6 +19,9 @@ namespace gwcEngine
 		void SetIndexBuffer(uint32_t* const& indicies, const uint32_t& sizeI);
 
 		void InitVertexArray();
+
+		void OnUpdate() override;
+		void Draw() override;
 
 	private:
 		std::shared_ptr<VertexBuffer> m_VB;

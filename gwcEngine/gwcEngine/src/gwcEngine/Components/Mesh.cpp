@@ -1,6 +1,8 @@
 #include "gepch.h"
 #include "Mesh.h"
 
+#include "gwcEngine/Renderer/Renderer.h"
+
 namespace gwcEngine
 {
 
@@ -51,6 +53,16 @@ namespace gwcEngine
 			m_VA->AddVertexBuffer(m_VB);
 			m_VA->SetIndexBuffer(m_IB);
 		}
+	}
+
+	void Mesh::OnUpdate() 
+	{
+
+	}
+
+	void Mesh::Draw() 
+	{
+		//todo - impliment draw some in a model class?
 	}
 
 }

@@ -5,6 +5,16 @@
 
 #include<glm/gtc/matrix_transform.hpp>
 
+//TODO TOMORROW - make this a part of every layer.
+gwcEngine::ECSManager layerECSManager;
+
+gwcEngine::Entity& triangleEnt = layerECSManager.AddEntity();
+gwcEngine::Entity& SquareEnt = layerECSManager.AddEntity();
+
+glm::vec4 redColour = { 1.0f,0.0f,0.0f, 1.0f };
+glm::vec4 greenColour = { 0.0f,1.0f,0.0f, 1.0f };
+glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
+
 class Target : public gwcEngine::Layer
 {
 public:
@@ -14,6 +24,9 @@ public:
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f), //perspective camera initializer
 		m_squarePosition(glm::vec3(0.0f))
 	{
+		
+		triangleEnt.AddComponent<gwcEngine::Mesh>();
+		SquareEnt.AddComponent<gwcEngine::Mesh>();
 
 #pragma region TriangleMeshData
 		float vertices[3 * 3] = {
@@ -31,12 +44,10 @@ public:
 
 		uint32_t indices[3] = { 0,1,2 };
 
-		triangle.SetVertexBuffer(vertices, sizeof(vertices), layout);
-		triangle.SetIndexBuffer(indices, 3);
-		
-		
-
 #pragma endregion
+
+		triangleEnt.GetComponent<gwcEngine::Mesh>().SetVertexBuffer(vertices, sizeof(vertices), layout);
+		triangleEnt.GetComponent<gwcEngine::Mesh>().SetIndexBuffer(indices, 3);
 
 #pragma region SquareMeshData
 		float SquareVertices[4 * 3] = {
@@ -53,12 +64,14 @@ public:
 
 		uint32_t SquareIndices[6] = { 0,1,3,
 									3,1,2 };
-		square.SetVertexBuffer(SquareVertices, sizeof(SquareVertices), layout2);
-		square.SetIndexBuffer(SquareIndices, 6);
+
 		
 #pragma endregion
 
+		SquareEnt.GetComponent<gwcEngine::Mesh>().SetVertexBuffer(SquareVertices, sizeof(SquareVertices), layout2);
+		SquareEnt.GetComponent<gwcEngine::Mesh>().SetIndexBuffer(SquareIndices, 6);
 
+#pragma region unlitFlatShaderSrc
 		//create a basic shader
 		std::string unlitColourvertexSrc = R"(
 			#version 330 core
@@ -91,8 +104,9 @@ public:
 			}
 		)";
 
-		m_UnlitColour.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
+#pragma endregion
 
+		m_UnlitColour.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
 
 	}
 
@@ -159,19 +173,17 @@ public:
 
 	}
 
-	glm::vec4 redColour = { 1.0f,0.0f,0.0f, 1.0f };
-	glm::vec4 greenColour = { 0.0f,1.0f,0.0f, 1.0f };
-	glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
+
 	float scale = 0.1f;
 	glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(scale));
 
 
 	void OnUpdate() override
 	{
+		layerECSManager.OnUpdate();
 
 		CameraController();
 		SquareController();
-
 
 
 		gwcEngine::RenderCommand::Clear();
@@ -190,12 +202,12 @@ public:
 				else
 					m_UnlitColour->UploadUniformVec4("u_Colour", greenColour);
 
-				gwcEngine::Renderer::Submit(square.GetVertexArray(), m_UnlitColour, transform);
+				gwcEngine::Renderer::Submit(SquareEnt.GetComponent<gwcEngine::Mesh>().GetVertexArray(), m_UnlitColour, transform);
 			}
 		}
 
 		m_UnlitColour->UploadUniformVec4("u_Colour", redColour);
-		gwcEngine::Renderer::Submit(triangle.GetVertexArray(), m_UnlitColour);
+		gwcEngine::Renderer::Submit(triangleEnt.GetComponent<gwcEngine::Mesh>().GetVertexArray(), m_UnlitColour);
 
 		gwcEngine::Renderer::EndScene();
 	}
@@ -215,22 +227,15 @@ public:
 	}
 
 private:
-	float dx = 0;
-	gwcEngine::Mesh triangle;
-	gwcEngine::Mesh square;
-	std::shared_ptr<gwcEngine::Shader> m_UnlitColour;
-
-	//gwcEngine::OrthographicCamera m_Camera;
+	gwcEngine::ECSManager layerECSManager;
 	gwcEngine::PerspectiveCamera m_Camera;
+
+	std::shared_ptr<gwcEngine::Shader> m_UnlitColour;
 
 	glm::vec3 m_squarePosition;
 	float m_squareRotation = 0.0f;
 	float m_camerRot = 0.0f;
-
-
 };
-
-
 
 
 //client side implementation of gwcEngine instance
