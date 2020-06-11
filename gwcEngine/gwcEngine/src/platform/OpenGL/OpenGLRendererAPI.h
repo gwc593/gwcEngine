@@ -10,7 +10,6 @@ namespace gwcEngine
 	public:
 		virtual void Clear() override;
 
-		//todo - vect4 implimentation?
 		virtual void SetClearColour(const glm::vec4& colour) override;
 
 		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) override;

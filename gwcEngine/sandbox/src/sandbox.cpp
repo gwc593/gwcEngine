@@ -5,6 +5,9 @@
 
 #include<glm/gtc/matrix_transform.hpp>
 
+//TODO TOMORROW - make this a part of every layer.
+gwcEngine::ECSManager layerECSManager;
+
 class Target : public gwcEngine::Layer
 {
 public:
@@ -14,6 +17,9 @@ public:
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f), //perspective camera initializer
 		m_squarePosition(glm::vec3(0.0f))
 	{
+		
+		gwcEngine::Entity& testObject = layerECSManager.AddEntity();
+		testObject.AddComponent<gwcEngine::PositionComponent>();
 
 #pragma region TriangleMeshData
 		float vertices[3 * 3] = {
@@ -168,10 +174,10 @@ public:
 
 	void OnUpdate() override
 	{
+		layerECSManager.OnUpdate();
 
 		CameraController();
 		SquareController();
-
 
 
 		gwcEngine::RenderCommand::Clear();
@@ -215,6 +221,8 @@ public:
 	}
 
 private:
+	gwcEngine::ECSManager layerECSManager;
+
 	float dx = 0;
 	gwcEngine::Mesh triangle;
 	gwcEngine::Mesh square;

@@ -5,6 +5,10 @@
 #include "gwcEngine/Core/Layer.h"
 #include "gwcEngine/Core/Log.h"
 
+//Entity component System
+#include "gwcEngine/ECS/ECS.h"
+#include "gwcEngine/ECS/Components.h"
+
 #include "gwcEngine/Core/Time.h"
 
 #include "gwcEngine/Core/KeyCodes.h"

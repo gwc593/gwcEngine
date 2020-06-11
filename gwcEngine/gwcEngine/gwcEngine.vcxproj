@@ -154,6 +154,8 @@
     <ClInclude Include="src\gwcEngine\Core\Window.h" />
     <ClInclude Include="src\gwcEngine\Core\application.h" />
     <ClInclude Include="src\gwcEngine\Core\core.h" />
+    <ClInclude Include="src\gwcEngine\ECS\Components.h" />
+    <ClInclude Include="src\gwcEngine\ECS\ECS.h" />
     <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\gwcEngine\Events\Event.h" />
     <ClInclude Include="src\gwcEngine\Events\KeyEvent.h" />

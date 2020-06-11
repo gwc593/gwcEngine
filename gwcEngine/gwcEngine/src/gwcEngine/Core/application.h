@@ -5,12 +5,17 @@
 #include"gwcEngine/Events/Event.h"
 #include"gwcEngine/Events/ApplicationEvent.h"
 
+
+#include "gwcEngine/ECS/ECS.h"
+#include "gwcEngine/ECS/Components.h"
+
 #include "Time.h"
 
 namespace gwcEngine {
 
 	class GE_API Application
 	{
+	public:
 
 	public:
 		Application();
@@ -40,6 +45,8 @@ namespace gwcEngine {
 
 
 		static Application* s_Instance;
+
+		
 
 	};
 

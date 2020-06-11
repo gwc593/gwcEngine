@@ -3,6 +3,7 @@
 #include"gwcEngine/Events/Event.h"
 
 
+
 namespace gwcEngine {
 	class GE_API Layer
 	{
@@ -21,6 +22,7 @@ namespace gwcEngine {
 
 	protected:
 		std::string m_DebugName;
+
 		
 	};
 }

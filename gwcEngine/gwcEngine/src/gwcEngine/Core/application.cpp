@@ -10,6 +10,9 @@ namespace gwcEngine {
 
 	Application*  Application::s_Instance = nullptr;
 
+	
+
+	
 
 
 	Application::Application()
