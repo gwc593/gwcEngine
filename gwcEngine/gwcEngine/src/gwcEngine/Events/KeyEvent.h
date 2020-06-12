@@ -34,6 +34,7 @@ namespace gwcEngine
 		}
 
 		EVENT_CLASS_TYPE(KeyPressed)
+
 	private:
 		int m_RepeatCount;
 

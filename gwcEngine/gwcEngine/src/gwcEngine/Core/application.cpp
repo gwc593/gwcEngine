@@ -64,6 +64,7 @@ namespace gwcEngine {
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) 
 		{
 			(*--it)->OnEvent(e);
+			//todo NEXT!!! implement break downstream too
 			if (e.Handled)
 				break;
 		}

@@ -14,7 +14,33 @@ glm::vec4 redColour = { 1.0f,0.0f,0.0f, 1.0f };
 glm::vec4 greenColour = { 0.0f,1.0f,0.0f, 1.0f };
 glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
+class CustomEvent : public gwcEngine::Event
+{
+public:
+	CustomEvent()
+	{
 
+	}
+	EVENT_CLASS_CATEGORY(gwcEngine::None )
+
+	std::string ToString() const override
+	{
+		std::stringstream ss;
+		ss << "Custom Event Raised ";
+		return ss.str();
+	}
+
+
+
+	//EVENT_CLASS_TYPE(None)
+	static gwcEngine::EventType GetStaticType() { return gwcEngine::EventType::None; }
+	virtual gwcEngine::EventType GetEventType() const override { return GetStaticType(); }
+	virtual const char* GetName() const override { return "None"; }
+
+
+private:
+
+};
 
 class Target : public gwcEngine::Layer
 {
@@ -184,6 +210,9 @@ public:
 
 	void OnUpdate() override
 	{
+		CustomEvent e;
+		gwcEngine::Application::Get()->OnEvent(e);
+		
 
 		CameraController();
 		SquareController();
@@ -225,8 +254,9 @@ public:
 	bool OnEvent(gwcEngine::Event& event) override
 	{
 		gwcEngine::EventDispatcher dp(event);
-
+		GE_TRACE(event.ToString());
 		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(Target::onClicked));
+
 		return true;
 	}
 
