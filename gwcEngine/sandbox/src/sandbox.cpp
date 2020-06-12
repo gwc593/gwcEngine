@@ -6,15 +6,14 @@
 #include<glm/gtc/matrix_transform.hpp>
 
 //TODO TOMORROW - make this a part of every layer.
-gwcEngine::ECSManager layerECSManager;
-
-
-gwcEngine::Entity& triangleEnt = layerECSManager.AddEntity();
-gwcEngine::Entity& SquareEnt = layerECSManager.AddEntity();
+//gwcEngine::ECSManager layerECSManager;
+//gwcEngine::Entity& triangleEnt = layerECSManager.AddEntity();
+//gwcEngine::Entity& SquareEnt = layerECSManager.AddEntity();
 
 glm::vec4 redColour = { 1.0f,0.0f,0.0f, 1.0f };
 glm::vec4 greenColour = { 0.0f,1.0f,0.0f, 1.0f };
 glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
+
 
 
 class Target : public gwcEngine::Layer
@@ -28,6 +27,8 @@ public:
 	{
 		
 
+		gwcEngine::Entity& triangleEnt = m_LayerManager.AddEntity();
+		gwcEngine::Entity& SquareEnt = m_LayerManager.AddEntity();
 		triangleEnt.AddComponent<gwcEngine::Mesh>();
 		SquareEnt.AddComponent<gwcEngine::Mesh>();
 
@@ -111,7 +112,8 @@ public:
 #pragma endregion
 
 		m_UnlitColour.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
-
+		sqr = std::move(SquareEnt);
+		tri = std::move(triangleEnt);
 	}
 
 	void CameraController()
@@ -184,7 +186,7 @@ public:
 
 	void OnUpdate() override
 	{
-		layerECSManager.OnUpdate();
+		//GetComponentManager().OnUpdate();
 
 		CameraController();
 		SquareController();
@@ -206,12 +208,12 @@ public:
 				else
 					m_UnlitColour->UploadUniformVec4("u_Colour", greenColour);
 
-				gwcEngine::Renderer::Submit(SquareEnt.GetComponent<gwcEngine::Mesh>().GetVertexArray(), m_UnlitColour, transform);
+				gwcEngine::Renderer::Submit(sqr.GetComponent<gwcEngine::Mesh>().GetVertexArray(), m_UnlitColour, transform);
 			}
 		}
 
 		m_UnlitColour->UploadUniformVec4("u_Colour", redColour);
-		gwcEngine::Renderer::Submit(triangleEnt.GetComponent<gwcEngine::Mesh>().GetVertexArray(), m_UnlitColour);
+		gwcEngine::Renderer::Submit(tri.GetComponent<gwcEngine::Mesh>().GetVertexArray(), m_UnlitColour);
 
 		gwcEngine::Renderer::EndScene();
 	}
@@ -231,9 +233,6 @@ public:
 	}
 
 private:
-
-	//gwcEngine::OrthographicCamera m_Camera;
-
 	gwcEngine::PerspectiveCamera m_Camera;
 
 	std::shared_ptr<gwcEngine::Shader> m_UnlitColour;
@@ -241,6 +240,10 @@ private:
 	glm::vec3 m_squarePosition;
 	float m_squareRotation = 0.0f;
 	float m_camerRot = 0.0f;
+
+	gwcEngine::Entity tri;
+	gwcEngine::Entity sqr;
+
 };
 
 

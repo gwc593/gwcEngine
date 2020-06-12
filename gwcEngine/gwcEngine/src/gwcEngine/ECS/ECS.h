@@ -49,6 +49,7 @@ namespace gwcEngine
 	class Entity
 	{
 	public:
+		Entity() = default;
 		void OnUpdate()
 		{
 			for (auto& c : m_Components) c->OnUpdate();
@@ -92,7 +93,7 @@ namespace gwcEngine
 		}
 
 	private:
-		bool m_Active;
+		bool m_Active = true;
 
 		std::vector<std::unique_ptr<Component>> m_Components;
 
@@ -132,6 +133,7 @@ namespace gwcEngine
 
 		Entity& AddEntity()
 		{
+			//todo Key pair with string name so you can do FindEntity(const std::string& name){return entity....}
 			Entity* e = new Entity();
 			std::unique_ptr<Entity> uPtr{ e };
 			m_Entities.emplace_back(std::move(uPtr));
