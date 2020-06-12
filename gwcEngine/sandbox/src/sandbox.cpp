@@ -27,10 +27,11 @@ public:
 	{
 		
 
-		gwcEngine::Entity& triangleEnt = m_LayerManager.AddEntity();
-		gwcEngine::Entity& SquareEnt = m_LayerManager.AddEntity();
-		triangleEnt.AddComponent<gwcEngine::Mesh>();
-		SquareEnt.AddComponent<gwcEngine::Mesh>();
+		tri = GetManager()->AddEntity("triangle");
+		sqr = GetManager()->AddEntity("square");
+
+		tri.AddComponent<gwcEngine::Mesh>();
+		sqr.AddComponent<gwcEngine::Mesh>();
 
 
 #pragma region TriangleMeshData
@@ -51,8 +52,8 @@ public:
 
 #pragma endregion
 
-		triangleEnt.GetComponent<gwcEngine::Mesh>().SetVertexBuffer(vertices, sizeof(vertices), layout);
-		triangleEnt.GetComponent<gwcEngine::Mesh>().SetIndexBuffer(indices, 3);
+		tri.GetComponent<gwcEngine::Mesh>().SetVertexBuffer(vertices, sizeof(vertices), layout);
+		tri.GetComponent<gwcEngine::Mesh>().SetIndexBuffer(indices, 3);
 
 #pragma region SquareMeshData
 		float SquareVertices[4 * 3] = {
@@ -73,8 +74,8 @@ public:
 		
 #pragma endregion
 
-		SquareEnt.GetComponent<gwcEngine::Mesh>().SetVertexBuffer(SquareVertices, sizeof(SquareVertices), layout2);
-		SquareEnt.GetComponent<gwcEngine::Mesh>().SetIndexBuffer(SquareIndices, 6);
+		sqr.GetComponent<gwcEngine::Mesh>().SetVertexBuffer(SquareVertices, sizeof(SquareVertices), layout2);
+		sqr.GetComponent<gwcEngine::Mesh>().SetIndexBuffer(SquareIndices, 6);
 
 #pragma region unlitFlatShaderSrc
 		//create a basic shader
@@ -112,8 +113,6 @@ public:
 #pragma endregion
 
 		m_UnlitColour.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
-		sqr = std::move(SquareEnt);
-		tri = std::move(triangleEnt);
 	}
 
 	void CameraController()
@@ -186,7 +185,7 @@ public:
 
 	void OnUpdate() override
 	{
-		//GetComponentManager().OnUpdate();
+		GetManager()->OnUpdate();
 
 		CameraController();
 		SquareController();

@@ -76,7 +76,7 @@ namespace gwcEngine
 			T* _comp(new T(std::forward<TArgs>(mArgs)...));
 			
 			_comp->entity = this;
-			std::unique_ptr<Component> uPtr{ _comp };
+			std::shared_ptr<Component> uPtr{ _comp };
 			m_Components.emplace_back(std::move(uPtr));
 
 			m_ComponentArray[GetComponentTypeID<T>()] = _comp;
@@ -95,7 +95,7 @@ namespace gwcEngine
 	private:
 		bool m_Active = true;
 
-		std::vector<std::unique_ptr<Component>> m_Components;
+		std::vector<std::shared_ptr<Component>> m_Components;
 
 		ComponentArray m_ComponentArray;
 		ComponentBitSet m_ComponentBitset;
@@ -109,40 +109,46 @@ namespace gwcEngine
 
 		void OnUpdate()
 		{
-			for (auto& ent : m_Entities) ent->OnUpdate();
+			for (auto& ent : m_Entities) ent.second->OnUpdate();
 		}
 
 		void Draw()
 		{
-			for (auto& ent : m_Entities) ent->Draw();
+			for (auto& ent : m_Entities) ent.second->Draw();
 		}
 
 		bool OnEvent(const Event& e)
 		{
-			for (auto& ent : m_Entities) return ent->OnEvent(e);
+			for (auto& ent : m_Entities) return ent.second->OnEvent(e);
 		}
 
 		void Refresh()
 		{
 			m_Entities.erase(std::remove_if(std::begin(m_Entities), std::end(m_Entities),
-										  [](const std::unique_ptr<Entity>& mEntity)
+										  [](const std::pair<std::string, std::shared_ptr<Entity>>& mEntity)
 										  {
-											  return !mEntity->IsActive();
+											  return !mEntity.second->IsActive();
 										  }), std::end(m_Entities));
 		}
 
-		Entity& AddEntity()
+		Entity& AddEntity(const std::string& name)
 		{
 			//todo Key pair with string name so you can do FindEntity(const std::string& name){return entity....}
 			Entity* e = new Entity();
 			std::unique_ptr<Entity> uPtr{ e };
-			m_Entities.emplace_back(std::move(uPtr));
+
+			std::pair<std::string, std::shared_ptr<Entity>> element;
+			element.first = name;
+			element.second = std::move(uPtr);
+
+			m_Entities.emplace_back(element);
 
 			return *e;
 		}
 
+
 	private:
-		std::vector<std::unique_ptr<Entity>> m_Entities;
+		std::vector<std::pair<std::string, std::shared_ptr<Entity>>> m_Entities;
 
 
 	};

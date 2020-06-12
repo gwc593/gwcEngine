@@ -18,7 +18,7 @@ namespace gwcEngine {
 		void OnUpdateBase();
 		virtual void OnEvent(Event& e) {}
 
-		inline const ECSManager& GetManager() const { return m_LayerManager; }
+		ECSManager* GetManager() const { return m_LayerManager; }
 
 
 		//todo gwc - do not allow this in dist builds
@@ -27,7 +27,7 @@ namespace gwcEngine {
 	protected:
 		std::string m_DebugName;
 
-		ECSManager m_LayerManager;
+		ECSManager* m_LayerManager;
 		
 	};
 }
