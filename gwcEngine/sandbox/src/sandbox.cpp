@@ -23,12 +23,11 @@ public:
 		:Layer("Example"),
 		//m_Camera(-1.6f,1.6f,-0.9f,0.9f), //orthographic camera initializer
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f), //perspective camera initializer
-		m_squarePosition(glm::vec3(0.0f))
+		m_squarePosition(glm::vec3(0.0f)),
+		tri(GetManager()->AddEntity("triangle")),
+		sqr(GetManager()->AddEntity("square"))
 	{
-		
-
-		tri = GetManager()->AddEntity("triangle");
-		sqr = GetManager()->AddEntity("square");
+	
 
 		tri.AddComponent<gwcEngine::Mesh>();
 		sqr.AddComponent<gwcEngine::Mesh>();
@@ -52,8 +51,8 @@ public:
 
 #pragma endregion
 
-		tri.GetComponent<gwcEngine::Mesh>().SetVertexBuffer(vertices, sizeof(vertices), layout);
-		tri.GetComponent<gwcEngine::Mesh>().SetIndexBuffer(indices, 3);
+		GetManager()->FindEntity("triangle").GetComponent<gwcEngine::Mesh>().SetVertexBuffer(vertices, sizeof(vertices), layout);
+		GetManager()->FindEntity("triangle").GetComponent<gwcEngine::Mesh>().SetIndexBuffer(indices, 3);
 
 #pragma region SquareMeshData
 		float SquareVertices[4 * 3] = {
@@ -185,16 +184,15 @@ public:
 
 	void OnUpdate() override
 	{
-		GetManager()->OnUpdate();
 
 		CameraController();
 		SquareController();
-
 
 		gwcEngine::RenderCommand::Clear();
 
 		
 		gwcEngine::Renderer::BeginScene(m_Camera);
+		
 		for (int y = 0; y < 20; y++) {
 			for (int x = 0; x < 20; x++) {
 				glm::vec3 pos(x * (scale + 0.5 * scale), y * (scale + 0.5 * scale), 0.0f);
@@ -224,11 +222,12 @@ public:
 		return true;
 	}
 
-	void OnEvent(gwcEngine::Event& event) override
+	bool OnEvent(gwcEngine::Event& event) override
 	{
 		gwcEngine::EventDispatcher dp(event);
 
 		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(Target::onClicked));
+		return true;
 	}
 
 private:
@@ -240,8 +239,8 @@ private:
 	float m_squareRotation = 0.0f;
 	float m_camerRot = 0.0f;
 
-	gwcEngine::Entity tri;
-	gwcEngine::Entity sqr;
+	gwcEngine::Entity& tri;
+	gwcEngine::Entity& sqr;
 
 };
 

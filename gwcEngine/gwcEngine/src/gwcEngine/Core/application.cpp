@@ -10,11 +10,6 @@ namespace gwcEngine {
 
 	Application*  Application::s_Instance = nullptr;
 
-	
-
-	
-
-
 	Application::Application()
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());	

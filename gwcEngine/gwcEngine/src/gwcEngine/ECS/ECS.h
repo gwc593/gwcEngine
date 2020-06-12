@@ -2,6 +2,7 @@
 #include "gepch.h"
 #include"gwcEngine/Events/Event.h"
 
+
 namespace gwcEngine
 {
 	class Component;
@@ -86,22 +87,33 @@ namespace gwcEngine
 			return *_comp;
 		}
 
+
+
 		template <typename T> T& GetComponent()
 		{
 			auto ptr(m_ComponentArray[GetComponentTypeID<T>()]);
+			if (ptr == nullptr)
+				GE_CORE_ERROR("{0} {1}", typeid(T).name(), "doest exist on this component");
 			return *static_cast<T*>(ptr);
 		}
 
+		
+		Entity::Entity(const Entity& other)
+		{
+			GE_CORE_ERROR("Copying entities outside of the manager is forbidden,null object returned");
+			GE_CORE_WARN("Please Copy by reference or use 'duplicate' method within the ECS manager instead. null returned..");
+		}
 	private:
 		bool m_Active = true;
-
+		
+	private:
+		
 		std::vector<std::shared_ptr<Component>> m_Components;
 
 		ComponentArray m_ComponentArray;
 		ComponentBitSet m_ComponentBitset;
+
 	};
-
-
 	class ECSManager
 	{
 	public:
@@ -135,15 +147,25 @@ namespace gwcEngine
 		{
 			//todo Key pair with string name so you can do FindEntity(const std::string& name){return entity....}
 			Entity* e = new Entity();
-			std::unique_ptr<Entity> uPtr{ e };
+			std::shared_ptr<Entity> uPtr{ e };
 
 			std::pair<std::string, std::shared_ptr<Entity>> element;
 			element.first = name;
-			element.second = std::move(uPtr);
+			//element.second = std::move(uPtr);
 
 			m_Entities.emplace_back(element);
-
+			m_Entities.back().second = std::move(uPtr);
 			return *e;
+		}
+
+		Entity& FindEntity(const std::string& name) const
+		{
+			for (auto& ent : m_Entities) {
+				if (ent.first == name) {
+					return *ent.second;
+				}
+			}
+			return *(Entity*)nullptr;
 		}
 
 

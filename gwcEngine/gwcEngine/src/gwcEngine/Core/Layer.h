@@ -16,7 +16,8 @@ namespace gwcEngine {
 		virtual void OnDetach() {}
 		virtual void OnUpdate() {}
 		void OnUpdateBase();
-		virtual void OnEvent(Event& e) {}
+		bool OnEventBase(Event& e);
+		virtual bool OnEvent(Event& e);
 
 		ECSManager* GetManager() const { return m_LayerManager; }
 
