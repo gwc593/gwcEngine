@@ -1,6 +1,6 @@
 #pragma once
 
-#include"gwcEngine/Renderer/VertexArray.h"
+#include"gwcEngine/Renderer/Shader/VertexArray.h"
 #include <glm/glm.hpp>
 
 namespace gwcEngine

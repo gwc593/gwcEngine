@@ -6,8 +6,8 @@
 #include "gwcEngine/Core/Log.h"
 
 //Entity component System
-#include "gwcEngine/ECS/ECS.h"
-#include "gwcEngine/ECS/Components.h"
+//temp
+#include"gwcEngine/Components/Mesh.h"
 
 #include "gwcEngine/Core/Time.h"
 
@@ -17,13 +17,14 @@
 
 #include "gwcEngine/Renderer/Renderer.h"
 #include "gwcEngine/Renderer/RenderCommand.h"
+#include "gwcEngine/Renderer/Material.h"
 
-#include "gwcEngine/Renderer/Buffer.h"
-#include "gwcEngine/Renderer/Shader.h"
-#include "gwcEngine/Renderer/VertexArray.h"
+#include "gwcEngine/Renderer/Shader/Buffer.h"
+#include "gwcEngine/Renderer/Shader/Shader.h"
+#include "gwcEngine/Renderer/Shader/VertexArray.h"
 
-#include "gwcEngine/Renderer/OrthographicCamera.h"
-#include "gwcEngine/Renderer/PerspectiveCamera.h"
+#include "gwcEngine/Renderer/Cameras/OrthographicCamera.h"
+#include "gwcEngine/Renderer/Cameras/PerspectiveCamera.h"
 
 ////events///
 #include "gwcEngine/Events/ApplicationEvent.h"

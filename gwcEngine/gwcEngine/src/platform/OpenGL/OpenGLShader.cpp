@@ -119,6 +119,7 @@ namespace gwcEngine
 		// Always detach shaders after a successful link.
 		glDetachShader(m_Renderer_ID, vertexShader);
 		glDetachShader(m_Renderer_ID, fragmentShader);
+		ParseUniforms();
 	}
 
 	OpenGLShader::~OpenGLShader()
@@ -134,6 +135,37 @@ namespace gwcEngine
 	void OpenGLShader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	void OpenGLShader::ParseUniforms()
+	{
+		glUseProgram(m_Renderer_ID);
+		int count = 0;
+		int nameLen = -1;
+		int num = -1;
+		char name[100];
+		GLenum type = GL_ZERO;
+		ShaderDataType gwcType = ShaderDataType::None;
+
+		glGetProgramiv(m_Renderer_ID, GL_ACTIVE_UNIFORMS, &count);
+		for (int i = 0; i < count; i++) {
+			glGetActiveUniform(m_Renderer_ID, (GLuint)i, sizeof(name) - 1, &nameLen, &num, &type, name);
+			switch (type) {
+			case GL_NONE:        gwcType = ShaderDataType::None; break;
+			case GL_FLOAT:       gwcType = ShaderDataType::Float1;break;
+			case GL_FLOAT_VEC2:  gwcType = ShaderDataType::Float2;break;
+			case GL_FLOAT_VEC3:  gwcType = ShaderDataType::Float3;break;
+			case GL_FLOAT_VEC4:  gwcType = ShaderDataType::Float4;break;
+			case GL_FLOAT_MAT3:  gwcType = ShaderDataType::Mat3; break;
+			case GL_FLOAT_MAT4:  gwcType = ShaderDataType::Mat4; break;
+			case GL_INT:         gwcType = ShaderDataType::Int; break;
+			case GL_INT_VEC2:    gwcType = ShaderDataType::Int2; break;
+			case GL_INT_VEC3:    gwcType = ShaderDataType::Int3; break;
+			case GL_INT_VEC4:    gwcType = ShaderDataType::Int4; break;
+			case GL_BOOL:        gwcType = ShaderDataType::Bool; break;
+			}
+			m_Uniforms.push_back( ShaderUniform::Create(name,gwcType,this));
+		}
 	}
 
 	void OpenGLShader::UploadUniformInt(const std::string& name, const int& Int)
@@ -185,5 +217,7 @@ namespace gwcEngine
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
+
+	
 
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include"gwcEngine/Renderer/VertexArray.h"
+#include"gwcEngine/Renderer/Shader/VertexArray.h"
 
 namespace gwcEngine
 {

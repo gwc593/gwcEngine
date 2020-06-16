@@ -1,8 +1,9 @@
 #include"gepch.h"
 #include"Shader.h"
 
-#include"Renderer.h"
+#include "gwcEngine/Renderer/Renderer.h"
 #include "platform/OpenGL/OpenGLShader.h"
+#include "platform/OpenGL/OpenGLUniforms/OpenGLUniforms.h"
 namespace gwcEngine
 {
 	Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc)
@@ -15,5 +16,7 @@ namespace gwcEngine
 		GE_CORE_ERROR("Invalid rendering API selected");
 		return nullptr;
 	}
+
+
 
 }

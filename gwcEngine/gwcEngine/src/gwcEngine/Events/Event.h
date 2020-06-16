@@ -48,9 +48,18 @@ namespace gwcEngine
 			return GetCategoryFlags() & category;
 		}
 
+
 		
 	};
-	
+
+	inline std::ostream& operator<<(std::ostream& os, const Event& e)
+	{
+		os << e.ToString();
+		return os;
+	}
+
+
+
 	class EventDispatcher
 	{
 		template<typename T>
@@ -75,9 +84,5 @@ namespace gwcEngine
 		Event& m_Event;
 	};
 
-	inline std::ostream& operator <<(std::ostream& os, const Event& e)
-	{
-		return os << e.ToString();
-	}
 	
 }

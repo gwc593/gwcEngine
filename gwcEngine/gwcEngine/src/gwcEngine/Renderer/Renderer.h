@@ -1,9 +1,9 @@
 #pragma once
 #include "RendererAPI.h"
 #include"RenderCommand.h"
-#include"OrthographicCamera.h"
-#include"PerspectiveCamera.h"
-#include"Shader.h"
+#include"Cameras/OrthographicCamera.h"
+#include"Cameras/PerspectiveCamera.h"
+#include"Shader/Shader.h"
 
 
 

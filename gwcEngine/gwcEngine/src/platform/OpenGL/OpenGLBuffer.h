@@ -1,5 +1,5 @@
 #pragma once
-#include"gwcEngine/Renderer/Buffer.h"
+#include"gwcEngine/Renderer/Shader/Buffer.h"
 
 namespace gwcEngine 
 {

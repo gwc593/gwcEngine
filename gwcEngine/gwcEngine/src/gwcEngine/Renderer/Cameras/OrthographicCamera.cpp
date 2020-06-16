@@ -1,6 +1,6 @@
 #include "gepch.h"
 #include "OrthographicCamera.h"
-#include "Renderer.h"
+#include "gwcEngine/Renderer/Renderer.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include<glad/glad.h>
 namespace gwcEngine

@@ -1,5 +1,5 @@
 #pragma once
-#include "gwcEngine/Renderer/Shader.h"
+#include "gwcEngine/Renderer/Shader/Shader.h"
 namespace gwcEngine 
 {
 	class OpenGLShader : public Shader
@@ -9,6 +9,9 @@ namespace gwcEngine
 		virtual ~OpenGLShader();
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+
+		virtual void ParseAttributs() override {};
+		virtual void ParseUniforms() override;
 
 		virtual void UploadUniformInt(const std::string& name, const int& Int) override;
 		

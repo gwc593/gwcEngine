@@ -35,7 +35,6 @@ namespace gwcEngine
 		case ShaderDataType::Int4:   return 4*4;
 		case ShaderDataType::Bool:   return 1;
 		}
-
 		GE_CORE_ASSERT(false, "Unsupported Shader Data Type");
 		return 0;
 	}

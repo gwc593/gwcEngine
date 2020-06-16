@@ -5,10 +5,6 @@
 #include"gwcEngine/Events/Event.h"
 #include"gwcEngine/Events/ApplicationEvent.h"
 
-
-#include "gwcEngine/ECS/ECS.h"
-#include "gwcEngine/ECS/Components.h"
-
 #include "Time.h"
 
 namespace gwcEngine {

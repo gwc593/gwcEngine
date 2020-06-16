@@ -1,14 +1,11 @@
 #include<gwcEngine.h>
 
 //todo gwc - provide abstract methods to upload uniforms to the shader... this is a hack below
-#include "platform/OpenGL/OpenGLShader.h"
+//#include "platform/OpenGL/OpenGLShader.h"
+
+#include "platform/OpenGL/OpenGLUniforms/OpenGLUniforms.h"
 
 #include<glm/gtc/matrix_transform.hpp>
-
-//TODO TOMORROW - make this a part of every layer.
-//gwcEngine::ECSManager layerECSManager;
-//gwcEngine::Entity& triangleEnt = layerECSManager.AddEntity();
-//gwcEngine::Entity& SquareEnt = layerECSManager.AddEntity();
 
 glm::vec4 redColour = { 1.0f,0.0f,0.0f, 1.0f };
 glm::vec4 greenColour = { 0.0f,1.0f,0.0f, 1.0f };
@@ -33,6 +30,7 @@ public:
 
 
 	//EVENT_CLASS_TYPE(None)
+	//TODO gwc: Get the above macro working for custom events.
 	static gwcEngine::EventType GetStaticType() { return gwcEngine::EventType::None; }
 	virtual gwcEngine::EventType GetEventType() const override { return GetStaticType(); }
 	virtual const char* GetName() const override { return "None"; }
@@ -47,21 +45,14 @@ class Target : public gwcEngine::Layer
 public:
 	Target()
 		:Layer("Example"),
-		//m_Camera(-1.6f,1.6f,-0.9f,0.9f), //orthographic camera initializer
-		m_Camera(70.0f, 1.78f, 0.8f, 300.0f), //perspective camera initializer
-		m_squarePosition(glm::vec3(0.0f)),
-		tri(GetManager()->AddEntity("triangle")),
-		sqr(GetManager()->AddEntity("square"))
-	{
-	
+		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 
-		tri.AddComponent<gwcEngine::Mesh>();
-		sqr.AddComponent<gwcEngine::Mesh>();
+	{
 
 
 #pragma region TriangleMeshData
 		float vertices[3 * 3] = {
-			// -----Position-----  ------Colour-------
+			// -----Position-----  
 				-0.5f, 0.0f, 0.0f,
 				0.5f, 0.0, 0.0f,
 				0.0f, 1.0f, 0.0f
@@ -77,30 +68,8 @@ public:
 
 #pragma endregion
 
-		GetManager()->FindEntity("triangle").GetComponent<gwcEngine::Mesh>().SetVertexBuffer(vertices, sizeof(vertices), layout);
-		GetManager()->FindEntity("triangle").GetComponent<gwcEngine::Mesh>().SetIndexBuffer(indices, 3);
-
-#pragma region SquareMeshData
-		float SquareVertices[4 * 3] = {
-			// -----Position-----  ------Colour-------
-				-0.75f, 0.75f, 0.0f,
-				-0.75f, -0.75f, 0.0f,
-				0.75f, -0.75f, 0.0f,
-				0.75f, 0.75f, 0.0f
-		};
-
-		gwcEngine::BufferLayout layout2 = {
-			{gwcEngine::ShaderDataType::Float3, "a_Position"}
-		};
-
-		uint32_t SquareIndices[6] = { 0,1,3,
-									3,1,2 };
-
-		
-#pragma endregion
-
-		sqr.GetComponent<gwcEngine::Mesh>().SetVertexBuffer(SquareVertices, sizeof(SquareVertices), layout2);
-		sqr.GetComponent<gwcEngine::Mesh>().SetIndexBuffer(SquareIndices, 6);
+		tri.SetVertexBuffer(vertices, sizeof(vertices), layout);
+		tri.SetIndexBuffer(indices, 3);
 
 #pragma region unlitFlatShaderSrc
 		//create a basic shader
@@ -175,71 +144,26 @@ public:
 
 	}
 
-	void SquareController()
-	{
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::I)) {
-			m_squarePosition.y += 1.0 * gwcEngine::Time::GetDeltaTime();
-		}
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::J)) {
-			m_squarePosition.x += -1.0 * gwcEngine::Time::GetDeltaTime();
-		}
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::K)) {
-			m_squarePosition.y += -1.0 * gwcEngine::Time::GetDeltaTime();
-		}
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::L)) {
-			m_squarePosition.x += 1.0 * gwcEngine::Time::GetDeltaTime();
-		}
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::O)) {
-			m_squareRotation -= 20.0 * gwcEngine::Time::GetDeltaTime();
-		}
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::U)) {
-			m_squareRotation += 20.0 * gwcEngine::Time::GetDeltaTime();
-		}
-
-	}
-
-
-	float scale = 0.1f;
-	glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(scale));
-
-
 	void OnUpdate() override
 	{
-		CustomEvent e;
-		gwcEngine::Application::Get()->OnEvent(e);
-		
-
+		gwcEngine::Material flatGreen(m_UnlitColour);
+		float t = gwcEngine::Time::GetTime();
+		float r = 0.5f * (glm::sin(t+45.0f) + 1.0f);
+		float g = 0.5f * (glm::sin(0.333f*t) + 1.0f);
+		float b = 0.5f * (glm::sin(2.0f*t) + 1.0f);
+		flatGreen.SetValue("u_Colour", glm::vec4(r,g ,b ,1.0f));
 		CameraController();
-		SquareController();
+
+
+		
 
 		gwcEngine::RenderCommand::Clear();
 
 		
 		gwcEngine::Renderer::BeginScene(m_Camera);
-		
-		for (int y = 0; y < 20; y++) {
-			for (int x = 0; x < 20; x++) {
-				glm::vec3 pos(x * (scale + 0.5 * scale), y * (scale + 0.5 * scale), 0.0f);
-				pos += m_squarePosition;
-				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos)
-					* glm::rotate(glm::mat4(1.0f), glm::radians(m_squareRotation), glm::vec3(0, 1, 0))
-					* scaleMat;
-				if ((x + y) % 2 == 0)
-					m_UnlitColour->UploadUniformVec4("u_Colour", blueColour);
-				else
-					m_UnlitColour->UploadUniformVec4("u_Colour", greenColour);
-
-				gwcEngine::Renderer::Submit(sqr.GetComponent<gwcEngine::Mesh>().GetVertexArray(), m_UnlitColour, transform);
-			}
-		}
-
-		m_UnlitColour->UploadUniformVec4("u_Colour", redColour);
-		gwcEngine::Renderer::Submit(tri.GetComponent<gwcEngine::Mesh>().GetVertexArray(), m_UnlitColour);
+	
+		//m_UnlitColour->UploadUniformVec4("u_Colour", redColour);
+		gwcEngine::Renderer::Submit(tri.GetVertexArray(), m_UnlitColour);
 
 		gwcEngine::Renderer::EndScene();
 	}
@@ -254,7 +178,7 @@ public:
 	bool OnEvent(gwcEngine::Event& event) override
 	{
 		gwcEngine::EventDispatcher dp(event);
-		GE_TRACE(event.ToString());
+		//GE_TRACE(event.ToString());
 		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(Target::onClicked));
 
 		return true;
@@ -265,12 +189,11 @@ private:
 
 	std::shared_ptr<gwcEngine::Shader> m_UnlitColour;
 
-	glm::vec3 m_squarePosition;
 	float m_squareRotation = 0.0f;
 	float m_camerRot = 0.0f;
 
-	gwcEngine::Entity& tri;
-	gwcEngine::Entity& sqr;
+	gwcEngine::Mesh tri;
+
 
 };
 

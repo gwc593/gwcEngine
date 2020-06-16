@@ -1,7 +1,6 @@
 #pragma once
 #include"core.h"
 #include"gwcEngine/Events/Event.h"
-#include "gwcEngine/ECS/ECS.h"
 
 
 
@@ -19,8 +18,6 @@ namespace gwcEngine {
 		bool OnEventBase(Event& e);
 		virtual bool OnEvent(Event& e);
 
-		ECSManager* GetManager() const { return m_LayerManager; }
-
 
 		//todo gwc - do not allow this in dist builds
 		inline const std::string& GetName() const { return m_DebugName; }
@@ -28,8 +25,6 @@ namespace gwcEngine {
 	protected:
 		std::string m_DebugName;
 
-		ECSManager* m_LayerManager;
-		
 	};
 }
 

@@ -55,14 +55,4 @@ namespace gwcEngine
 		}
 	}
 
-	void Mesh::OnUpdate() 
-	{
-
-	}
-
-	void Mesh::Draw() 
-	{
-		//todo - impliment draw some in a model class?
-	}
-
 }
