@@ -20,6 +20,17 @@ namespace gwcEngine
 		{
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
+
+		inline static void SetVsync(bool state)
+		{
+			s_RendererAPI->SetVSync(state);
+		}
+
+		inline static bool IsVsync()
+		{
+			return s_RendererAPI->IsVsync();
+		}
+
 	private:
 		static RendererAPI* s_RendererAPI;
 	};

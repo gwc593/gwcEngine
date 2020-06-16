@@ -1,7 +1,8 @@
 #pragma once
+
 #include"gepch.h"
 //For use in gwcEngine applications
-#include"gwcEngine/core/application.h"
+#include"gwcEngine/Core/application.h"
 #include "gwcEngine/Core/Layer.h"
 #include "gwcEngine/Core/Log.h"
 
@@ -33,7 +34,12 @@
 
 //models 
 
-
+//TODO, prevent double main inclusion.
 // !!!!!!!!! Entry point !!!!!!
-#include"gwcEngine/core/EntryPoint.h"
+//#ifndef MAIN
+//#define MAIN
+//	#include "gwcEngine/Core/EntryPoint.h"
+//#endif // !MAIN
+
+
 

@@ -1,6 +1,6 @@
 #include"gepch.h"
 #include"OpenGLRendererAPI.h"
-
+#include"gwcEngine/Core/application.h"
 #include<glad/glad.h>
 namespace gwcEngine
 {
@@ -18,4 +18,15 @@ namespace gwcEngine
 	{
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
+
+	void OpenGLRendererAPI::SetVSync(bool state)
+	{
+		Application::Get()->GetWindow().SetVsync(state);
+	}
+
+	bool OpenGLRendererAPI::IsVsync()
+	{
+		return Application::Get()->GetWindow().IsVSync();
+	}
+
 }

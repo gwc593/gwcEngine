@@ -25,6 +25,9 @@ namespace gwcEngine
 
 		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 
+		virtual void SetVSync(bool state) = 0;
+		virtual bool IsVsync() = 0;
+
 		inline static API GetAPI() { return s_API; }
 	private:
 		static API s_API;

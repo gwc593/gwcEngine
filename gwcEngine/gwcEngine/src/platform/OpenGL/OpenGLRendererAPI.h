@@ -13,5 +13,10 @@ namespace gwcEngine
 		virtual void SetClearColour(const glm::vec4& colour) override;
 
 		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) override;
+
+		virtual void SetVSync(bool state) override;
+
+		virtual bool IsVsync() override;
+
 	};
 }

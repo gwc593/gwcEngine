@@ -14,7 +14,6 @@ namespace gwcEngine {
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());	
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
-		
 		Time::Init();
 
 		s_Instance = this;
@@ -63,9 +62,7 @@ namespace gwcEngine {
 		//pass event to layers
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) 
 		{
-			(*--it)->OnEvent(e);
-			//todo NEXT!!! implement break downstream too
-			if (e.Handled)
+			if((*--it)->OnEvent(e)|| e.Handled)
 				break;
 		}
 	}
