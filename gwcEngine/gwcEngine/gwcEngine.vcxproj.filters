@@ -19,11 +19,20 @@
     <Filter Include="src\gwcEngine\Renderer">
       <UniqueIdentifier>{3907B0F3-2501-D945-0E6E-6F56FA063FB2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\gwcEngine\Renderer\Cameras">
+      <UniqueIdentifier>{2454426A-107A-0CD1-F9BF-919CE584319D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gwcEngine\Renderer\Shader">
+      <UniqueIdentifier>{BFBC4840-2BD5-2F6A-F481-BF036059C403}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\platform">
       <UniqueIdentifier>{41663D6D-2DC9-CC11-D64E-05C8C2909894}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\platform\OpenGL">
       <UniqueIdentifier>{555C82A0-C1BD-5FAE-4A2B-A660B68B966D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\platform\OpenGL\OpenGLUniforms">
+      <UniqueIdentifier>{7C1585D3-6851-883D-D163-A034BDBE3058}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
@@ -102,7 +111,16 @@
     <ClInclude Include="src\gwcEngine\Events\MouseEvent.h">
       <Filter>src\gwcEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.h">
+      <Filter>src\gwcEngine\Renderer\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Cameras\PerspectiveCamera.h">
+      <Filter>src\gwcEngine\Renderer\Cameras</Filter>
+    </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\GraphicsContext.h">
+      <Filter>src\gwcEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Material.h">
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\RenderCommand.h">
@@ -113,6 +131,18 @@
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\RendererAPI.h">
       <Filter>src\gwcEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Shader\Buffer.h">
+      <Filter>src\gwcEngine\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Shader\Shader.h">
+      <Filter>src\gwcEngine\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Shader\ShaderUniform.h">
+      <Filter>src\gwcEngine\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\Renderer\Shader\VertexArray.h">
+      <Filter>src\gwcEngine\Renderer\Shader</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\platform\OpenGL</Filter>
@@ -128,6 +158,15 @@
     </ClInclude>
     <ClInclude Include="src\platform\OpenGL\OpenGLTime.h">
       <Filter>src\platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\OpenGL\OpenGLUniforms\OpenGLUniformMat4.h">
+      <Filter>src\platform\OpenGL\OpenGLUniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\OpenGL\OpenGLUniforms\OpenGLUniformVec4.h">
+      <Filter>src\platform\OpenGL\OpenGLUniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\OpenGL\OpenGLUniforms\OpenGLUniforms.h">
+      <Filter>src\platform\OpenGL\OpenGLUniforms</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\platform\OpenGL</Filter>
@@ -1362,26 +1401,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.h">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gwcEngine\Renderer\Cameras\PerspectiveCamera.h">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gwcEngine\Renderer\Material.h" />
-    <ClInclude Include="src\gwcEngine\Renderer\Shader\Buffer.h">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gwcEngine\Renderer\Shader\Shader.h">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gwcEngine\Renderer\Shader\VertexArray.h">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\platform\OpenGL\OpenGLUniforms\OpenGLUniforms.h" />
-    <ClInclude Include="src\platform\OpenGL\OpenGLUniforms\OpenGLUniformMat4.h" />
-    <ClInclude Include="src\gwcEngine\Renderer\Shader\ShaderUniform.h" />
-    <ClInclude Include="src\platform\OpenGL\OpenGLUniforms\OpenGLUniformVec4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
@@ -1408,6 +1427,15 @@
     <ClCompile Include="src\gwcEngine\Core\application.cpp">
       <Filter>src\gwcEngine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.cpp">
+      <Filter>src\gwcEngine\Renderer\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Cameras\PerspectiveCamera.cpp">
+      <Filter>src\gwcEngine\Renderer\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Material.cpp">
+      <Filter>src\gwcEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\RenderCommand.cpp">
       <Filter>src\gwcEngine\Renderer</Filter>
     </ClCompile>
@@ -1416,6 +1444,18 @@
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\RendererAPI.cpp">
       <Filter>src\gwcEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Shader\Buffer.cpp">
+      <Filter>src\gwcEngine\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Shader\Shader.cpp">
+      <Filter>src\gwcEngine\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Shader\ShaderUniform.cpp">
+      <Filter>src\gwcEngine\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Renderer\Shader\VertexArray.cpp">
+      <Filter>src\gwcEngine\Renderer\Shader</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\platform\OpenGL</Filter>
@@ -1441,22 +1481,5 @@
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>src\platform</Filter>
     </ClCompile>
-    <ClCompile Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.cpp">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gwcEngine\Renderer\Cameras\PerspectiveCamera.cpp">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gwcEngine\Renderer\Material.cpp" />
-    <ClCompile Include="src\gwcEngine\Renderer\Shader\Buffer.cpp">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gwcEngine\Renderer\Shader\Shader.cpp">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gwcEngine\Renderer\Shader\VertexArray.cpp">
-      <Filter>src\gwcEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gwcEngine\Renderer\Shader\ShaderUniform.cpp" />
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ namespace gwcEngine
 
 	Mesh::Mesh(float* const& verts, std::size_t sizeV, BufferLayout layout, uint32_t* const& indicies, uint32_t sizeI)
 	{
-		m_VB.reset(VertexBuffer::Create(verts, sizeV));
+		m_VB.reset(VertexBuffer::Create(verts, (uint32_t)sizeV));
 		m_VB->SetLayout(layout);
 
 		m_IB.reset(IndexBuffer::Create(indicies, sizeI));

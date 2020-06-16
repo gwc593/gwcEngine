@@ -1,10 +1,4 @@
 #include<gwcEngine.h>
-
-//todo gwc - provide abstract methods to upload uniforms to the shader... this is a hack below
-//#include "platform/OpenGL/OpenGLShader.h"
-
-#include "platform/OpenGL/OpenGLUniforms/OpenGLUniforms.h"
-
 #include<glm/gtc/matrix_transform.hpp>
 
 glm::vec4 redColour = { 1.0f,0.0f,0.0f, 1.0f };
@@ -40,11 +34,11 @@ private:
 
 };
 
-class Target : public gwcEngine::Layer
+class World : public gwcEngine::Layer
 {
 public:
-	Target()
-		:Layer("Example"),
+	World()
+		:Layer("3DWorld"),
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 
 	{
@@ -114,22 +108,22 @@ public:
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::W)) {
 			glm::vec3 pos = m_Camera.GetPostion();
 			//Todo, move camera space not world space
-			m_Camera.SetPosition({ pos.x, pos.y , pos.z -= 1.0 * gwcEngine::Time::GetDeltaTime() });
+			m_Camera.SetPosition({ pos.x, pos.y , pos.z -= 1.0f * gwcEngine::Time::GetDeltaTime() });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::A)) {
 			glm::vec3 pos = m_Camera.GetPostion();
-			m_Camera.SetPosition({ pos.x -= 1.0 * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
+			m_Camera.SetPosition({ pos.x -= 1.0f * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::S)) {
 			glm::vec3 pos = m_Camera.GetPostion();
-			m_Camera.SetPosition({ pos.x, pos.y, pos.z += 1.0 * gwcEngine::Time::GetDeltaTime() });
+			m_Camera.SetPosition({ pos.x, pos.y, pos.z += 1.0f * gwcEngine::Time::GetDeltaTime() });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::D)) {
 			glm::vec3 pos = m_Camera.GetPostion();
-			m_Camera.SetPosition({ pos.x += 1.0 * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
+			m_Camera.SetPosition({ pos.x += 1.0f * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::E)) {
@@ -179,7 +173,7 @@ public:
 	{
 		gwcEngine::EventDispatcher dp(event);
 		//GE_TRACE(event.ToString());
-		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(Target::onClicked));
+		dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(World::onClicked));
 
 		return true;
 	}
@@ -193,8 +187,6 @@ private:
 	float m_camerRot = 0.0f;
 
 	gwcEngine::Mesh tri;
-
-
 };
 
 
@@ -204,7 +196,7 @@ class Sandbox : public gwcEngine::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new Target());
+		PushLayer(new World());
 	}
 
 	~Sandbox()

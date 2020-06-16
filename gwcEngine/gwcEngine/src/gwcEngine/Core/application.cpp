@@ -40,7 +40,7 @@ namespace gwcEngine {
 	void Application::Run()
 	{
 		RenderCommand::SetClearColour(glm::vec4(0.15,0.15,0.15,1));
-		float time;
+
 		while (m_Running) 
 		{
 			Time::BeginFrame();
