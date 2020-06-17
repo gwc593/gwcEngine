@@ -1,19 +1,19 @@
 #include<gwcEngine.h>
 #include"gwcEngine/core/EntryPoint.h"
 #include<glm/gtc/matrix_transform.hpp>
-#include "World.h"
+#include "Layers/World.h"
 
 //client side implementation of gwcEngine instance
-class Sandbox : public gwcEngine::Application
+class MainApp : public gwcEngine::Application
 {
 public:
-	Sandbox()
+	MainApp()
 	{
 		//gwcEngine::RenderCommand::SetVsync(false);
 		PushLayer(new World());
 	}
 
-	~Sandbox()
+	~MainApp()
 	{
 
 	}
@@ -22,5 +22,5 @@ public:
 //required by EntryPoint.h
 gwcEngine::Application* gwcEngine::CreateApplication()
 {
-	return new Sandbox();
+	return new MainApp();
 }

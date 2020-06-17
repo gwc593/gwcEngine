@@ -43,12 +43,15 @@ public:
 
 	bool onClicked(const gwcEngine::MouseButtonPressedEvent& e);
 
+	bool onSpaceBar(const gwcEngine::KeyPressedEvent& e);
+
 	bool OnEvent(gwcEngine::Event& event) override;
 
 private:
 	gwcEngine::PerspectiveCamera m_Camera;
 
-	std::shared_ptr<gwcEngine::Shader> m_UnlitColour;
+	std::shared_ptr<gwcEngine::Shader> m_UnlitColourShader;
+	gwcEngine::Material m_UnlitColour;
 
 	float m_squareRotation = 0.0f;
 	float m_camerRot = 0.0f;

@@ -67,7 +67,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 #pragma endregion
 
-		m_UnlitColour.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
+		m_UnlitColourShader.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
+		m_UnlitColour.SetShader(m_UnlitColourShader);
 	}
 
 	void World::CameraController()
@@ -104,18 +105,23 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		}
 
 	}
+	bool set = false;
 
 	void World::OnUpdate()
 	{
-		gwcEngine::Material flatGreen(m_UnlitColour);
+		
 		float t = gwcEngine::Time::GetTime();
 		float r = 0.5f * (glm::sin(t + 45.0f) + 1.0f);
 		float g = 0.5f * (glm::sin(0.333f * t) + 1.0f);
 		float b = 0.5f * (glm::sin(2.0f * t) + 1.0f);
-		flatGreen.SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 
-		//float fps = 1.0f / gwcEngine::Time::GetDeltaTime();
-		//GE_TRACE("FPS = {0}", fps);
+	
+		m_UnlitColour.SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
+	
+	    
+
+		float fps = 1.0f / gwcEngine::Time::GetDeltaTime();
+		GE_TRACE("FPS = {0}", fps);
 		CameraController();
 		
 
@@ -127,7 +133,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		gwcEngine::Renderer::BeginScene(m_Camera);
 
 		//m_UnlitColour->UploadUniformVec4("u_Colour", redColour);
-		gwcEngine::Renderer::Submit(tri.GetVertexArray(), m_UnlitColour);
+		gwcEngine::Renderer::Submit(tri.GetVertexArray(), m_UnlitColourShader);
 
 		gwcEngine::Renderer::EndScene();
 	}
@@ -141,11 +147,22 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		return false;
 	}
 
+	bool World::onSpaceBar(const gwcEngine::KeyPressedEvent& e)
+	{
+		if (e.GetKeyCode() == (int)gwcEngine::KeyCode::Space) {
+			gwcEngine::RenderCommand::SetVsync(!gwcEngine::RenderCommand::IsVsync());
+			return true;
+		}
+		return false;
+	}
+
 	bool World::OnEvent(gwcEngine::Event& event)
 	{
 		
 		gwcEngine::EventDispatcher dp(event);
-		event.Handled = dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(World::onClicked));
+		event.Handled |= dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(World::onClicked));
+		event.Handled |= dp.Dispatch<gwcEngine::KeyPressedEvent>(BIND_EVENT_FN(World::onSpaceBar));
+
 		//GE_TRACE(event.ToString());
 		return event.Handled;
 	}
