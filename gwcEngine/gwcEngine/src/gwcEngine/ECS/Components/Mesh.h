@@ -1,11 +1,14 @@
 #pragma once
+#include"gwcEngine/ECS/ECS.h"
 #include"gwcEngine/Renderer/Shader/VertexArray.h"
+
 namespace gwcEngine 
 {
 	class Mesh 
 	{
 	public:
 		Mesh();
+
 		Mesh(const std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<IndexBuffer>& ib);
 		Mesh(float* const& verts, std::size_t sizeV, BufferLayout layout, uint32_t* const& indicies, uint32_t sizeI);
 
@@ -18,8 +21,6 @@ namespace gwcEngine
 		void SetIndexBuffer(uint32_t* const& indicies, const uint32_t& sizeI);
 
 		void InitVertexArray();
-
-
 
 	private:
 		std::shared_ptr<VertexBuffer> m_VB;

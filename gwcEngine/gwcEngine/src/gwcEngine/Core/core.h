@@ -1,5 +1,5 @@
 #pragma once
-
+#include<memory>
 #ifdef GE_PLATFORM_WINDOWS
 	#ifdef GE_DYNAMIC_LINK
 		#ifdef GE_BUILD_DLL
@@ -27,3 +27,12 @@
 #define BIND_EVENT_GFN(x) std::bind(x, this, std::placeholders::_1)
 
 #define BIT(x) (1 << x)
+
+namespace gwcEngine
+{
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+}

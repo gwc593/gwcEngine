@@ -142,7 +142,6 @@
   <ItemGroup>
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\gwcEngine.h" />
-    <ClInclude Include="src\gwcEngine\Components\Mesh.h" />
     <ClInclude Include="src\gwcEngine\Core\EntryPoint.h" />
     <ClInclude Include="src\gwcEngine\Core\Input.h" />
     <ClInclude Include="src\gwcEngine\Core\KeyCodes.h" />
@@ -154,6 +153,11 @@
     <ClInclude Include="src\gwcEngine\Core\Window.h" />
     <ClInclude Include="src\gwcEngine\Core\application.h" />
     <ClInclude Include="src\gwcEngine\Core\core.h" />
+    <ClInclude Include="src\gwcEngine\ECS\Component.h" />
+    <ClInclude Include="src\gwcEngine\ECS\Components\Mesh.h" />
+    <ClInclude Include="src\gwcEngine\ECS\ECS.h" />
+    <ClInclude Include="src\gwcEngine\ECS\ECSTypes.h" />
+    <ClInclude Include="src\gwcEngine\ECS\Entity.h" />
     <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\gwcEngine\Events\Event.h" />
     <ClInclude Include="src\gwcEngine\Events\KeyEvent.h" />
@@ -593,13 +597,16 @@
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\gwcEngine\Components\Mesh.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Layer.cpp" />
     <ClCompile Include="src\gwcEngine\Core\LayerStack.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Log.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Time.cpp" />
     <ClCompile Include="src\gwcEngine\Core\Window.cpp" />
     <ClCompile Include="src\gwcEngine\Core\application.cpp" />
+    <ClCompile Include="src\gwcEngine\ECS\Component.cpp" />
+    <ClCompile Include="src\gwcEngine\ECS\Components\Mesh.cpp" />
+    <ClCompile Include="src\gwcEngine\ECS\ECS.cpp" />
+    <ClCompile Include="src\gwcEngine\ECS\Entity.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\Cameras\PerspectiveCamera.cpp" />
     <ClCompile Include="src\gwcEngine\Renderer\Material.cpp" />

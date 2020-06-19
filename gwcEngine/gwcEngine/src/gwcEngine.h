@@ -8,7 +8,7 @@
 
 //Entity component System
 //temp
-#include"gwcEngine/Components/Mesh.h"
+
 
 #include "gwcEngine/Core/Time.h"
 
@@ -32,7 +32,9 @@
 #include "gwcEngine/Events/KeyEvent.h"
 #include "gwcEngine/Events/MouseEvent.h"
 
-//models 
+//ECS
+#include "gwcEngine/ECS/ECS.h"
+#include"gwcEngine/ECS/Components/Mesh.h"
 
 //TODO, prevent double main inclusion.
 // !!!!!!!!! Entry point !!!!!!

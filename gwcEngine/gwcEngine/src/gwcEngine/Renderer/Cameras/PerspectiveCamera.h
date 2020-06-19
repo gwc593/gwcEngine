@@ -26,8 +26,8 @@ namespace gwcEngine
 
 		inline void SetPosition(const glm::vec3& position) { m_Position = position; CalculateViewMatrix(); }
 
-		inline void SetRotation(const glm::vec3& eulerRotation);
-		inline void SetRotation(glm::quat rotation);
+		void SetRotation(const glm::vec3& eulerRotation);
+		void SetRotation(glm::quat rotation);
 
 		inline const glm::vec3& GetPostion() const { return m_Position; }
 		inline glm::quat GetRotation() const;

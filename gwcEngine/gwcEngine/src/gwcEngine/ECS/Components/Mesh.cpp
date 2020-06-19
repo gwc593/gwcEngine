@@ -32,7 +32,7 @@ namespace gwcEngine
 
 	}
 
-	void Mesh::SetVertexBuffer(float* const& verts,const uint32_t sizeV, BufferLayout layout)
+	void Mesh::SetVertexBuffer(float* const& verts, const uint32_t sizeV, BufferLayout layout)
 	{
 		m_VB.reset(VertexBuffer::Create(verts, sizeV));
 		m_VB->SetLayout(layout);

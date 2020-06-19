@@ -7,9 +7,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	World::World()
 		:Layer("3DWorld"),
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
-
 	{
 
+
+		
 
 #pragma region TriangleMeshData
 		float vertices[3 * 3] = {
@@ -19,6 +20,15 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 				0.0f, 1.0f, 0.0f
 		};
 
+		class junk
+		{
+		public:
+			float x = 3.1415;
+			std::string name = "this is junk.";
+		};
+
+		gwcEngine::Component<junk> test;
+		gwcEngine::Component<junk> test2;
 
 		gwcEngine::BufferLayout layout = {
 			{gwcEngine::ShaderDataType::Float3, "a_Position"}
@@ -31,6 +41,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		tri.SetVertexBuffer(vertices, sizeof(vertices), layout);
 		tri.SetIndexBuffer(indices, 3);
+		test1.m_CompRef->SetVertexBuffer(vertices, sizeof(vertices), layout);
+		test1.m_CompRef->SetIndexBuffer(indices, 3);
 
 #pragma region unlitFlatShaderSrc
 		//create a basic shader
@@ -96,12 +108,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::E)) {
 			m_camerRot -= 1.0f * gwcEngine::Time::GetDeltaTime();
-			m_Camera.SetRotation(glm::vec3(0, m_camerRot, 0));
+			m_Camera.SetRotation({ 0, m_camerRot, 0 });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::Q)) {
 			m_camerRot += 1.0f * gwcEngine::Time::GetDeltaTime();
-			m_Camera.SetRotation(glm::vec3(0, m_camerRot, 0));
+			m_Camera.SetRotation({ 0, m_camerRot, 0 });
 		}
 
 	}
@@ -132,8 +144,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		gwcEngine::Renderer::BeginScene(m_Camera);
 
-		//m_UnlitColour->UploadUniformVec4("u_Colour", redColour);
-		gwcEngine::Renderer::Submit(tri.GetVertexArray(), m_UnlitColourShader);
+		//gwcEngine::Renderer::Submit(tri.GetVertexArray(), m_UnlitColourShader);
+		gwcEngine::Renderer::Submit(test1.m_CompRef->GetVertexArray(), m_UnlitColourShader);
 
 		gwcEngine::Renderer::EndScene();
 	}

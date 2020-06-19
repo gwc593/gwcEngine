@@ -5,6 +5,8 @@
 #include<memory>
 #include<bitset>
 #include<array>
+#include<queue>
+#include<deque>
 #include<utility>
 #include<algorithm>
 #include<functional>

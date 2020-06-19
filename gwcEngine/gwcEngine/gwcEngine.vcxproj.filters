@@ -7,11 +7,14 @@
     <Filter Include="src\gwcEngine">
       <UniqueIdentifier>{339A3C50-9F5A-B886-6895-0104D414FD62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\gwcEngine\Components">
-      <UniqueIdentifier>{68D990B6-54FE-DF36-7D49-C5C669CDDE54}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\gwcEngine\Core">
       <UniqueIdentifier>{6B169D8A-57FA-5DE0-C05A-5833AC5D4862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gwcEngine\ECS">
+      <UniqueIdentifier>{FD6FAFF4-6986-AD8A-B2FD-38AC1E537E12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gwcEngine\ECS\Components">
+      <UniqueIdentifier>{F23C7C8C-DEF7-6B38-87AF-E4827349B6C8}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\gwcEngine\Events">
       <UniqueIdentifier>{B76E5EAB-A3FD-E774-4C1C-FC6F388AF81A}</UniqueIdentifier>
@@ -63,9 +66,6 @@
     <ClInclude Include="src\gwcEngine.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\Components\Mesh.h">
-      <Filter>src\gwcEngine\Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\EntryPoint.h">
       <Filter>src\gwcEngine\Core</Filter>
     </ClInclude>
@@ -98,6 +98,18 @@
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Core\core.h">
       <Filter>src\gwcEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\ECS\Component.h">
+      <Filter>src\gwcEngine\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\ECS\Components\Mesh.h">
+      <Filter>src\gwcEngine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\ECS\ECS.h">
+      <Filter>src\gwcEngine\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gwcEngine\ECS\Entity.h">
+      <Filter>src\gwcEngine\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h">
       <Filter>src\gwcEngine\Events</Filter>
@@ -1401,13 +1413,11 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\ECS\ECSTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gwcEngine\Components\Mesh.cpp">
-      <Filter>src\gwcEngine\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Core\Layer.cpp">
       <Filter>src\gwcEngine\Core</Filter>
@@ -1426,6 +1436,15 @@
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Core\application.cpp">
       <Filter>src\gwcEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\ECS\Component.cpp">
+      <Filter>src\gwcEngine\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\ECS\Components\Mesh.cpp">
+      <Filter>src\gwcEngine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\ECS\Entity.cpp">
+      <Filter>src\gwcEngine\ECS</Filter>
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.cpp">
       <Filter>src\gwcEngine\Renderer\Cameras</Filter>
@@ -1481,5 +1500,6 @@
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>src\platform</Filter>
     </ClCompile>
+    <ClCompile Include="src\gwcEngine\ECS\ECS.cpp" />
   </ItemGroup>
 </Project>

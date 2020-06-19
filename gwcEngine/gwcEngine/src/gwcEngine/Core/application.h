@@ -5,6 +5,9 @@
 #include"gwcEngine/Events/Event.h"
 #include"gwcEngine/Events/ApplicationEvent.h"
 
+//ECS DEV WIP
+#include"gwcEngine/ECS/ECS.h"
+
 #include "Time.h"
 
 namespace gwcEngine {
@@ -12,7 +15,7 @@ namespace gwcEngine {
 	class GE_API Application
 	{
 	public:
-
+		ECSManager* m_ECSManager;
 	public:
 		Application();
 		virtual ~Application();
