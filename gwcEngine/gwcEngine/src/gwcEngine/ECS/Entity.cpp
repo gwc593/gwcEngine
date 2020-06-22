@@ -3,28 +3,27 @@
 
 namespace gwcEngine
 {
-	bool Entity::m_init = false;
+	bool EntityManager::m_init = false;
 
-	std::queue<EntityID> Entity::m_AvailableIDs{};
+	std::queue<EntityID> EntityManager::s_AvailableIDs{};
 
-	std::unordered_map<std::string, EntityID> Entity::m_Entities{};
 
-	Entity::Entity()
+	Entity::Entity(const std::string& name)
 	{
-		m_ID = m_AvailableIDs.front();
-		m_AvailableIDs.pop();
+		m_ID = EntityManager::GetNextID();
+		m_Name = name;
 	}
 
 	Entity::~Entity()
 	{
-		m_AvailableIDs.push(m_ID);
+		EntityManager::DestroyEntity(*this);
 	}
 
-	void Entity::Init()
+	void EntityManager::Init()
 	{
 		if (!m_init) {
 			for (EntityID ent = 0; ent < MAX_ENTITIES; ent++) {
-				m_AvailableIDs.push(ent);
+				s_AvailableIDs.push(ent);
 			}
 			m_init = true;
 		}

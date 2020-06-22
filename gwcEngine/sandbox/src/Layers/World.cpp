@@ -8,18 +8,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		:Layer("3DWorld"),
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 	{
-
-
-		
-
-#pragma region TriangleMeshData
-		float vertices[3 * 3] = {
-			// -----Position-----  
-				-0.5f, 0.0f, 0.0f,
-				0.5f, 0.0, 0.0f,
-				0.0f, 1.0f, 0.0f
-		};
-
+		//testing entity component system
 		class junk
 		{
 		public:
@@ -34,6 +23,38 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			{gwcEngine::ShaderDataType::Float3, "a_Position"}
 		};
 
+		gwcEngine::Ref<gwcEngine::Entity> testEntA = m_EntityManager.CreateEntity("TestEntityA");
+		gwcEngine::Ref<gwcEngine::Entity> testEntB = m_EntityManager.CreateEntity("TestEntityB");
+		gwcEngine::Ref<gwcEngine::Entity> testEntC = m_EntityManager.CreateEntity("TestEntityC");
+		gwcEngine::Ref<gwcEngine::Entity> testEntD = m_EntityManager.CreateEntity("TestEntityD");
+
+		m_ComponentManager.AddComponent<gwcEngine::Mesh>(testEntA);
+		m_ComponentManager.AddComponent<gwcEngine::Mesh>(testEntB);
+		m_ComponentManager.AddComponent<gwcEngine::Mesh>(testEntC);
+		m_ComponentManager.AddComponent<gwcEngine::Mesh>(testEntD);
+
+		m_ComponentManager.AddComponent<gwcEngine::Transform>(testEntA);
+		m_ComponentManager.AddComponent<gwcEngine::Transform>(testEntB);
+		m_ComponentManager.AddComponent<gwcEngine::Transform>(testEntC);
+		m_ComponentManager.AddComponent<gwcEngine::Transform>(testEntD);
+
+
+		m_ComponentManager.RemoveComponent<gwcEngine::Mesh>(testEntC);
+
+
+		//m_ComponentManager.<gwcEngine::Mesh>(testEnt);
+
+		// end testing entity component system
+
+		
+
+#pragma region TriangleMeshData
+		float vertices[3 * 3] = {
+			// -----Position-----  
+				-0.5f, 0.0f, 0.0f,
+				0.5f, 0.0, 0.0f,
+				0.0f, 1.0f, 0.0f
+		};
 
 		uint32_t indices[3] = { 0,1,2 };
 
@@ -129,11 +150,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	
 		m_UnlitColour.SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
-	
-	    
-
-		float fps = 1.0f / gwcEngine::Time::GetDeltaTime();
-		GE_TRACE("FPS = {0}", fps);
 		CameraController();
 		
 

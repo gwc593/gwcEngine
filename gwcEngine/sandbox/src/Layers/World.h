@@ -35,8 +35,6 @@ private:
 class World : public gwcEngine::Layer
 {
 public:
-	gwcEngine::Entity testEnt;
-public:
 	World();
 
 	void CameraController();
@@ -60,5 +58,8 @@ private:
 
 	gwcEngine::Mesh tri;
 	gwcEngine::Component<gwcEngine::Mesh> test1;
+
+	gwcEngine::EntityManager m_EntityManager;
+	gwcEngine::ComponentManager m_ComponentManager;
 };
 

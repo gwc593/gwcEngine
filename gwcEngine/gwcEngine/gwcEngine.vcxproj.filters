@@ -1414,6 +1414,7 @@
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
     <ClInclude Include="src\gwcEngine\ECS\ECSTypes.h" />
+    <ClInclude Include="src\gwcEngine\ECS\Components\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">

@@ -29,7 +29,7 @@ namespace gwcEngine
 
 		ECSManager()
 		{
-			Entity::Init();
+			EntityManager::Init();
 		}
 	};
 

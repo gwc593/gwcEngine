@@ -155,6 +155,7 @@
     <ClInclude Include="src\gwcEngine\Core\core.h" />
     <ClInclude Include="src\gwcEngine\ECS\Component.h" />
     <ClInclude Include="src\gwcEngine\ECS\Components\Mesh.h" />
+    <ClInclude Include="src\gwcEngine\ECS\Components\Transform.h" />
     <ClInclude Include="src\gwcEngine\ECS\ECS.h" />
     <ClInclude Include="src\gwcEngine\ECS\ECSTypes.h" />
     <ClInclude Include="src\gwcEngine\ECS\Entity.h" />

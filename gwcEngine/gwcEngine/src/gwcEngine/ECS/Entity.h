@@ -7,32 +7,72 @@ namespace gwcEngine
 	class Entity
 	{
 	public:
-		Entity();
+		Entity(const std::string& name);
 		~Entity();
 
-		Signature GetSignature() { return m_Signature; }
+		Signature GetSignature() const  { return m_Signature; }
 		void SetSignature(Signature signature) { m_Signature = signature; }
 
+		const std::string& GetName() const { return m_Name; }
+
+		EntityID GetID()const{return m_ID;}
 		void Destroy();
 
-		template<typename T>
-		void AddComponent();
-
-		template<typename T>
-		T& GetComponent();
+		//Todo - allow an entity to add a component to itself?
 	
 	public:
-		static void Init();
-		static Entity& FindEntity(EntityID id);
+
 
 	private:
 		EntityID m_ID;
 		Signature m_Signature;
 		std::string m_Name;
 
-		static std::queue<EntityID> m_AvailableIDs;
-		static std::unordered_map<std::string, EntityID> m_Entities;
-		static bool m_init;
+
 	};
 
+
+	class EntityManager
+	{
+	public:
+		EntityManager() = default;
+
+		static void Init();
+
+		Entity& FindEntity(const std::string& name)
+		{
+			auto search = m_Entities.find(name);
+
+			if (search == m_Entities.end()) {
+				return *(Entity*)nullptr;
+			}
+
+			return *(search->second);
+		}
+
+		static EntityID& GetNextID()
+		{
+			EntityID nextID = s_AvailableIDs.front();
+			EntityManager::s_AvailableIDs.pop();
+			return nextID;
+		}
+
+		static void DestroyEntity(const Entity& entity)
+		{
+			EntityManager::s_AvailableIDs.push(entity.GetID());
+		}
+
+		Ref<Entity> CreateEntity(const std::string& name)
+		{
+			Ref<Entity> entity{ new Entity(name) };	
+
+			m_Entities.emplace(std::pair(entity->GetName(), entity));
+			return entity;
+		}
+
+	private:
+		static std::queue<EntityID> s_AvailableIDs;
+		std::unordered_map<std::string, Ref<Entity>> m_Entities;
+		static bool m_init;
+	};
 }
