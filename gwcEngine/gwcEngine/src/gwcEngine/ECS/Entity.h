@@ -57,7 +57,7 @@ namespace gwcEngine
 			return nextID;
 		}
 
-		static void DestroyEntity(const Entity& entity)
+		static void DestroyEntity(Entity& entity)
 		{
 			EntityManager::s_AvailableIDs.push(entity.GetID());
 		}

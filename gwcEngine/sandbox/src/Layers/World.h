@@ -19,8 +19,6 @@ public:
 		return ss.str();
 	}
 
-
-
 	//EVENT_CLASS_TYPE(None)
 	//TODO gwc: Get the above macro working for custom events.
 	static gwcEngine::EventType GetStaticType() { return gwcEngine::EventType::None; }
@@ -57,7 +55,7 @@ private:
 	float m_camerRot = 0.0f;
 
 	gwcEngine::Mesh tri;
-	gwcEngine::Component<gwcEngine::Mesh> test1;
+	gwcEngine::Ref<gwcEngine::Entity> triangleEntity;
 
 	gwcEngine::EntityManager m_EntityManager;
 	gwcEngine::ComponentManager m_ComponentManager;

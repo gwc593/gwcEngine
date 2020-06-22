@@ -32,7 +32,8 @@ namespace gwcEngine
 		}
 
 		virtual ~Component() = default;
-
+		T& GetComponent() { return *m_CompRef; }
+	private:
 		Ref<T> m_CompRef;
 	};
 
@@ -54,7 +55,7 @@ namespace gwcEngine
 		ComponentArray() = default;
 
 		//method that returns a component assigned to an entity
-		Component<T>& GetComponent(const Ref<Entity>& entity)
+		Ref<Component<T>> GetComponent(const Ref<Entity>& entity)
 		{
 			return m_CompArray[m_EntToArr[entity]];
 		}
@@ -145,7 +146,7 @@ namespace gwcEngine
 		}
 
 		template<typename T, typename... TArgs>
-		void AddComponent(Ref<Entity>entity, TArgs&&... mArgs) noexcept
+		T& AddComponent(Ref<Entity>entity, TArgs&&... mArgs) noexcept
 		{
 			//find component component array
 			auto search = m_ArrayOfComponentArrays.find(typeid(T).name());
@@ -166,10 +167,12 @@ namespace gwcEngine
 			Signature sig = entity->GetSignature();
 			sig[_component->GetID()] = true;
 			entity->SetSignature(sig);	
+
+			return _component->GetComponent();
 		}
 
 		template<typename T>
-		void RemoveComponent(Ref<Entity>entity) noexcept
+		void RemoveComponent(Ref<Entity> entity) noexcept
 		{
 			auto search = m_ArrayOfComponentArrays.find(typeid(T).name());
 
@@ -183,6 +186,20 @@ namespace gwcEngine
 			entity->SetSignature(sig);
 		}
 
+		template<typename T>
+		T& GetComponent(const Ref<Entity>& entity) noexcept
+		{
+			auto compArr = m_ArrayOfComponentArrays.find(typeid(T).name());
+
+			if (compArr == m_ArrayOfComponentArrays.end()) {
+				GE_CORE_WARN("{0} does not have component {1}", entity->GetName(), typeid(T).name());
+				return *(T*)nullptr;
+			}
+
+			auto comptContainer = (std::dynamic_pointer_cast<ComponentArray<T>>(compArr->second)->GetComponent(entity));
+
+			return comptContainer->GetComponent();
+		}
 	protected:
 
 
