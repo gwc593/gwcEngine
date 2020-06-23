@@ -27,7 +27,7 @@ namespace gwcEngine
 			(*it)->SetValue(value);
 		};
 
-
+		const std::shared_ptr<Shader>& GetShader() const { return m_Shader; }
 
 	private:
 		std::shared_ptr<Shader> m_Shader;

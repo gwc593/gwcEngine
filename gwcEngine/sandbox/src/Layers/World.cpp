@@ -10,13 +10,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	{
 	
 		//entity and components
-		triangleEntity = m_EntityManager.CreateEntity("TestEntityA");
+		triangleEntity = ECS_Manager.CreateEntity("TestEntityA");
 
-		auto triMesh = m_ComponentManager.AddComponent<gwcEngine::Mesh>(triangleEntity);
-		m_ComponentManager.AddComponent<gwcEngine::Transform>(triangleEntity);
-		auto t_mat = m_ComponentManager.AddComponent<gwcEngine::Material>(triangleEntity);
+		auto triMesh = ECS_Manager.AddComponent<gwcEngine::Mesh>(triangleEntity);
+		ECS_Manager.AddComponent<gwcEngine::Transform>(triangleEntity);
+		auto t_mat = ECS_Manager.AddComponent<gwcEngine::Material>(triangleEntity);
 
-		triangleEntity->Destroy();
 
 #pragma region TriangleMeshData
 		gwcEngine::BufferLayout layout = {
@@ -110,7 +109,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		}
 
 	}
-	bool set = false;
 
 	void World::OnUpdate()
 	{
@@ -125,12 +123,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		CameraController();
 
 		gwcEngine::RenderCommand::Clear();
-
-
 		gwcEngine::Renderer::BeginScene(m_Camera);
-
-		gwcEngine::Renderer::Submit(m_ComponentManager.GetComponent<gwcEngine::Mesh>(triangleEntity).GetVertexArray(), m_UnlitColourShader);
-		//gwcEngine::Renderer::Submit(test1.m_CompRef->GetVertexArray(), m_UnlitColourShader);
+		gwcEngine::Renderer::Submit(ECS_Manager.GetComponent<gwcEngine::Mesh>(triangleEntity).GetVertexArray(), m_UnlitColourShader);
 
 		gwcEngine::Renderer::EndScene();
 	}

@@ -16,7 +16,7 @@ namespace gwcEngine
 
 	Entity::~Entity()
 	{
-		EntityManager::DestroyEntity(*this);
+
 	}
 
 	void EntityManager::Init()
@@ -29,10 +29,6 @@ namespace gwcEngine
 		}
 	}
 
-	void Entity::Destroy()
-	{
-		this->~Entity();
-	}
 }
 
 

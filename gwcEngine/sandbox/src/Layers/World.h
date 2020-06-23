@@ -57,7 +57,6 @@ private:
 	gwcEngine::Mesh tri;
 	gwcEngine::Ref<gwcEngine::Entity> triangleEntity;
 
-	gwcEngine::EntityManager m_EntityManager;
-	gwcEngine::ComponentManager m_ComponentManager;
+	gwcEngine::ECSLayerManager ECS_Manager;
 };
 

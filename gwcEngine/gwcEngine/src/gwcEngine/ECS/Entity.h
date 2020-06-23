@@ -6,6 +6,7 @@ namespace gwcEngine
 	
 	class Entity
 	{
+		
 	public:
 		Entity(const std::string& name);
 		~Entity();
@@ -16,7 +17,6 @@ namespace gwcEngine
 		const std::string& GetName() const { return m_Name; }
 
 		EntityID GetID()const{return m_ID;}
-		void Destroy();
 
 		//Todo - allow an entity to add a component to itself?
 	
@@ -34,6 +34,8 @@ namespace gwcEngine
 
 	class EntityManager
 	{
+	friend class Entity;
+
 	public:
 		EntityManager() = default;
 
@@ -50,15 +52,9 @@ namespace gwcEngine
 			return *(search->second);
 		}
 
-		static EntityID& GetNextID()
+		void DestroyEntity(Entity& entity)
 		{
-			EntityID nextID = s_AvailableIDs.front();
-			EntityManager::s_AvailableIDs.pop();
-			return nextID;
-		}
-
-		static void DestroyEntity(Entity& entity)
-		{
+			m_Entities.erase( entity.GetName());
 			EntityManager::s_AvailableIDs.push(entity.GetID());
 		}
 
@@ -74,5 +70,13 @@ namespace gwcEngine
 		static std::queue<EntityID> s_AvailableIDs;
 		std::unordered_map<std::string, Ref<Entity>> m_Entities;
 		static bool m_init;
+
+	private:
+		static EntityID& GetNextID()
+		{
+			EntityID nextID = s_AvailableIDs.front();
+			EntityManager::s_AvailableIDs.pop();
+			return nextID;
+		}
 	};
 }

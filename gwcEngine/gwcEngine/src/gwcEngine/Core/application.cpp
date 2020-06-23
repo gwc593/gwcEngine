@@ -18,7 +18,7 @@ namespace gwcEngine {
 
 		s_Instance = this;
 
-		m_ECSManager = ECSManager::GetInstance();
+		m_ECSManager = ECSGlobalManager::GetInstance();
 		
 	}
 

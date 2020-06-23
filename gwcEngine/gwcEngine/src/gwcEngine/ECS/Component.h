@@ -28,7 +28,7 @@ namespace gwcEngine
 			:
 			m_CompRef(new T(std::forward<TArgs>(mArgs)...))
 		{
-			m_ID = ComponentManager::RegisterCompType(typeid(T).name());
+			m_ID = ComponentManager::RegisterCompType<T>();
 		}
 
 		virtual ~Component() = default;
@@ -119,11 +119,12 @@ namespace gwcEngine
 		ComponentManager() = default;
 
 		//static global behavior
-		static ComponentID GetNextID() { return ComponentManager::s_NextID++; }
 
-		static ComponentID FindID(const std::string& typeName)
+
+		template<typename T>
+		static ComponentID FindID()
 		{
-			auto search = s_ComponentIDs.find(typeName);
+			auto search = s_ComponentIDs.find(typeid(T).name());
 
 			if (search == s_ComponentIDs.end()) {
 				return NullComponentID;
@@ -132,19 +133,20 @@ namespace gwcEngine
 			return search->second;
 		}
 
-		static ComponentID RegisterCompType(const std::string& typeName)
+		template<typename T>
+		static ComponentID RegisterCompType()
 		{
-			auto search = ComponentManager::s_ComponentIDs.find(typeName);
+			auto search = ComponentManager::s_ComponentIDs.find(typeid(T).name());
 
 			if (search == ComponentManager::s_ComponentIDs.end()) {
 				auto newID = ComponentManager::GetNextID();
-				ComponentManager::s_ComponentIDs.emplace(std::pair(typeName, newID));
+				ComponentManager::s_ComponentIDs.emplace(std::pair(typeid(T).name(), newID));
 				return newID;
 			}
 
 			return search->second;
 		}
-
+		
 		template<typename T, typename... TArgs>
 		T& AddComponent(Ref<Entity>entity, TArgs&&... mArgs) noexcept
 		{
@@ -200,10 +202,12 @@ namespace gwcEngine
 
 			return comptContainer->GetComponent();
 		}
-	protected:
+
 
 
 	private:
+		static ComponentID GetNextID() { return ComponentManager::s_NextID++; }
+
 		//list of component types against their IDs
 		static std::unordered_map<std::string, ComponentID> s_ComponentIDs;
 

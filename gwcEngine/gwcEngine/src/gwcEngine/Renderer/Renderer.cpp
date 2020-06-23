@@ -39,4 +39,19 @@ namespace gwcEngine
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 	}
+
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const Material& material, const glm::mat4 transform)
+	{
+		const Ref<Shader>& shader = material.GetShader();
+		shader->Bind();
+		//Todo - should only update the view matrix to the shader once per frame, currently its being uploaded once per draw.
+		shader->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+
+		//upload entities transform
+		shader->UploadUniformMat4("u_Transform", transform);
+
+
+		vertexArray->Bind();
+		RenderCommand::DrawIndexed(vertexArray);
+	}
 }

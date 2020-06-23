@@ -159,6 +159,8 @@
     <ClInclude Include="src\gwcEngine\ECS\ECS.h" />
     <ClInclude Include="src\gwcEngine\ECS\ECSTypes.h" />
     <ClInclude Include="src\gwcEngine\ECS\Entity.h" />
+    <ClInclude Include="src\gwcEngine\ECS\System.h" />
+    <ClInclude Include="src\gwcEngine\ECS\Systems\RendererECS.h" />
     <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\gwcEngine\Events\Event.h" />
     <ClInclude Include="src\gwcEngine\Events\KeyEvent.h" />
@@ -638,4 +640,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project>
+</Project> 

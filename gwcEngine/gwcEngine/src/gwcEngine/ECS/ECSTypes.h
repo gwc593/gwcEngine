@@ -11,4 +11,8 @@ namespace gwcEngine
 	using EntityID = uint32_t;
 	const EntityID MAX_ENTITIES = 5000;
 	using Signature = std::bitset<MAX_COMPONENTS>;
+
+	//System constraints
+	using SystemID = uint32_t;
+	const EntityID MAX_SYSTEMS = 100;
 }
