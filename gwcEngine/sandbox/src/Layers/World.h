@@ -49,13 +49,11 @@ private:
 	gwcEngine::PerspectiveCamera m_Camera;
 
 	std::shared_ptr<gwcEngine::Shader> m_UnlitColourShader;
-	gwcEngine::Material m_UnlitColour;
 
 	float m_squareRotation = 0.0f;
 	float m_camerRot = 0.0f;
 
-	gwcEngine::Mesh tri;
-	gwcEngine::Ref<gwcEngine::Entity> triangleEntity;
+	gwcEngine::Ref<gwcEngine::Entity> CubeEntity;
 
 	gwcEngine::ECSLayerManager m_ECS_Manager;
 };

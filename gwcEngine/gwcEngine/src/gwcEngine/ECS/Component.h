@@ -158,8 +158,8 @@ namespace gwcEngine
 			
 			//if component array does not exist within the array of component arrays, make it and add it.
 			if (search == m_ArrayOfComponentArrays.end()){
-				Ref<ComponentArray<T>> arrRef{ new ComponentArray<T>() };
-				std::dynamic_pointer_cast<ComponentArray<T>>(arrRef)->AddEntity(entity, _component);
+				auto arrRef{ new ComponentArray<T>() };
+				arrRef->AddEntity(entity, _component);
 				m_ArrayOfComponentArrays.emplace(std::pair(typeid(T).name(), arrRef));
 			}
 			else {

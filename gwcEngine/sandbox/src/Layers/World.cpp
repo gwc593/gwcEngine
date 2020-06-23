@@ -13,30 +13,47 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_ECS_Manager.RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(rendSys));
 
 
-		triangleEntity = m_ECS_Manager.CreateEntity("TestEntityA");
-		auto triMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(triangleEntity);
-		m_ECS_Manager.AddComponent<gwcEngine::Transform>(triangleEntity);
-		auto t_Mat = m_ECS_Manager.AddComponent<gwcEngine::Material>(triangleEntity);
+		CubeEntity = m_ECS_Manager.CreateEntity("Cube");
+		auto& triMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(CubeEntity);
+		auto& transform = m_ECS_Manager.AddComponent<gwcEngine::Transform>(CubeEntity);
+		auto& t_Mat = m_ECS_Manager.AddComponent<gwcEngine::Material>(CubeEntity);
+		//TODO add camera reference.
 
 
-#pragma region TriangleMeshData
+#pragma region CubeMeshData
 		gwcEngine::BufferLayout layout = {
 			{gwcEngine::ShaderDataType::Float3, "a_Position"}};
 
-		float vertices[3 * 3] = {
-			// -----Position-----  
-				-0.5f, 0.0f, 0.0f,
-				0.5f, 0.0, 0.0f,
-				0.0f, 1.0f, 0.0f
+		float vertices[8 * 3] = {
+		// -----Position-----// -- normal-------- 
+			1.0f, 1.0f, 1.0f,     
+			0.0f, 1.0f, 1.0f,     
+			0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, 0.0f,
+			0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+			1.0f, 0.0f, 0.0f
 		};
 
-		uint32_t indices[3] = { 0,1,2 };
+		uint32_t indices[6 * 3 * 2] = { 0,1,2,
+			0,2,3,
+			4,1,0,
+			4,5,1,
+			4,5,6,
+			4,6,7,
+			1,5,6,
+			1,6,2,
+			0,3,7,
+			4,0,7,
+			7,6,2,
+			7,2,3 };
 
 #pragma endregion
 
 
 		triMesh.SetVertexBuffer(vertices, sizeof(vertices), layout);
-		triMesh.SetIndexBuffer(indices, 3);
+		triMesh.SetIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
 
 #pragma region unlitFlatShaderSrc
 		//create a basic shader
@@ -74,7 +91,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 #pragma endregion
 
 		m_UnlitColourShader.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
-		m_UnlitColour.SetShader(m_UnlitColourShader);
 
 		t_Mat.SetShader(m_UnlitColourShader);
 
@@ -113,38 +129,42 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			m_Camera.SetRotation({ 0, m_camerRot, 0 });
 		}
 
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::R)) {
+			glm::vec3 pos = m_Camera.GetPostion();
+			m_Camera.SetPosition({ pos.x, pos.y += 1.0f * gwcEngine::Time::GetDeltaTime() , pos.z });
+		}
+
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::F)) {
+			glm::vec3 pos = m_Camera.GetPostion();
+			m_Camera.SetPosition({ pos.x, pos.y -= 1.0f * gwcEngine::Time::GetDeltaTime() , pos.z });
+		}
+
 	}
 
 	void World::OnUpdate()
 	{
-		
+
+		//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime();
 		float r = 0.5f * (glm::sin(t + 45.0f) + 1.0f);
 		float g = 0.5f * (glm::sin(0.333f * t) + 1.0f);
 		float b = 0.5f * (glm::sin(2.0f * t) + 1.0f);
 
-		auto material = m_ECS_Manager.GetComponent<gwcEngine::Material>(triangleEntity);
-
-
-		//TODO NOW! shouldn't need to re-add shader to material, seems to be a local copy rather than that stored in the component array...
-		material.SetShader(m_UnlitColourShader);
-
+		auto& material = m_ECS_Manager.GetComponent<gwcEngine::Material>(CubeEntity);
 		material.SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 	
+		//move camera (should have ECS control) - TODO
 		CameraController();
 
+		//TODO these should be in the rendererECS
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::BeginScene(m_Camera);
 
-		//m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
+		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
 
-		auto mesh = m_ECS_Manager.GetComponent<gwcEngine::Mesh>(triangleEntity);
+		auto& mesh = m_ECS_Manager.GetComponent<gwcEngine::Mesh>(CubeEntity);
 
-		
-		//gwcEngine::Renderer::Submit(mesh.GetVertexArray(), m_UnlitColourShader);
-
-
-		gwcEngine::Renderer::Submit(mesh.GetVertexArray(),material.GetShader());
+		//gwcEngine::Renderer::Submit(mesh.GetVertexArray(),material.GetShader());
 
 		gwcEngine::Renderer::EndScene();
 	}
