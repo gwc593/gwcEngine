@@ -14,6 +14,22 @@ namespace gwcEngine
 			:m_ECSManager(manager)
 		{
 			m_name = name;
+			RegisterRequiredComponents();
+			InitSignature();
+		}
+
+		virtual void RegisterRequiredComponents() override
+		{
+			m_ECSManager.RegisterCompType<gwcEngine::Material>();
+			m_ECSManager.RegisterCompType<gwcEngine::Mesh>();
+			m_ECSManager.RegisterCompType<gwcEngine::Transform>();
+		}
+
+		virtual void InitSignature() override
+		{
+			m_Signature[m_ECSManager.FindComponentID<gwcEngine::Material>()] = true;
+			m_Signature[m_ECSManager.FindComponentID<gwcEngine::Mesh>()] = true;
+			m_Signature[m_ECSManager.FindComponentID<gwcEngine::Transform>()] = true;
 		}
 
 		virtual ~RendererECS() = default;

@@ -55,7 +55,7 @@ namespace gwcEngine
 		ComponentArray() = default;
 
 		//method that returns a component assigned to an entity
-		Ref<Component<T>> GetComponent(const Ref<Entity>& entity)
+		Ref<Component<T>>& GetComponent(const Ref<Entity>& entity)
 		{
 			return m_CompArray[m_EntToArr[entity]];
 		}
@@ -198,7 +198,7 @@ namespace gwcEngine
 				return *(T*)nullptr;
 			}
 
-			auto comptContainer = (std::dynamic_pointer_cast<ComponentArray<T>>(compArr->second)->GetComponent(entity));
+			auto comptContainer = (std::dynamic_pointer_cast<ComponentArray<T>>(compArr->second))->GetComponent(entity);
 
 			return comptContainer->GetComponent();
 		}

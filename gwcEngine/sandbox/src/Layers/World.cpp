@@ -8,13 +8,15 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		:Layer("3DWorld"),
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 	{
-	
-		//entity and components
-		triangleEntity = ECS_Manager.CreateEntity("TestEntityA");
+		//entity and components and systems
+		gwcEngine::Ref<gwcEngine::RendererECS> rendSys{ new gwcEngine::RendererECS("3dRenderer",m_ECS_Manager) };
+		m_ECS_Manager.RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(rendSys));
 
-		auto triMesh = ECS_Manager.AddComponent<gwcEngine::Mesh>(triangleEntity);
-		ECS_Manager.AddComponent<gwcEngine::Transform>(triangleEntity);
-		auto t_mat = ECS_Manager.AddComponent<gwcEngine::Material>(triangleEntity);
+
+		triangleEntity = m_ECS_Manager.CreateEntity("TestEntityA");
+		auto triMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(triangleEntity);
+		m_ECS_Manager.AddComponent<gwcEngine::Transform>(triangleEntity);
+		auto t_Mat = m_ECS_Manager.AddComponent<gwcEngine::Material>(triangleEntity);
 
 
 #pragma region TriangleMeshData
@@ -73,6 +75,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		m_UnlitColourShader.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
 		m_UnlitColour.SetShader(m_UnlitColourShader);
+
+		t_Mat.SetShader(m_UnlitColourShader);
+
 	}
 
 	void World::CameraController()
@@ -118,13 +123,28 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		float g = 0.5f * (glm::sin(0.333f * t) + 1.0f);
 		float b = 0.5f * (glm::sin(2.0f * t) + 1.0f);
 
+		auto material = m_ECS_Manager.GetComponent<gwcEngine::Material>(triangleEntity);
+
+
+		//TODO NOW! shouldn't need to re-add shader to material, seems to be a local copy rather than that stored in the component array...
+		material.SetShader(m_UnlitColourShader);
+
+		material.SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 	
-		m_UnlitColour.SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 		CameraController();
 
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::BeginScene(m_Camera);
-		gwcEngine::Renderer::Submit(ECS_Manager.GetComponent<gwcEngine::Mesh>(triangleEntity).GetVertexArray(), m_UnlitColourShader);
+
+		//m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
+
+		auto mesh = m_ECS_Manager.GetComponent<gwcEngine::Mesh>(triangleEntity);
+
+		
+		//gwcEngine::Renderer::Submit(mesh.GetVertexArray(), m_UnlitColourShader);
+
+
+		gwcEngine::Renderer::Submit(mesh.GetVertexArray(),material.GetShader());
 
 		gwcEngine::Renderer::EndScene();
 	}

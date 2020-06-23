@@ -51,14 +51,16 @@ namespace gwcEngine
 
 		Ref<Entity> CreateEntity(const std::string& name)
 		{
-			return m_EntityManager.CreateEntity(name);
+			auto ret = m_EntityManager.CreateEntity(name);
+			m_SystemManager.OnEntityCompositionModified(ret);
+			return ret;
 		}
 #pragma endregion
 
 
 #pragma region Component Manager Interface
 		template<typename T>
-		ComponentID FindID()
+		ComponentID FindComponentID()
 		{
 			return ComponentManager::FindID<T>();
 		}
@@ -72,13 +74,16 @@ namespace gwcEngine
 		template<typename T, typename... TArgs>
 		T& AddComponent(Ref<Entity>entity, TArgs&&... mArgs) noexcept
 		{
-			return m_ComponentManager.AddComponent<T>(entity, std::forward<TArgs>(mArgs)...);
+			T& ret = m_ComponentManager.AddComponent<T>(entity, std::forward<TArgs>(mArgs)...);
+			m_SystemManager.OnEntityCompositionModified(entity);
+			return ret;
 		}
 
 		template<typename T>
 		void RemoveComponent(Ref<Entity> entity) noexcept
 		{
 			m_ComponentManager.RemoveComponent<T>(entity);
+			m_SystemManager.OnEntityCompositionModified(entity);
 		}
 
 		template<typename T>
@@ -86,6 +91,27 @@ namespace gwcEngine
 		{
 			return m_ComponentManager.GetComponent<T>(entity);
 		}
+
+		template<typename T>
+		ComponentID FindID()
+		{
+			return ComponentManager::FindID<T>();
+		}
+
+#pragma endregion
+
+
+#pragma region System Manager Interface
+		void RegisterSystem(Ref<ISystem>& system)
+		{
+			m_SystemManager.RegisterSystem(system);
+		}
+
+		void OnUpdate(const float& dT)
+		{
+			m_SystemManager.OnUpdate(dT);
+		}
+
 #pragma endregion
 
 	private:

@@ -40,7 +40,7 @@ namespace gwcEngine
 		RenderCommand::DrawIndexed(vertexArray);
 	}
 
-	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const Material& material, const glm::mat4 transform)
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, Material& material, const glm::mat4 transform)
 	{
 		const Ref<Shader>& shader = material.GetShader();
 		shader->Bind();

@@ -8,13 +8,13 @@ namespace gwcEngine
 	{
 	friend class SystemManager;
 		
-	public:
-
-
 	public :
-		virtual ~ISystem();
+		virtual ~ISystem() = default;
 
 		virtual void OnUpdate(const float& dT) = 0;
+
+		virtual void RegisterRequiredComponents() = 0;
+		virtual void InitSignature() = 0;
 
 		virtual void ValidateEntity(const Ref<Entity>& entity)
 		{
@@ -59,7 +59,6 @@ namespace gwcEngine
 		bool IsActive() { return m_isActive; }
 
 
-
 	protected:
 
 		Signature m_Signature;
@@ -85,9 +84,23 @@ namespace gwcEngine
 			system->SetID(m_NextID);
 			m_NextID++;
 		}
+		SystemID NumberOfSystems()const { return m_NextID; }
+
+		void OnUpdate(const float& dT)
+		{
+			for (SystemID it = 0; it < NumberOfSystems(); it++) {
+				m_SystemArray[it]->OnUpdate(dT);
+			}
+		}
+
+		void OnEntityCompositionModified(const Ref<Entity>& entity)
+		{
+			for (SystemID it = 0; it < m_NextID; it++) {
+				m_SystemArray[it]->ValidateEntity(entity);
+			}
+		}
 
 	private:
-		SystemID m_NumSystems = 0;
 		std::array<Ref<ISystem>, MAX_SYSTEMS> m_SystemArray;
 		SystemID m_NextID = 0;
 	};

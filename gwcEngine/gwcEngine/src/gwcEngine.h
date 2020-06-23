@@ -34,8 +34,12 @@
 
 //ECS
 #include "gwcEngine/ECS/ECS.h"
+//////////Components
 #include"gwcEngine/ECS/Components/Mesh.h"
 #include"gwcEngine/ECS/Components/Transform.h"
+
+/////////systems
+#include "gwcEngine//ECS/Systems/RendererECS.h"
 
 //TODO, prevent double main inclusion.
 // !!!!!!!!! Entry point !!!!!!
