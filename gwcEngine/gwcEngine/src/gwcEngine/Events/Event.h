@@ -2,6 +2,8 @@
 #include"gepch.h"
 #include"gwcEngine/Core/core.h"
 
+
+//Todo - this is a very expensive implimentation of events, events should be overhauled to subscribe function pointers (or otherwise) to an event, which can be raised.
 namespace gwcEngine 
 {
 	

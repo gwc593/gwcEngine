@@ -8,6 +8,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		:Layer("3DWorld"),
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 	{
+
+		//initialise mouse//
+		mouse = gwcEngine::Input::GetMousePosition();
+
+		//end init mouse
+
 		//entity and components and systems
 		gwcEngine::Ref<gwcEngine::RendererECS> rendSys{ new gwcEngine::RendererECS("3dRenderer",m_ECS_Manager) };
 		m_ECS_Manager.RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(rendSys));
@@ -36,7 +42,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			1.0f, 0.0f, 0.0f
 		};
 
-		uint32_t indices[6 * 3 * 2] = { 0,1,2,
+		uint32_t indices[6 * 3 * 2] = { 
+			0,1,2,
 			0,2,3,
 			4,1,0,
 			4,5,1,
@@ -120,21 +127,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::E)) {
-			m_camerRot -= 1.0f * gwcEngine::Time::GetDeltaTime();
-			m_Camera.SetRotation({ 0, m_camerRot, 0 });
-		}
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::Q)) {
-			m_camerRot += 1.0f * gwcEngine::Time::GetDeltaTime();
-			m_Camera.SetRotation({ 0, m_camerRot, 0 });
-		}
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::R)) {
 			glm::vec3 pos = m_Camera.GetPostion();
 			m_Camera.SetPosition({ pos.x, pos.y += 1.0f * gwcEngine::Time::GetDeltaTime() , pos.z });
 		}
 
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::F)) {
+		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::Q)) {
 			glm::vec3 pos = m_Camera.GetPostion();
 			m_Camera.SetPosition({ pos.x, pos.y -= 1.0f * gwcEngine::Time::GetDeltaTime() , pos.z });
 		}
@@ -178,6 +175,20 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		return false;
 	}
 
+	bool World::onMouseMoved(gwcEngine::MouseMovedEvent& e)
+	{
+		float dx = (mouse.first - e.GetX())*gwcEngine::Time::GetDeltaTime()*0.5;
+		float dy = (mouse.second- e.GetY())*gwcEngine::Time::GetDeltaTime()*0.5f;
+
+		mouse.first = e.GetX();
+		mouse.second = e.GetY();
+
+		m_camerRotX += dx;
+		m_camerRotY += dy;
+		m_Camera.SetRotation({ m_camerRotY, m_camerRotX, 0 });
+		return e.Handled = true;
+	}
+
 	bool World::onSpaceBar(const gwcEngine::KeyPressedEvent& e)
 	{
 		if (e.GetKeyCode() == (int)gwcEngine::KeyCode::Space) {
@@ -192,6 +203,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		
 		gwcEngine::EventDispatcher dp(event);
 		event.Handled |= dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(World::onClicked));
+		event.Handled |= dp.Dispatch<gwcEngine::MouseMovedEvent>(BIND_EVENT_FN(World::onMouseMoved));
 		event.Handled |= dp.Dispatch<gwcEngine::KeyPressedEvent>(BIND_EVENT_FN(World::onSpaceBar));
 
 		//GE_TRACE(event.ToString());

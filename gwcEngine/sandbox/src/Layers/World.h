@@ -43,6 +43,8 @@ public:
 
 	bool onSpaceBar(const gwcEngine::KeyPressedEvent& e);
 
+	bool onMouseMoved(gwcEngine::MouseMovedEvent& e);
+
 	bool OnEvent(gwcEngine::Event& event) override;
 
 private:
@@ -51,10 +53,12 @@ private:
 	std::shared_ptr<gwcEngine::Shader> m_UnlitColourShader;
 
 	float m_squareRotation = 0.0f;
-	float m_camerRot = 0.0f;
+	float m_camerRotY = 0.0f;
+	float m_camerRotX = 0.0f;
 
 	gwcEngine::Ref<gwcEngine::Entity> CubeEntity;
 
 	gwcEngine::ECSLayerManager m_ECS_Manager;
+	std::pair<float, float> mouse;
 };
 
