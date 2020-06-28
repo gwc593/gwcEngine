@@ -32,6 +32,9 @@
 #include "gwcEngine/Events/KeyEvent.h"
 #include "gwcEngine/Events/MouseEvent.h"
 
+//custom events (to replace current event system)
+#include "gwcEngine/Events/customEvent.h"
+
 //ECS
 #include "gwcEngine/ECS/ECS.h"
 //////////Components

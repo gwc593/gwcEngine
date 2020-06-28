@@ -8,6 +8,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		:Layer("3DWorld"),
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 	{
+		auto fp = std::bind(&World::onCustomEvent, this, std::placeholders::_1, std::placeholders::_2);
+		testEvent.subscribe(fp);
+		testEvent.unsubscribe(fp);
 
 		//initialise mouse//
 		mouse = gwcEngine::Input::GetMousePosition();
@@ -140,6 +143,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void World::OnUpdate()
 	{
+		if (gwcEngine::Time::GetTime() > 5.0f)
+			testEvent.raiseEvent("the time is", gwcEngine::Time::GetTime());
 
 		//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime();
@@ -208,5 +213,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		//GE_TRACE(event.ToString());
 		return event.Handled;
+	}
+
+	void World::onCustomEvent(std::string msg, float time)
+	{
+		GE_TRACE("'{0}' '{1}'", msg,time);
 	}
 

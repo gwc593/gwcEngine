@@ -33,6 +33,8 @@ private:
 class World : public gwcEngine::Layer
 {
 public:
+	gwcEngine::customEvent<std::string,float> testEvent;
+public:
 	World();
 
 	void CameraController();
@@ -46,6 +48,8 @@ public:
 	bool onMouseMoved(gwcEngine::MouseMovedEvent& e);
 
 	bool OnEvent(gwcEngine::Event& event) override;
+
+	void onCustomEvent(std::string msg, float time);
 
 private:
 	gwcEngine::PerspectiveCamera m_Camera;

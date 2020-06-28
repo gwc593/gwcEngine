@@ -138,6 +138,9 @@
     <ClInclude Include="src\gwcEngine\Events\MouseEvent.h">
       <Filter>src\gwcEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Events\customEvent.h">
+      <Filter>src\gwcEngine\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.h">
       <Filter>src\gwcEngine\Renderer\Cameras</Filter>
     </ClInclude>
@@ -1462,6 +1465,9 @@
     </ClCompile>
     <ClCompile Include="src\gwcEngine\ECS\Entity.cpp">
       <Filter>src\gwcEngine\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Events\customEvent.cpp">
+      <Filter>src\gwcEngine\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.cpp">
       <Filter>src\gwcEngine\Renderer\Cameras</Filter>
