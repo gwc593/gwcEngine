@@ -126,18 +126,6 @@
     <ClInclude Include="src\gwcEngine\ECS\Systems\RendererECS.h">
       <Filter>src\gwcEngine\ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\gwcEngine\Events\ApplicationEvent.h">
-      <Filter>src\gwcEngine\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gwcEngine\Events\Event.h">
-      <Filter>src\gwcEngine\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gwcEngine\Events\KeyEvent.h">
-      <Filter>src\gwcEngine\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gwcEngine\Events\MouseEvent.h">
-      <Filter>src\gwcEngine\Events</Filter>
-    </ClInclude>
     <ClInclude Include="src\gwcEngine\Renderer\Cameras\OrthographicCamera.h">
       <Filter>src\gwcEngine\Renderer\Cameras</Filter>
     </ClInclude>
@@ -1428,6 +1416,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Events\Event.h">
+      <Filter>src\gwcEngine\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
@@ -1516,6 +1507,9 @@
     </ClCompile>
     <ClCompile Include="src\platform\WindowsWindow.cpp">
       <Filter>src\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gwcEngine\Events\Event.cpp">
+      <Filter>src\gwcEngine\Events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,10 +1,6 @@
 #include"gepch.h"
 #include"WindowsWindow.h"
 
-#include"gwcEngine/Events/ApplicationEvent.h"
-#include"gwcEngine/Events/KeyEvent.h"
-#include"gwcEngine/Events/MouseEvent.h"
-
 #include"platform/OpenGL/OpenGLContext.h"
 
 namespace gwcEngine 
@@ -70,24 +66,22 @@ namespace gwcEngine
 		//setGLFW callbacks
 
 		//window resize event
+
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 								  {
 									  WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-									  WindowResizeEvent event(width, height);
 
 									  data.Width = width;
 									  data.Height = height;
 
-									  data.EventCallback(event);
+									  data.app->GetWindow().GetWindowResizeEvent().raiseEvent(width, height);
 								  });
 
 		//window close event
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 								  {
 									  WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-									  WindowCloseEvent event;
-
-									  data.EventCallback(event);
+									  data.app->GetWindow().GetWindowCloseEvent().raiseEvent();
 								  });
 
 		//keyboard input callback
@@ -98,23 +92,20 @@ namespace gwcEngine
 							   {
 									case GLFW_PRESS:
 									{
-										KeyPressedEvent event(key, 0);
-										data.EventCallback(event);
+										Input::GetKeyPressedEvent().raiseEvent(key);
 										break;
 									}
 									   
 									case GLFW_REPEAT:
 									{
 										//TODO GWC - extract repeat count from GLFW
-										KeyPressedEvent event(key, 1);
-										data.EventCallback(event);
+										Input::GetKeyPressedEvent().raiseEvent(key);
 										break;
 									}
 	
 								   case GLFW_RELEASE:
 								   {
-									   KeyReleasedEvent event(key);
-									   data.EventCallback(event);
+									   Input::GetKeyReleasedEvent().raiseEvent(key);
 									   break;
 								   }
 								}
@@ -124,9 +115,12 @@ namespace gwcEngine
 								   {
 									   WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-									   WindowFocusEvent event(entered);
-
-									   data.EventCallback(event);
+									   if (entered) {
+										   data.app->GetWindow().GetCursorEnterEvent().raiseEvent();
+									   }
+									   else {
+										   data.app->GetWindow().GetCursorExitEvent().raiseEvent();
+									   }
 								   });
 
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
@@ -134,21 +128,13 @@ namespace gwcEngine
 									   switch (action) {
 										   case GLFW_PRESS:
 										   {
-											   WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-											   MouseButtonPressedEvent event(button);
-
-											   Data.EventCallback(event);
+											   Input::GetMouseButtonPressedEvent().raiseEvent(button);
 											   break;
 										   }
 
 										   case GLFW_RELEASE:
 										   {
-											   WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-											   MouseButtonReleasedEvent event(button);
-
-											   Data.EventCallback(event);
+											   Input::GetMouseButtonReleasedEvent().raiseEvent(button);
 											   break;
 										   }
 									   }
@@ -156,21 +142,13 @@ namespace gwcEngine
 								   });
 
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset)
-		{
-			WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-			MouseScrollEvent event((float)xoffset, (float)yoffset);
-
-			Data.EventCallback(event);
-		});
+								{
+								  Input::GetMouseMovedEvent().raiseEvent((float&)xoffset, (float&)yoffset);
+								});
 
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos)
 								 {
-									 WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-									 MouseMovedEvent event((float)xpos, (float)ypos);
-
-									 Data.EventCallback(event);
+									 Input::GetMouseMovedEvent().raiseEvent((float&)xpos,(float&)ypos);
 								 });
 	}
 

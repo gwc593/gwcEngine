@@ -22,14 +22,4 @@ namespace gwcEngine
 
 	}
 
-	bool Layer::OnEventBase( Event& e)
-	{
-		return e.Handled || OnEvent(e);
-	}
-
-	bool Layer::OnEvent(Event& e)
-	{
-		return e.Handled;
-	}
-
 }
