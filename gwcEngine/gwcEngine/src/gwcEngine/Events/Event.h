@@ -1,90 +1,75 @@
 #pragma once
-#include"gepch.h"
-#include"gwcEngine/Core/core.h"
-
-
-//Todo - this is a very expensive implimentation of events, events should be overhauled to subscribe function pointers (or otherwise) to an event, which can be raised.
+#include<stdio.h>
+#include<iostream>
+#include<vector>
+#include <functional>
 namespace gwcEngine 
 {
-	
-	enum class EventType
+
+	//custom even callbacks always return void
+    //customEvent<arg1Type,arg2Type...> myCustomEvent.
+	template<typename... T>
+	class Event
 	{
-		None = 0,
-		WindowsClose, WindowResize, WindowFocus, WindowMoved,
-		//AppTick,AppUpdate,AppRender,
-		KeyPressed,KeyReleased,
-		MouseButtonPressed,MouseButtonReleased,MouseMoved,MouseScrolled
-	};
-
-	enum EventCategory
-	{
-		None = 0,
-		EventCategoryApplication = BIT(0),
-		EventCategoryInput       = BIT(1),
-		EventCategoryKeyboard    = BIT(2),
-		EventCategoryMouse       = BIT(3),
-		EventCategoryMouseButton = BIT(4)
-	};
-
-#define EVENT_CLASS_TYPE(type) static gwcEngine::EventType GetStaticType() {return EventType::##type;}\
-                              virtual gwcEngine::EventType GetEventType() const override { return GetStaticType();}\
-                              virtual const char* GetName() const override {return #type;}
-
-#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override{return category;}
-
-	class GE_API Event
-	{
-		friend class EventDispatcher;
+	private:
+		std::vector<std::function<void(T...)>> callbacks;
+		int noCallbacks;
 
 	public:
-		bool Handled = false;
+		void subscribe(std::function<void(T...)>function);
+		void unsubscribe(const std::function<void(T...)>& function);
+		void raiseEvent(T&... mArgs);
 
 
-		virtual EventType GetEventType() const = 0;
-		virtual const char* GetName() const = 0;
-		virtual int GetCategoryFlags() const = 0;
-		virtual std::string ToString() const { return GetName(); }
-
-		inline bool IsInCategory(EventCategory category)
-		{
-			return GetCategoryFlags() & category;
-		}
-
-
-		
+		Event();
+		~Event();
 	};
 
-	inline std::ostream& operator<<(std::ostream& os, const Event& e)
+	template<typename... T>
+	void Event<T...>::subscribe(std::function<void(T...)>function)
 	{
-		os << e.ToString();
-		return os;
+		callbacks.push_back(function);
+		noCallbacks++;
+	}
+
+	template<typename... T>
+	void Event<T...>::unsubscribe(const std::function<void(T...)>& function)
+	{
+		//todo - impliment method to unsubscribe callback, maybe by reference to an ID returned by the subscribe method?
+		for (auto it = callbacks.begin(); it != callbacks.end(); it++) {
+			int a=1;
+		}
+		/*
+		auto it = std::find(callbacks.begin(), callbacks.end(), function);
+		//
+		callbacks.erase(it);
+		noCallbacks--;
+		*/
+	}
+
+	template<typename... T>
+	void Event<T...>::raiseEvent(T&... mArgs)
+	{
+		auto it = callbacks.begin();
+
+		for (it; it != callbacks.end(); it++) {
+			(*it)(std::forward<T>(mArgs)...);
+		}
 	}
 
 
-
-	class EventDispatcher
+	template<typename... T>
+	Event<T...>::Event()
 	{
-		template<typename T>
-		using EventFn = std::function<bool(T&)> ;
 
-	public:
-		EventDispatcher(Event& event)
-			:m_Event(event){ }
+	}
 
-		template<typename T>
-		bool Dispatch(EventFn<T> func)
-		{
-			if (m_Event.GetEventType() == T::GetStaticType()) {
-				m_Event.Handled = func(*(T*)&m_Event);
-				return true;
-			}
-			return false;
-		}
+	template<typename... T>
+	Event<T...>::~Event()
+	{
 
-
-	private:
-		Event& m_Event;
-	};
-
-	
+	}
 }
+
+
+

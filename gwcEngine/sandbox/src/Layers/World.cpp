@@ -8,9 +8,14 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		:Layer("3DWorld"),
 		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 	{
-		auto fp = std::bind(&World::onCustomEvent, this, std::placeholders::_1, std::placeholders::_2);
-		testEvent.subscribe(fp);
-		testEvent.unsubscribe(fp);
+		//subscribe to windowSizeChange
+		auto fp = std::bind(&World::onWindowSizeChange, this, std::placeholders::_1, std::placeholders::_2);
+		gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent().subscribe(fp);
+
+		//subscribe to 'P' being pressed
+		auto PKeyPressedCallback = std::bind(&World::onPPressed, this, std::placeholders::_1);
+		gwcEngine::Input::GetKeyPressedEvent().subscribe(PKeyPressedCallback);
+
 
 		//initialise mouse//
 		mouse = gwcEngine::Input::GetMousePosition();
@@ -143,9 +148,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void World::OnUpdate()
 	{
-		if (gwcEngine::Time::GetTime() > 5.0f)
-			testEvent.raiseEvent("the time is", gwcEngine::Time::GetTime());
-
 		//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime();
 		float r = 0.5f * (glm::sin(t + 45.0f) + 1.0f);
@@ -171,52 +173,14 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		gwcEngine::Renderer::EndScene();
 	}
 
-	bool World::onClicked(const gwcEngine::MouseButtonPressedEvent& e)
+	void World::onWindowSizeChange(int width, int height)
 	{
-		if (e.GetButton() == (int)gwcEngine::MouseCode::Button0) {
-			GE_TRACE("you clicked the fancy triangle");
-			return true;
-		}
-		return false;
+		GE_TRACE("Window Changed size to {0}, {1} NEW EVENT SYSTEM",width,height);
 	}
 
-	bool World::onMouseMoved(gwcEngine::MouseMovedEvent& e)
+	void World::onPPressed(int key)
 	{
-		float dx = (mouse.first - e.GetX())*gwcEngine::Time::GetDeltaTime()*0.5;
-		float dy = (mouse.second- e.GetY())*gwcEngine::Time::GetDeltaTime()*0.5f;
-
-		mouse.first = e.GetX();
-		mouse.second = e.GetY();
-
-		m_camerRotX += dx;
-		m_camerRotY += dy;
-		m_Camera.SetRotation({ m_camerRotY, m_camerRotX, 0 });
-		return e.Handled = true;
-	}
-
-	bool World::onSpaceBar(const gwcEngine::KeyPressedEvent& e)
-	{
-		if (e.GetKeyCode() == (int)gwcEngine::KeyCode::Space) {
-			gwcEngine::RenderCommand::SetVsync(!gwcEngine::RenderCommand::IsVsync());
-			return true;
-		}
-		return false;
-	}
-
-	bool World::OnEvent(gwcEngine::Event& event)
-	{
-		
-		gwcEngine::EventDispatcher dp(event);
-		event.Handled |= dp.Dispatch<gwcEngine::MouseButtonPressedEvent>(BIND_EVENT_FN(World::onClicked));
-		event.Handled |= dp.Dispatch<gwcEngine::MouseMovedEvent>(BIND_EVENT_FN(World::onMouseMoved));
-		event.Handled |= dp.Dispatch<gwcEngine::KeyPressedEvent>(BIND_EVENT_FN(World::onSpaceBar));
-
-		//GE_TRACE(event.ToString());
-		return event.Handled;
-	}
-
-	void World::onCustomEvent(std::string msg, float time)
-	{
-		GE_TRACE("'{0}' '{1}'", msg,time);
+		if (key == (int)gwcEngine::KeyCode::P)
+			GE_TRACE("Key P was pressed");
 	}
 

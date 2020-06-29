@@ -3,37 +3,10 @@
 
 
 
-class CustomEvent : public gwcEngine::Event
-{
-public:
-	CustomEvent()
-	{
-
-	}
-	EVENT_CLASS_CATEGORY(gwcEngine::None)
-
-		std::string ToString() const override
-	{
-		std::stringstream ss;
-		ss << "Custom Event Raised ";
-		return ss.str();
-	}
-
-	//EVENT_CLASS_TYPE(None)
-	//TODO gwc: Get the above macro working for custom events.
-	static gwcEngine::EventType GetStaticType() { return gwcEngine::EventType::None; }
-	virtual gwcEngine::EventType GetEventType() const override { return GetStaticType(); }
-	virtual const char* GetName() const override { return "None"; }
-
-
-private:
-
-};
-
 class World : public gwcEngine::Layer
 {
 public:
-	gwcEngine::customEvent<std::string,float> testEvent;
+	gwcEngine::Event<std::string,float> testEvent;
 public:
 	World();
 
@@ -41,15 +14,8 @@ public:
 
 	void OnUpdate() override;
 
-	bool onClicked(const gwcEngine::MouseButtonPressedEvent& e);
-
-	bool onSpaceBar(const gwcEngine::KeyPressedEvent& e);
-
-	bool onMouseMoved(gwcEngine::MouseMovedEvent& e);
-
-	bool OnEvent(gwcEngine::Event& event) override;
-
-	void onCustomEvent(std::string msg, float time);
+	void onWindowSizeChange(int width, int height);
+	void onPPressed(int key);
 
 private:
 	gwcEngine::PerspectiveCamera m_Camera;

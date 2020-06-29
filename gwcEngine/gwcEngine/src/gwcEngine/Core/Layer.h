@@ -1,6 +1,5 @@
 #pragma once
 #include"core.h"
-#include"gwcEngine/Events/Event.h"
 
 
 
@@ -15,8 +14,6 @@ namespace gwcEngine {
 		virtual void OnDetach() {}
 		virtual void OnUpdate() {}
 		void OnUpdateBase();
-		bool OnEventBase(Event& e);
-		virtual bool OnEvent(Event& e);
 
 
 		//todo gwc - do not allow this in dist builds

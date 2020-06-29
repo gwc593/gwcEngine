@@ -2,7 +2,7 @@
 #include "Application.h"
 
 #include"gwcEngine/Renderer/Renderer.h"
-#include"Input.h"
+//#include"Input.h"
 
 #include<GLFW/glfw3.h>
 
@@ -13,13 +13,15 @@ namespace gwcEngine {
 	Application::Application()
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());	
-		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 		Time::Init();
 
 		s_Instance = this;
+		m_Window->SetAppReference(s_Instance);
 
 		m_ECSManager = ECSGlobalManager::GetInstance();
-		
+
+		auto windowCloseCallback = std::bind(&Application::OnWindowClose, this);
+		s_Instance->GetWindow().GetWindowCloseEvent().subscribe(windowCloseCallback);
 	}
 
 	Application::~Application()
@@ -53,27 +55,11 @@ namespace gwcEngine {
 		}
 	}
 
-	void Application::OnEvent(Event& e)
-	{
 
-		EventDispatcher dispatcher(e);
 
-		//if the event 'e' is the same type as the template used for Dispatch, then dispatch it using the function bound by the bind event function.
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
-
-		//pass event to layers
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) 
-		{
-			if((*--it)->OnEvent(e)|| e.Handled)
-				break;
-		}
-	}
-
-	bool Application::OnWindowClose(WindowCloseEvent& e)
+	void Application::OnWindowClose()
 	{
 		m_Running = false;
-
-		return true;
 	}
 
 

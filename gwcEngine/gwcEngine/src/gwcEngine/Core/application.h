@@ -1,28 +1,24 @@
 #pragma once
 #include"core.h"
-#include"Window.h"
 #include"LayerStack.h"
-#include"gwcEngine/Events/Event.h"
-#include"gwcEngine/Events/ApplicationEvent.h"
-
-//ECS DEV WIP
+#include "gwcEngine/Events/Event.h"
 #include"gwcEngine/ECS/ECS.h"
-
 #include "Time.h"
+#include"Window.h"
 
 namespace gwcEngine {
-
+	class Window;
 	class GE_API Application
 	{
 	public:
 		ECSGlobalManager* m_ECSManager;
+
+
 	public:
 		Application();
 		virtual ~Application();
 		
 		void Run();
-		
-		void OnEvent(Event& e);
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
@@ -30,15 +26,20 @@ namespace gwcEngine {
 		Window& GetWindow() { return *m_Window; }
 
 
+
+
 		inline static Application* Get() { return s_Instance; }
 	private:
-		bool OnWindowClose(WindowCloseEvent& e);
+		void OnWindowClose();
 	
 	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;
+
+		//Application Events
+
 
 	private:
 

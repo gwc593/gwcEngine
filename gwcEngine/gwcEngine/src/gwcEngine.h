@@ -28,12 +28,7 @@
 #include "gwcEngine/Renderer/Cameras/PerspectiveCamera.h"
 
 ////events///
-#include "gwcEngine/Events/ApplicationEvent.h"
-#include "gwcEngine/Events/KeyEvent.h"
-#include "gwcEngine/Events/MouseEvent.h"
-
-//custom events (to replace current event system)
-#include "gwcEngine/Events/customEvent.h"
+#include "gwcEngine/Events/Event.h"
 
 //ECS
 #include "gwcEngine/ECS/ECS.h"
