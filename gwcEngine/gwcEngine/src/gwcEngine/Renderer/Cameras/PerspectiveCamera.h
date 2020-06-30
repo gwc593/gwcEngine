@@ -15,6 +15,13 @@ namespace gwcEngine
 		inline void SetNClip(float NClip) { m_NearClip = NClip; CalculateProjectionMatrix(); CalculateViewMatrix(); }
 		inline void SetFClip(float FClip) { m_FarClip = FClip; CalculateProjectionMatrix();  CalculateViewMatrix(); }
 
+		inline void OnWindowResize(int width, int height)
+		{
+			SetAspectRatio((float)width / (float)height), 
+			CalculateProjectionMatrix();  
+			CalculateViewMatrix();
+		}
+
 		inline float GetFOV() { return m_FOV; }
 		inline float GetAspectRatio() { return m_AspectRatio; }
 		inline float GetNClip() { return m_NearClip; }

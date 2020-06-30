@@ -1,7 +1,6 @@
 #pragma once
 #include "gwcEngine/core/Window.h"
 #include "gwcEngine/core/Input.h"
-
 #include "gwcEngine/Renderer/GraphicsContext.h"
 
 #include<GLFW/glfw3.h>

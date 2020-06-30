@@ -22,6 +22,10 @@ namespace gwcEngine {
 
 		auto windowCloseCallback = std::bind(&Application::OnWindowClose, this);
 		s_Instance->GetWindow().GetWindowCloseEvent().subscribe(windowCloseCallback);
+
+		auto windowResizeCallback = std::bind(&Application::OnWindowResize, this, std::placeholders::_1,std::placeholders::_2);
+		s_Instance->GetWindow().GetWindowResizeEvent().subscribe(windowResizeCallback);
+
 	}
 
 	Application::~Application()
@@ -46,10 +50,12 @@ namespace gwcEngine {
 
 		while (m_Running) 
 		{
-			Time::BeginFrame();
+			if (!m_Minimised) {
+				Time::BeginFrame();
 
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdateBase();
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdateBase();
+			}
 
 			m_Window->OnUpdate();
 		}
@@ -60,6 +66,16 @@ namespace gwcEngine {
 	void Application::OnWindowClose()
 	{
 		m_Running = false;
+	}
+
+	void Application::OnWindowResize(int width, int height)
+	{
+		if (width == 0 || height == 0)
+			m_Minimised = true;
+		else
+			m_Minimised = false;
+
+		Renderer::OnWindowResize(width, height);
 	}
 
 

@@ -6,10 +6,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	World::World()
 		:Layer("3DWorld"),
-		m_Camera(70.0f, 1.78f, 0.8f, 300.0f) //perspective camera initializer
+		m_Camera(58.0, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 	{
-		//subscribe to windowSizeChange
-		auto fp = std::bind(&World::onWindowSizeChange, this, std::placeholders::_1, std::placeholders::_2);
+		//subscribe camera to windowSizeChange
+		auto fp = std::bind(&gwcEngine::PerspectiveCamera::OnWindowResize, &m_Camera, std::placeholders::_1, std::placeholders::_2);
 		gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent().subscribe(fp);
 
 		//subscribe to 'P' being pressed

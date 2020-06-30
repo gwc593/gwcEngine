@@ -3,6 +3,8 @@
 #include "gwcEngine/Renderer/Renderer.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include<glad/glad.h>
+
+#include "gwcEngine/Core/application.h"
 namespace gwcEngine
 {
 
@@ -24,7 +26,6 @@ namespace gwcEngine
 
 		
 		glDepthRange(m_NearClip, m_FarClip);
-
 	}
 
 	void PerspectiveCamera::SetRotation(const glm::vec3& eulerRotation)
