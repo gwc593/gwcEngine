@@ -20,41 +20,80 @@ namespace gwcEngine
 		Event() = default;
 		~Event() = default;
 
-		void subscribe(std::function<bool(T...)>function);
-		void unsubscribe(const std::function<bool(T...)>& function);
+		uint32_t subscribe(const Ref<EventCallback<T...>>& callback);
+		uint32_t subscribe(std::function<bool(T...)> callbackFN);
+
+		uint32_t subscribePriority(const Ref<EventCallback<T...>>& callback);
+		uint32_t subscribePriority(std::function<bool(T...)> callbackFN);
+
+		void unsubscribe(const Ref < EventCallback<T...>>& callback);
+		void unsubscribe(const uint32_t& id);
+
 		void raiseEvent(T&... mArgs);
 
+		void operator = (const Event<T...>& D) = delete;
+
+
 	private:
-		std::vector<std::function<bool(T...)>> callbacks;
+		std::vector<Ref<EventCallback<T...>>> callbacks;
 		int noCallbacks;
 	};
 
 	template<typename... T>
-	void Event<T...>::subscribe(std::function<bool(T...)>function)
+	uint32_t Event<T...>::subscribe(const Ref<EventCallback<T...>>& callback)
 	{
-		callbacks.push_back(function);
+		callbacks.push_back(callback);
 		noCallbacks++;
-	}
-
-
-	//utility function to compare where stdFunction is pointing
-	template<typename... T>
-	size_t getAddress(const std::function<bool(T...)> f)
-	{
-		//auto fnPointer = f.target<bool(T...)>();
-		auto fnPointer = f.target<bool(T...)>();
-		return (size_t)*fnPointer;
+		return callback->GetID();
 	}
 
 	template<typename... T>
-	void Event<T...>::unsubscribe(const std::function<bool(T...)>& function)
+	uint32_t Event<T...>::subscribe(std::function<bool(T...)> callbackFN)
 	{
-		//todo - impliment method to unsubscribe callback, maybe by reference to an ID returned by the subscribe method?
-		
-		auto functionCopy = function;
-		
+		Ref<EventCallback<T...>> callback{ new EventCallback<T...>(callbackFN) };
+
+		callbacks.push_back(callback);
+		noCallbacks++;
+		return callback->GetID();
+	}
+
+	template<typename... T>
+	uint32_t Event<T...>::subscribePriority(const Ref<EventCallback<T...>>& callback)
+	{
+		callbacks.emplace(callbacks.begin(),callback);
+		noCallbacks++;
+		return callback->GetID();
+	}
+
+	template<typename... T>
+	uint32_t Event<T...>::subscribePriority(std::function<bool(T...)> callbackFN)
+	{
+		Ref<EventCallback<T...>> callback{ new EventCallback<T...>(callbackFN) };
+
+		callbacks.emplace(callbacks.begin(), callback);
+		noCallbacks++;
+		return callback->GetID();
+	}
+
+	template<typename... T>
+	void Event<T...>::unsubscribe(const Ref<EventCallback<T...>>& callback)
+	{
 		for (auto it = callbacks.begin(); it != callbacks.end(); it++) {
+			if ((**it).GetID() == (*callback).GetID()){
+				callbacks.erase(it);
+				break;
+			}
+		}
+	}
 
+	template<typename... T>
+	void Event<T...>::unsubscribe(const uint32_t& id)
+	{
+		for (auto it = callbacks.begin(); it != callbacks.end(); it++) {
+			if ((**it).GetID() == id) {
+				callbacks.erase(it);
+				break;
+			}
 		}
 	}
 
@@ -62,7 +101,7 @@ namespace gwcEngine
 	void Event<T...>::raiseEvent(T&... mArgs)
 	{
 		for (auto it = callbacks.begin(); it != callbacks.end(); it++) {
-			if ((*it)(std::forward<T>(mArgs)...)) {
+			if ((*it)->GetFunction()(std::forward<T>(mArgs)...)) {
 				//GE_CORE_INFO("blocking event processed");
 				break;
 			}

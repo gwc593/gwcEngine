@@ -9,32 +9,22 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_Camera(58.0, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 	{
 		//subscribe camera to windowSizeChange
-		auto fp = std::bind(&gwcEngine::PerspectiveCamera::OnWindowResize, &m_Camera, std::placeholders::_1, std::placeholders::_2);
-		gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent().subscribe(fp);
-
+		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
+		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnWindowResize, m_Camera)));
 
 		//subscribe to 'P' being pressed
-		auto PKeyPressedCallback = std::bind(&World::onPPressed, this, std::placeholders::_1);
-		gwcEngine::Input::GetKeyPressedEvent().subscribe(PKeyPressedCallback);
-		gwcEngine::Input::GetKeyPressedEvent().unsubscribe(PKeyPressedCallback);
-
-
-		//initialise mouse//
-		mouse = gwcEngine::Input::GetMousePosition();
-
-		//end init mouse
+		uint32_t id = gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(World::onPPressed));
+		uint32_t idUI = gwcEngine::Input::GetKeyPressedEvent().subscribePriority(BIND_EVENT_FN1(World::onPPressedUI));
 
 		//entity and components and systems
 		gwcEngine::Ref<gwcEngine::RendererECS> rendSys{ new gwcEngine::RendererECS("3dRenderer",m_ECS_Manager) };
 		m_ECS_Manager.RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(rendSys));
-
 
 		CubeEntity = m_ECS_Manager.CreateEntity("Cube");
 		auto& triMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(CubeEntity);
 		auto& transform = m_ECS_Manager.AddComponent<gwcEngine::Transform>(CubeEntity);
 		auto& t_Mat = m_ECS_Manager.AddComponent<gwcEngine::Material>(CubeEntity);
 		//TODO add camera reference.
-
 
 #pragma region CubeMeshData
 		gwcEngine::BufferLayout layout = {
@@ -179,5 +169,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	{
 		if (key == (int)gwcEngine::KeyCode::P)
 			GE_TRACE("Key P was pressed");
+		return gwcEngine::PROPAGATE_EVENT;
+	}
+
+	bool World::onPPressedUI(int key)
+	{
+		if (key == (int)gwcEngine::KeyCode::P)
+			GE_TRACE("UI - Key P was pressed");
 		return gwcEngine::TERMINATE_EVENT;
 	}
