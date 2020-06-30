@@ -349,3 +349,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 bin-int
+/gwcEngine/*.sln
+/gwcEngine/gwcEngine/*.vcxproj
+/gwcEngine/gwcEngine/*.filters
