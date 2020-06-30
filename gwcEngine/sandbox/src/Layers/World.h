@@ -14,8 +14,7 @@ public:
 
 	void OnUpdate() override;
 
-	void onWindowSizeChange(int width, int height);
-	void onPPressed(int key);
+	bool onPPressed(int key);
 
 private:
 	gwcEngine::PerspectiveCamera m_Camera;

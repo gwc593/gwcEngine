@@ -173,14 +173,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		gwcEngine::Renderer::EndScene();
 	}
 
-	void World::onWindowSizeChange(int width, int height)
-	{
-		GE_TRACE("Window Changed size to {0}, {1} NEW EVENT SYSTEM",width,height);
-	}
-
-	void World::onPPressed(int key)
+	bool World::onPPressed(int key)
 	{
 		if (key == (int)gwcEngine::KeyCode::P)
 			GE_TRACE("Key P was pressed");
+		return gwcEngine::TERMINATE_EVENT;
 	}
-

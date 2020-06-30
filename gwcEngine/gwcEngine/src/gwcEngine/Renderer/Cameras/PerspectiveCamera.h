@@ -2,6 +2,7 @@
 #include<glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include "gwcEngine/Events/Event.h"
 namespace gwcEngine
 {
 
@@ -15,11 +16,14 @@ namespace gwcEngine
 		inline void SetNClip(float NClip) { m_NearClip = NClip; CalculateProjectionMatrix(); CalculateViewMatrix(); }
 		inline void SetFClip(float FClip) { m_FarClip = FClip; CalculateProjectionMatrix();  CalculateViewMatrix(); }
 
-		inline void OnWindowResize(int width, int height)
+		inline bool OnWindowResize(int width, int height)
 		{
-			SetAspectRatio((float)width / (float)height), 
-			CalculateProjectionMatrix();  
-			CalculateViewMatrix();
+			if (width != 0 && height != 0) {
+				SetAspectRatio((float)width / (float)height),
+				CalculateProjectionMatrix();
+				CalculateViewMatrix();
+			}
+			return PROPAGATE_EVENT;
 		}
 
 		inline float GetFOV() { return m_FOV; }

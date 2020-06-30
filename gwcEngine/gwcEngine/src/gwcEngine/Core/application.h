@@ -30,8 +30,8 @@ namespace gwcEngine {
 
 		inline static Application* Get() { return s_Instance; }
 	private:
-		void OnWindowClose();
-		void OnWindowResize(int width, int height);
+		bool OnWindowClose();
+		bool OnWindowResize(int width, int height);
 	
 	private:
 		std::unique_ptr<Window> m_Window;

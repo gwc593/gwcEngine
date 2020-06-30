@@ -63,12 +63,13 @@ namespace gwcEngine {
 
 
 
-	void Application::OnWindowClose()
+	bool Application::OnWindowClose()
 	{
 		m_Running = false;
+		return PROPAGATE_EVENT;
 	}
 
-	void Application::OnWindowResize(int width, int height)
+	bool Application::OnWindowResize(int width, int height)
 	{
 		if (width == 0 || height == 0)
 			m_Minimised = true;
@@ -76,6 +77,7 @@ namespace gwcEngine {
 			m_Minimised = false;
 
 		Renderer::OnWindowResize(width, height);
+		return PROPAGATE_EVENT;
 	}
 
 
