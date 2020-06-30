@@ -16,16 +16,19 @@ namespace gwcEngine
 
 
 	template<typename ...T>
-	class EventCallback: public IEventCallback
+	class EventCallback
 	{
 	public:
 		EventCallback(std::function<bool(T...)> callbackFunction)
 		{
-			m_ID = GetNextID();
+			m_ID = IEventCallback::GetNextID();
 			m_Callback = callbackFunction;
 		}
 
 		virtual ~EventCallback() = default;
+
+		uint32_t GetID() { return m_ID; }
+		std::function<bool(T...)>& GetFunction() { return m_Callback; }
 
 	private:
 		

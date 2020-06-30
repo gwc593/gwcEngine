@@ -6,15 +6,15 @@
 class World : public gwcEngine::Layer
 {
 public:
-	gwcEngine::Event<std::string,float> testEvent;
-public:
 	World();
 
 	void CameraController();
 
 	void OnUpdate() override;
 
+	//test callbacks
 	bool onPPressed(int key);
+	bool onPPressedUI(int key);
 
 private:
 	gwcEngine::PerspectiveCamera m_Camera;
