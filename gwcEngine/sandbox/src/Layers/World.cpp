@@ -12,9 +12,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto fp = std::bind(&gwcEngine::PerspectiveCamera::OnWindowResize, &m_Camera, std::placeholders::_1, std::placeholders::_2);
 		gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent().subscribe(fp);
 
+
 		//subscribe to 'P' being pressed
 		auto PKeyPressedCallback = std::bind(&World::onPPressed, this, std::placeholders::_1);
 		gwcEngine::Input::GetKeyPressedEvent().subscribe(PKeyPressedCallback);
+		gwcEngine::Input::GetKeyPressedEvent().unsubscribe(PKeyPressedCallback);
 
 
 		//initialise mouse//

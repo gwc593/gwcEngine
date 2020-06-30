@@ -1419,6 +1419,7 @@
     <ClInclude Include="src\gwcEngine\Events\Event.h">
       <Filter>src\gwcEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\gwcEngine\Events\EventCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gepch.cpp">
@@ -1511,5 +1512,6 @@
     <ClCompile Include="src\gwcEngine\Events\Event.cpp">
       <Filter>src\gwcEngine\Events</Filter>
     </ClCompile>
+    <ClCompile Include="src\gwcEngine\Events\EventCallback.cpp" />
   </ItemGroup>
 </Project>

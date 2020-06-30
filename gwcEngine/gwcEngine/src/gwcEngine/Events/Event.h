@@ -3,6 +3,9 @@
 #include<iostream>
 #include<vector>
 #include <functional>
+#include "EventCallback.h"
+
+
 namespace gwcEngine 
 {
 	const bool PROPAGATE_EVENT = false;
@@ -13,18 +16,17 @@ namespace gwcEngine
 	template<typename... T>
 	class Event
 	{
-	private:
-		std::vector<std::function<bool(T...)>> callbacks;
-		int noCallbacks;
-
 	public:
+		Event() = default;
+		~Event() = default;
+
 		void subscribe(std::function<bool(T...)>function);
 		void unsubscribe(const std::function<bool(T...)>& function);
 		void raiseEvent(T&... mArgs);
 
-
-		Event();
-		~Event();
+	private:
+		std::vector<std::function<bool(T...)>> callbacks;
+		int noCallbacks;
 	};
 
 	template<typename... T>
@@ -34,19 +36,26 @@ namespace gwcEngine
 		noCallbacks++;
 	}
 
+
+	//utility function to compare where stdFunction is pointing
+	template<typename... T>
+	size_t getAddress(const std::function<bool(T...)> f)
+	{
+		//auto fnPointer = f.target<bool(T...)>();
+		auto fnPointer = f.target<bool(T...)>();
+		return (size_t)*fnPointer;
+	}
+
 	template<typename... T>
 	void Event<T...>::unsubscribe(const std::function<bool(T...)>& function)
 	{
 		//todo - impliment method to unsubscribe callback, maybe by reference to an ID returned by the subscribe method?
+		
+		auto functionCopy = function;
+		
 		for (auto it = callbacks.begin(); it != callbacks.end(); it++) {
-			int a=1;
+
 		}
-		/*
-		auto it = std::find(callbacks.begin(), callbacks.end(), function);
-		//
-		callbacks.erase(it);
-		noCallbacks--;
-		*/
 	}
 
 	template<typename... T>
@@ -59,19 +68,6 @@ namespace gwcEngine
 			}
 				
 		}
-	}
-
-
-	template<typename... T>
-	Event<T...>::Event()
-	{
-
-	}
-
-	template<typename... T>
-	Event<T...>::~Event()
-	{
-
 	}
 }
 
