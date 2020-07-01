@@ -6,7 +6,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	Env3D::Env3D()
 		:Layer("3DEnv"),
-		m_Camera(58.0, 1.78f, 0.8f, 300.0f) //perspective camera initializer
+		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.8f, 300.0f)), //perspective camera initializer
+		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(-1.6,1.6,-0.9,0.9)) //perspective camera initializer
 	{
 		
 
@@ -25,7 +26,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		//subscribe camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnWindowResize, m_Camera)));
+		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnWindowResize, *m_PCamera)));
 
 		//subscribe to 'P' being pressed
 		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(Env3D::onPPressed));
@@ -49,14 +50,14 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		float vertices[8 * 3] = {
 			// -----Position-----// -- normal-------- 
-				1.0f, 1.0f, 1.0f,
-				0.0f, 1.0f, 1.0f,
-				0.0f, 0.0f, 1.0f,
-				1.0f, 0.0f, 1.0f,
-				1.0f, 1.0f, 0.0f,
-				0.0f, 1.0f, 0.0f,
-				0.0f, 0.0f, 0.0f,
-				1.0f, 0.0f, 0.0f
+				0.5f, 0.5f, 0.5f,
+				-0.5f, 0.5f, 0.5f,
+				-0.5f, -0.5f, 0.5f,
+				0.5f, -0.5f, 0.5f,
+				0.5f, 0.5f, -0.5f,
+				-0.5f, 0.5f, -0.5f,
+				-0.5f, -0.5f, -0.5f,
+				0.5f, -0.5f, -0.5f
 		};
 
 		uint32_t indices[6 * 3 * 2] = {
@@ -119,71 +120,69 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		t_Mat.SetShader(m_UnlitColourShader);
 	}
 
-	void Env3D::CameraController()
+	void Env3D::CameraController(gwcEngine::Ref<gwcEngine::Camera> camera)
 	{
+		auto pCamera = std::dynamic_pointer_cast<gwcEngine::PerspectiveCamera>(m_PCamera);
+		
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::W)) {
-			glm::vec3 pos = m_Camera.GetPostion();
+			glm::vec3 pos = camera->GetPostion();
 			//Todo, move camera space not world space
-			m_Camera.SetPosition({ pos.x, pos.y , pos.z -= 1.0f * gwcEngine::Time::GetDeltaTime() });
+			camera->SetPosition({ pos.x, pos.y , pos.z -= 1.0f * gwcEngine::Time::GetDeltaTime() });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::A)) {
-			glm::vec3 pos = m_Camera.GetPostion();
-			m_Camera.SetPosition({ pos.x -= 1.0f * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
+			glm::vec3 pos = camera->GetPostion();
+			camera->SetPosition({ pos.x -= 1.0f * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::S)) {
-			glm::vec3 pos = m_Camera.GetPostion();
-			m_Camera.SetPosition({ pos.x, pos.y, pos.z += 1.0f * gwcEngine::Time::GetDeltaTime() });
+			glm::vec3 pos = camera->GetPostion();
+			camera->SetPosition({ pos.x, pos.y, pos.z += 1.0f * gwcEngine::Time::GetDeltaTime() });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::D)) {
-			glm::vec3 pos = m_Camera.GetPostion();
-			m_Camera.SetPosition({ pos.x += 1.0f * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
+			glm::vec3 pos = camera->GetPostion();
+			camera->SetPosition({ pos.x += 1.0f * gwcEngine::Time::GetDeltaTime(), pos.y , pos.z });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::E)) {
-			glm::vec3 pos = m_Camera.GetPostion();
-			m_Camera.SetPosition({ pos.x, pos.y += 1.0f * gwcEngine::Time::GetDeltaTime() , pos.z });
+			glm::vec3 pos = camera->GetPostion();
+			camera->SetPosition({ pos.x, pos.y += 1.0f * gwcEngine::Time::GetDeltaTime() , pos.z });
 		}
 
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::Q)) {
-			glm::vec3 pos = m_Camera.GetPostion();
-			m_Camera.SetPosition({ pos.x, pos.y -= 1.0f * gwcEngine::Time::GetDeltaTime() , pos.z });
+			glm::vec3 pos = camera->GetPostion();
+			camera->SetPosition({ pos.x, pos.y -= 1.0f * gwcEngine::Time::GetDeltaTime() , pos.z });
 		}
 
 	}
 
 	void Env3D::OnUpdate()
 	{
-		auto testLayer = gwcEngine::Application::Get()->FindLayer("3DEnv");
-
-
-		//Make the material change colour with time
+//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime();
 		float r = 0.5f * (glm::sin(t + 45.0f) + 1.0f);
 		float g = 0.5f * (glm::sin(0.333f * t) + 1.0f);
 		float b = 0.5f * (glm::sin(2.0f * t) + 1.0f);
-
-		auto& material = m_ECS_Manager.GetComponent<gwcEngine::Material>(CubeEntity);
-		material.SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
+		m_ECS_Manager.GetComponent<gwcEngine::Material>(CubeEntity).SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 	
-		//move camera (should have ECS control) - TODO
-		CameraController();
+//move perspective Camera
+		CameraController(m_PCamera);
 
-		//TODO these should be in the rendererECS
+//Draw 3d Environment renderPass
 		m_FrameBuffer->Bind();
-		
 		gwcEngine::RenderCommand::Clear();
-		gwcEngine::Renderer::BeginScene(m_Camera);
-
+		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
 		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
-
-		auto& mesh = m_ECS_Manager.GetComponent<gwcEngine::Mesh>(CubeEntity);
-
-		//gwcEngine::Renderer::Submit(mesh.GetVertexArray(),material.GetShader());
 		m_FrameBuffer->Unbind();
 		gwcEngine::Renderer::EndScene();
+
+//Draw 2D orthographic UI layer
+		//todo tomorrow!!! implement texture class with blending....
+		gwcEngine::RenderCommand::Clear();
+		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
+		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
+
 		
 	}
 

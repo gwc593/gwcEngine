@@ -1,14 +1,12 @@
 #pragma once
 #include <gwcEngine.h>
 
-
-
 class Env3D : public gwcEngine::Layer
 {
 public:
 	Env3D();
 
-	void CameraController();
+	void CameraController(gwcEngine::Ref<gwcEngine::Camera> camera);
 
 	void OnUpdate() override;
 	void OnAttach() override;
@@ -20,7 +18,8 @@ public:
 	gwcEngine::Ref<gwcEngine::FrameBuffer> GetFrameBuffer() { return m_FrameBuffer; }
 
 private:
-	gwcEngine::PerspectiveCamera m_Camera;
+	gwcEngine::Ref<gwcEngine::PerspectiveCamera> m_PCamera;
+	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_UICamera;
 
 	std::shared_ptr<gwcEngine::Shader> m_UnlitColourShader;
 

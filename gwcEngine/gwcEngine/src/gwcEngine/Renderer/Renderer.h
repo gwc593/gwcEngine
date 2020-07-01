@@ -17,6 +17,8 @@ namespace gwcEngine
 
 		static void BeginScene(OrthographicCamera& camera); //TODO - take in scene params, lights etc
 		static void BeginScene(PerspectiveCamera& camera); //TODO - take in scene params, lights etc
+
+		static void SetActiveCamera(const Ref<Camera>& camera);
 		static void EndScene();
 		
 		static void OnWindowResize(uint32_t width, uint32_t height);

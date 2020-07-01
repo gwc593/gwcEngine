@@ -3,10 +3,11 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "gwcEngine/Events/Event.h"
+#include "gwcEngine/Renderer/Cameras/Camera.h"
 namespace gwcEngine
 {
 
-	class PerspectiveCamera
+	class PerspectiveCamera : public Camera
 	{
 	public:
 		PerspectiveCamera(float FOV, float ARatio, float NClip, float FClip);
@@ -31,16 +32,16 @@ namespace gwcEngine
 		inline float GetNClip() { return m_NearClip; }
 		inline float GetFClip() { return m_FarClip; }
 
-		inline glm::mat4 GetProjectMatrix() { return m_ProjectionMatrix; }
-		inline glm::mat4 GetViewtMatrix() { return m_ViewMatrix; }
-		inline glm::mat4 GetViewProjectionMatrix() { return m_ViewProjectionMatrix; }
+		inline glm::mat4 GetProjectMatrix() override{ return m_ProjectionMatrix; }
+		inline glm::mat4 GetViewtMatrix() override{ return m_ViewMatrix; }
+		inline glm::mat4 GetViewProjectionMatrix() override{ return m_ViewProjectionMatrix; }
 
-		inline void SetPosition(const glm::vec3& position) { m_Position = position; CalculateViewMatrix(); }
+		inline void SetPosition(const glm::vec3& position) override{ m_Position = position; CalculateViewMatrix(); }
 
 		void SetRotation(const glm::vec3& eulerRotation);
 		void SetRotation(glm::quat rotation);
 
-		inline const glm::vec3& GetPostion() const { return m_Position; }
+		inline const glm::vec3& GetPostion() const override { return m_Position; }
 		inline glm::quat GetRotation() const;
 
 	private:

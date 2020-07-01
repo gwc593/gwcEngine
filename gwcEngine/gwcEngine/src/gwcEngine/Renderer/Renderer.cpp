@@ -21,6 +21,11 @@ namespace gwcEngine
 
 	}
 
+	void Renderer::SetActiveCamera(const Ref<Camera>& camera)
+	{
+		m_SceneData->ViewProjectionMatrix = camera->GetViewProjectionMatrix();
+	}
+
 	void Renderer::EndScene()
 	{
 

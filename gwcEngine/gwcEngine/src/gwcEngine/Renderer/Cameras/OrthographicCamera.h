@@ -1,22 +1,22 @@
 #pragma once
 #include<glm/glm.hpp>
-
+#include "gwcEngine/Renderer/Cameras/Camera.h"
 namespace gwcEngine
 {
 
-	class OrthographicCamera
+	class OrthographicCamera: public Camera
 	{
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
 
-		inline glm::mat4 GetProjectMatrix() {			return m_ProjectionMatrix; }
-		inline glm::mat4 GetViewtMatrix() {				return m_ViewMatrix; }
-		inline glm::mat4 GetViewProjectionMatrix() {	return m_ViewProjectionMatrix; }
+		inline glm::mat4 GetProjectMatrix() override{			return m_ProjectionMatrix; }
+		inline glm::mat4 GetViewtMatrix() override{				return m_ViewMatrix; }
+		inline glm::mat4 GetViewProjectionMatrix() override {	return m_ViewProjectionMatrix; }
 
-		inline void SetPosition(const glm::vec3& position){	m_Position = position; CalculateViewMatrix();}
+		inline void SetPosition(const glm::vec3& position) override{	m_Position = position; CalculateViewMatrix();}
 		inline void SetRotation(const float rotation){m_Rotation = rotation; CalculateViewMatrix();}
 
-		inline const glm::vec3& GetPostion() const { return m_Position; }
+		inline const glm::vec3& GetPostion() const override { return m_Position; }
 		inline float GetRotation() const { return m_Rotation; }
 
 	private:
