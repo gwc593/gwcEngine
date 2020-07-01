@@ -13,8 +13,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnWindowResize, m_Camera)));
 
 		//subscribe to 'P' being pressed
-		uint32_t id = gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(World::onPPressed));
+		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(World::onPPressed));
 		uint32_t idUI = gwcEngine::Input::GetKeyPressedEvent().subscribePriority(BIND_EVENT_FN1(World::onPPressedUI));
+		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(World::onPPressed));
+
 
 		//entity and components and systems
 		gwcEngine::Ref<gwcEngine::RendererECS> rendSys{ new gwcEngine::RendererECS("3dRenderer",m_ECS_Manager) };
