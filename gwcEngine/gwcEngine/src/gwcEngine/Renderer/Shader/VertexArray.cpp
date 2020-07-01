@@ -13,8 +13,6 @@ namespace gwcEngine
 			return nullptr;
 
 		case RendererAPI::API::OpenGL: return new OpenGLVertexArray();
-
-
 		}
 
 		GE_CORE_ASSERT(false, "Invalid Renderer API...");

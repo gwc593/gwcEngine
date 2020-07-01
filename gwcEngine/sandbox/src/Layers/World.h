@@ -11,6 +11,7 @@ public:
 	void CameraController();
 
 	void OnUpdate() override;
+	void OnAttach() override;
 
 	//test callbacks
 	bool onPPressed(int key);
@@ -29,5 +30,7 @@ private:
 
 	gwcEngine::ECSLayerManager m_ECS_Manager;
 	std::pair<float, float> mouse;
+
+	gwcEngine::Ref<gwcEngine::FrameBuffer> m_FrameBuffer;
 };
 

@@ -155,6 +155,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		CameraController();
 
 		//TODO these should be in the rendererECS
+		m_FrameBuffer->Bind();
+		m_FrameBuffer->Unbind();
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::BeginScene(m_Camera);
 
@@ -165,6 +167,16 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//gwcEngine::Renderer::Submit(mesh.GetVertexArray(),material.GetShader());
 
 		gwcEngine::Renderer::EndScene();
+		
+	}
+
+	void World::OnAttach()
+	{
+		gwcEngine::FrameBufferSpecification fbSpec;
+		fbSpec.Width = 1280;
+		fbSpec.Height = 720;
+
+		m_FrameBuffer = gwcEngine::FrameBuffer::Create(fbSpec);
 	}
 
 	bool World::onPPressed(int key)
