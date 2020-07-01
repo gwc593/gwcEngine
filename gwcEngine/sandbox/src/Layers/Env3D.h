@@ -3,10 +3,10 @@
 
 
 
-class World : public gwcEngine::Layer
+class Env3D : public gwcEngine::Layer
 {
 public:
-	World();
+	Env3D();
 
 	void CameraController();
 
@@ -17,6 +17,8 @@ public:
 	bool onPPressed(int key);
 	bool onPPressedUI(int key);
 
+	gwcEngine::Ref<gwcEngine::FrameBuffer> GetFrameBuffer() { return m_FrameBuffer; }
+
 private:
 	gwcEngine::PerspectiveCamera m_Camera;
 
@@ -25,7 +27,7 @@ private:
 	float m_squareRotation = 0.0f;
 	float m_camerRotY = 0.0f;
 	float m_camerRotX = 0.0f;
-
+	
 	gwcEngine::Ref<gwcEngine::Entity> CubeEntity;
 
 	gwcEngine::ECSLayerManager m_ECS_Manager;

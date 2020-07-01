@@ -1,21 +1,36 @@
-#include"World.h"
+#include"Env3D.h"
 
 glm::vec4 redColour = { 1.0f,0.0f,0.0f, 1.0f };
 glm::vec4 greenColour = { 0.0f,1.0f,0.0f, 1.0f };
 glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
-	World::World()
-		:Layer("3DWorld"),
+	Env3D::Env3D()
+		:Layer("3DEnv"),
 		m_Camera(58.0, 1.78f, 0.8f, 300.0f) //perspective camera initializer
 	{
+		
+
+	}
+
+	void Env3D::OnAttach()
+	{
+		gwcEngine::FrameBufferSpecification fbSpec;
+		fbSpec.Width = 1280;
+		fbSpec.Height = 720;
+
+		m_FrameBuffer = gwcEngine::FrameBuffer::Create(fbSpec);
+
+
+
+
 		//subscribe camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
 		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnWindowResize, m_Camera)));
 
 		//subscribe to 'P' being pressed
-		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(World::onPPressed));
-		uint32_t idUI = gwcEngine::Input::GetKeyPressedEvent().subscribePriority(BIND_EVENT_FN1(World::onPPressedUI));
-		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(World::onPPressed));
+		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(Env3D::onPPressed));
+		uint32_t idUI = gwcEngine::Input::GetKeyPressedEvent().subscribePriority(BIND_EVENT_FN1(Env3D::onPPressedUI));
+		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(Env3D::onPPressed));
 
 
 		//entity and components and systems
@@ -30,21 +45,21 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 #pragma region CubeMeshData
 		gwcEngine::BufferLayout layout = {
-			{gwcEngine::ShaderDataType::Float3, "a_Position"}};
+			{gwcEngine::ShaderDataType::Float3, "a_Position"} };
 
 		float vertices[8 * 3] = {
-		// -----Position-----// -- normal-------- 
-			1.0f, 1.0f, 1.0f,     
-			0.0f, 1.0f, 1.0f,     
-			0.0f, 0.0f, 1.0f,
-			1.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f,
-			1.0f, 0.0f, 0.0f
+			// -----Position-----// -- normal-------- 
+				1.0f, 1.0f, 1.0f,
+				0.0f, 1.0f, 1.0f,
+				0.0f, 0.0f, 1.0f,
+				1.0f, 0.0f, 1.0f,
+				1.0f, 1.0f, 0.0f,
+				0.0f, 1.0f, 0.0f,
+				0.0f, 0.0f, 0.0f,
+				1.0f, 0.0f, 0.0f
 		};
 
-		uint32_t indices[6 * 3 * 2] = { 
+		uint32_t indices[6 * 3 * 2] = {
 			0,1,2,
 			0,2,3,
 			4,1,0,
@@ -62,7 +77,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 		triMesh.SetVertexBuffer(vertices, sizeof(vertices), layout);
-		triMesh.SetIndexBuffer(indices, sizeof(indices)/sizeof(uint32_t));
+		triMesh.SetIndexBuffer(indices, sizeof(indices) / sizeof(uint32_t));
 
 #pragma region unlitFlatShaderSrc
 		//create a basic shader
@@ -102,10 +117,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_UnlitColourShader.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
 
 		t_Mat.SetShader(m_UnlitColourShader);
-
 	}
 
-	void World::CameraController()
+	void Env3D::CameraController()
 	{
 		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::W)) {
 			glm::vec3 pos = m_Camera.GetPostion();
@@ -140,8 +154,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	}
 
-	void World::OnUpdate()
+	void Env3D::OnUpdate()
 	{
+		auto testLayer = gwcEngine::Application::Get()->FindLayer("3DEnv");
+
+
 		//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime();
 		float r = 0.5f * (glm::sin(t + 45.0f) + 1.0f);
@@ -156,7 +173,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		//TODO these should be in the rendererECS
 		m_FrameBuffer->Bind();
-		m_FrameBuffer->Unbind();
+		
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::BeginScene(m_Camera);
 
@@ -165,28 +182,19 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto& mesh = m_ECS_Manager.GetComponent<gwcEngine::Mesh>(CubeEntity);
 
 		//gwcEngine::Renderer::Submit(mesh.GetVertexArray(),material.GetShader());
-
+		m_FrameBuffer->Unbind();
 		gwcEngine::Renderer::EndScene();
 		
 	}
 
-	void World::OnAttach()
-	{
-		gwcEngine::FrameBufferSpecification fbSpec;
-		fbSpec.Width = 1280;
-		fbSpec.Height = 720;
-
-		m_FrameBuffer = gwcEngine::FrameBuffer::Create(fbSpec);
-	}
-
-	bool World::onPPressed(int key)
+	bool Env3D::onPPressed(int key)
 	{
 		if (key == (int)gwcEngine::KeyCode::P)
 			GE_TRACE("Key P was pressed");
 		return gwcEngine::PROPAGATE_EVENT;
 	}
 
-	bool World::onPPressedUI(int key)
+	bool Env3D::onPPressedUI(int key)
 	{
 		if (key == (int)gwcEngine::KeyCode::P)
 			GE_TRACE("UI - Key P was pressed");

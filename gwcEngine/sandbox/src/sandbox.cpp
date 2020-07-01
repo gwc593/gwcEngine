@@ -1,7 +1,7 @@
 #include<gwcEngine.h>
 #include"gwcEngine/core/EntryPoint.h"
 #include<glm/gtc/matrix_transform.hpp>
-#include "Layers/World.h"
+#include "Layers/Env3D.h"
 
 //client side implementation of gwcEngine instance
 class MainApp : public gwcEngine::Application
@@ -10,7 +10,7 @@ public:
 	MainApp()
 	{
 		//gwcEngine::RenderCommand::SetVsync(false);
-		PushLayer(new World());
+		PushLayer(new Env3D());
 	}
 
 	~MainApp()

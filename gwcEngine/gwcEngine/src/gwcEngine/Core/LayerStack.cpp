@@ -44,4 +44,15 @@ namespace gwcEngine
 	}
 
 
+	gwcEngine::Layer* LayerStack::GetLayer(const std::string& name)
+	{
+		for (Layer* layer : m_Layers) {
+			if (layer->GetName() == name)
+				return layer;
+		}
+
+		GE_CORE_WARN("Layer {0} not found", name);
+		return nullptr;
+	}
+
 }
