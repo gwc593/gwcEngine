@@ -36,15 +36,12 @@ namespace gwcEngine
 
 		virtual void OnUpdate(const float& dT) override
 		{
+
 			for (auto& it = m_EntityArray.begin(); it != m_EntityArray.end(); it++) {
-				
 				auto& mesh = m_ECSManager.GetComponent<gwcEngine::Mesh>(*it);
 				auto& Transform = m_ECSManager.GetComponent<gwcEngine::Transform>(*it);
 				auto& Material = m_ECSManager.GetComponent<gwcEngine::Material>(*it);
-
-				
 				Renderer::Submit(mesh.GetVertexArray(), Material);
-
 			}
 		}
 

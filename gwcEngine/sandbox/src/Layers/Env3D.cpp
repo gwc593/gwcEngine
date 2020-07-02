@@ -6,7 +6,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	Env3D::Env3D()
 		:Layer("3DEnv"),
-		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.8f, 300.0f)), //perspective camera initializer
+		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.1f, 300.0f)), //perspective camera initializer
 		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(-1.6,1.6,-0.9,0.9)) //perspective camera initializer
 	{
 		
@@ -15,18 +15,18 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnAttach()
 	{
+		//temp frambuffer spec
 		gwcEngine::FrameBufferSpecification fbSpec;
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
-
 		m_FrameBuffer = gwcEngine::FrameBuffer::Create(fbSpec);
 
-
-
+		//temp texture.
+		m_castleTexture = gwcEngine::Texture2D::Create("assets/castle.png");
 
 		//subscribe camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnWindowResize, *m_PCamera)));
+		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::FrameBuffer::Resize, *m_FrameBuffer)));
 
 		//subscribe to 'P' being pressed
 		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(Env3D::onPPressed));
@@ -45,22 +45,22 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//TODO add camera reference.
 
 #pragma region CubeMeshData
-		gwcEngine::BufferLayout layout = {
+		gwcEngine::BufferLayout layoutUnlitShader = {
 			{gwcEngine::ShaderDataType::Float3, "a_Position"} };
 
-		float vertices[8 * 3] = {
+		float verticesCube[8 * 3] = {
 			// -----Position-----// -- normal-------- 
 				0.5f, 0.5f, 0.5f,
-				-0.5f, 0.5f, 0.5f,
-				-0.5f, -0.5f, 0.5f,
-				0.5f, -0.5f, 0.5f,
-				0.5f, 0.5f, -0.5f,
-				-0.5f, 0.5f, -0.5f,
-				-0.5f, -0.5f, -0.5f,
-				0.5f, -0.5f, -0.5f
+			   -0.5f, 0.5f, 0.5f,
+			   -0.5f,-0.5f, 0.5f,
+				0.5f,-0.5f, 0.5f,
+				0.5f, 0.5f,-0.5f,
+			   -0.5f, 0.5f,-0.5f,
+			   -0.5f,-0.5f,-0.5f,
+				0.5f,-0.5f,-0.5f
 		};
-
-		uint32_t indices[6 * 3 * 2] = {
+		                   //f   t   v
+		uint32_t indicesCube[6 * 2 * 3] = {
 			0,1,2,
 			0,2,3,
 			4,1,0,
@@ -76,9 +76,31 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 #pragma endregion
 
+#pragma region QuadMeshData
+		gwcEngine::BufferLayout layoutTextureShader = {
+				{gwcEngine::ShaderDataType::Float3, "a_Position"},
+				{gwcEngine::ShaderDataType::Float2, "a_TexCoord"}
+				};
 
-		triMesh.SetVertexBuffer(vertices, sizeof(vertices), layout);
-		triMesh.SetIndexBuffer(indices, sizeof(indices) / sizeof(uint32_t));
+		float verticesQuad[4 * 5] = {
+			// -----Position-----// -- Texture coord-------- 
+				1.6f, 0.9f, 0.0f,      1.0f, 1.0f,
+				1.6f,-0.9f, 0.0f,      1.0f, 0.0f,
+			   -1.6f,-0.9f, 0.0f,      0.0f, 0.0f,
+			   -1.6f, 0.9f, 0.0f,      0.0f, 1.0f
+		};
+		               //f   t   v
+		uint32_t indicesQuad[1 * 2 * 3] = {
+			0,1,2,
+			0,2,3,
+		};
+
+		QuadMesh.SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layoutTextureShader);
+		QuadMesh.SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t));
+
+#pragma endregion
+		triMesh.SetVertexBuffer(verticesCube, sizeof(verticesCube), layoutUnlitShader);
+		triMesh.SetIndexBuffer(indicesCube, sizeof(indicesCube) / sizeof(uint32_t));
 
 #pragma region unlitFlatShaderSrc
 		//create a basic shader
@@ -112,10 +134,50 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 				color = u_Colour;
 			}
 		)";
+#pragma endregion
 
+
+#pragma region unlitTextureShaderSrc
+		//create a basic shader
+		std::string unlitTextureVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+		
+			out vec2 v_TexCoord;
+			
+			void main()
+			{
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform* vec4(a_Position,1.0);
+			}
+		)";
+
+		std::string unlitTextureFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+			
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				color = texture(u_Texture, v_TexCoord);
+			}
+		)";
 #pragma endregion
 
 		m_UnlitColourShader.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
+		m_UnlitTexturedShader.reset(gwcEngine::Shader::Create(unlitTextureVertexSrc, unlitTextureFragmentSrc));
+
+		m_UnlitTexturedShader->Bind();
+		m_UnlitTexturedShader->UploadUniformInt("u_Texture", 0);//slot 0) //
 
 		t_Mat.SetShader(m_UnlitColourShader);
 	}
@@ -167,22 +229,29 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_ECS_Manager.GetComponent<gwcEngine::Material>(CubeEntity).SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 	
 //move perspective Camera
+		//todo - Camera should be a component
+		//todo - camera controller should be a component
+
 		CameraController(m_PCamera);
 
 //Draw 3d Environment renderPass
+
 		m_FrameBuffer->Bind();
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
 		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
 		m_FrameBuffer->Unbind();
-		gwcEngine::Renderer::EndScene();
 
 //Draw 2D orthographic UI layer
 		//todo tomorrow!!! implement texture class with blending....
 		gwcEngine::RenderCommand::Clear();
-		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
-		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
+		gwcEngine::Renderer::SetActiveCamera(m_UICamera);
+		//m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
+		//m_castleTexture->Bind();
+		m_FrameBuffer->BindTexture();
+		gwcEngine::Renderer::Submit(QuadMesh.GetVertexArray(), m_UnlitTexturedShader);
 
+		gwcEngine::Renderer::EndScene();
 		
 	}
 

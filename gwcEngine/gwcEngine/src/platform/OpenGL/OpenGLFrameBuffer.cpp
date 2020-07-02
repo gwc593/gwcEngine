@@ -37,15 +37,33 @@ namespace gwcEngine
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthBufferAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_DepthBufferAttachment);
 
-		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height);
-		//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height, 0, 
-		//	GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+		
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height, 0, 
+			GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthBufferAttachment, 0);
 
 		GE_CORE_ASSERT((glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE), "Frame buffer not complete");
 			
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	bool OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height)
+	{
+		//update spec
+		m_Specification.Height = height;
+		m_Specification.Width = width;
+
+		//resize colour buffer
+		glBindTexture(GL_TEXTURE_2D, m_ColourAttachment);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specification.Width, m_Specification.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+		//resize depth buffer
+		glBindTexture(GL_TEXTURE_2D, m_DepthBufferAttachment);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height, 0,
+					 GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+
+		return false;
 	}
 
 	const gwcEngine::FrameBufferSpecification& OpenGLFrameBuffer::GetSpecification() const
@@ -62,4 +80,10 @@ namespace gwcEngine
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
+
+	void OpenGLFrameBuffer::BindTexture() const
+	{
+		glBindTexture(GL_TEXTURE_2D, m_ColourAttachment);
+	}
+
 }

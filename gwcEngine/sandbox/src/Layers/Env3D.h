@@ -22,6 +22,7 @@ private:
 	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_UICamera;
 
 	std::shared_ptr<gwcEngine::Shader> m_UnlitColourShader;
+	std::shared_ptr<gwcEngine::Shader> m_UnlitTexturedShader;
 
 	float m_squareRotation = 0.0f;
 	float m_camerRotY = 0.0f;
@@ -33,5 +34,9 @@ private:
 	std::pair<float, float> mouse;
 
 	gwcEngine::Ref<gwcEngine::FrameBuffer> m_FrameBuffer;
+
+private: //temp
+	gwcEngine::Ref<gwcEngine::Texture2D> m_castleTexture;
+	gwcEngine::Mesh QuadMesh;
 };
 

@@ -12,8 +12,12 @@ namespace gwcEngine
 
 		void Invalidate();
 
+		bool Resize(uint32_t width, uint32_t height) override;
+
 		virtual void Bind() override;
 		virtual void Unbind() override;
+
+		virtual void BindTexture() const override;
 
 		const FrameBufferSpecification& GetSpecification() const override;
 

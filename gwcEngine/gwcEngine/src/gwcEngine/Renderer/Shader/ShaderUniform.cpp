@@ -28,7 +28,8 @@ namespace gwcEngine
 			case ShaderDataType::Int4:break;
 			case ShaderDataType::Bool:break;
 			}
-			GE_CORE_ERROR("Unsupported Uniform type selected.");
+			GE_CORE_WARN("{0} (type) {1} is not currently supported by the material system and therefore cannot be modified at runtime", name, type);
+			return nullptr;
 		}
 		
 		}
