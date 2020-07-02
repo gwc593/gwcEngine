@@ -41,7 +41,8 @@ namespace gwcEngine
 				auto& mesh = m_ECSManager.GetComponent<gwcEngine::Mesh>(*it);
 				auto& Transform = m_ECSManager.GetComponent<gwcEngine::Transform>(*it);
 				auto& Material = m_ECSManager.GetComponent<gwcEngine::Material>(*it);
-				Renderer::Submit(mesh.GetVertexArray(), Material);
+				
+				Renderer::Submit(mesh.GetVertexArray(), Material, Transform.GetTransformMatrix());
 			}
 		}
 

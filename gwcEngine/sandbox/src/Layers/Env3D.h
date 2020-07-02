@@ -21,14 +21,14 @@ private:
 	gwcEngine::Ref<gwcEngine::PerspectiveCamera> m_PCamera;
 	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_UICamera;
 
-	std::shared_ptr<gwcEngine::Shader> m_UnlitColourShader;
+	gwcEngine::Ref<gwcEngine::Shader> m_UnlitColourShader;
 	std::shared_ptr<gwcEngine::Shader> m_UnlitTexturedShader;
 
 	float m_squareRotation = 0.0f;
 	float m_camerRotY = 0.0f;
 	float m_camerRotX = 0.0f;
 	
-	gwcEngine::Ref<gwcEngine::Entity> CubeEntity;
+	gwcEngine::Ref<gwcEngine::Entity> m_CubeEntity;
 
 	gwcEngine::ECSLayerManager m_ECS_Manager;
 	std::pair<float, float> mouse;
@@ -38,5 +38,6 @@ private:
 private: //temp
 	gwcEngine::Ref<gwcEngine::Texture2D> m_castleTexture;
 	gwcEngine::Mesh QuadMesh;
+	std::unordered_map<uint32_t, gwcEngine::Ref<gwcEngine::Entity>> m_ents;
 };
 

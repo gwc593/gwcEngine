@@ -9,13 +9,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.1f, 300.0f)), //perspective camera initializer
 		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(-1.6,1.6,-0.9,0.9)) //perspective camera initializer
 	{
-		
 
 	}
 
 	void Env3D::OnAttach()
 	{
-		//temp frambuffer spec
+		//temp framebuffer spec
 		gwcEngine::FrameBufferSpecification fbSpec;
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
@@ -24,24 +23,21 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//temp texture.
 		m_castleTexture = gwcEngine::Texture2D::Create("assets/castle.png");
 
-		//subscribe camera to windowSizeChange
+		//subscribe frameBuffer to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
 		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::FrameBuffer::Resize, *m_FrameBuffer)));
 
-		//subscribe to 'P' being pressed
-		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(Env3D::onPPressed));
-		uint32_t idUI = gwcEngine::Input::GetKeyPressedEvent().subscribePriority(BIND_EVENT_FN1(Env3D::onPPressedUI));
-		gwcEngine::Input::GetKeyPressedEvent().subscribe(BIND_EVENT_FN1(Env3D::onPPressed));
-
-
-		//entity and components and systems
-		gwcEngine::Ref<gwcEngine::RendererECS> rendSys{ new gwcEngine::RendererECS("3dRenderer",m_ECS_Manager) };
+//entity and components and systems
+		//create entity renderer
+		gwcEngine::Ref<gwcEngine::RendererECS> rendSys = gwcEngine::CreateRef<gwcEngine::RendererECS> ("3dRenderer",m_ECS_Manager);
+		//regiseter entity renderer
 		m_ECS_Manager.RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(rendSys));
 
-		CubeEntity = m_ECS_Manager.CreateEntity("Cube");
-		auto& triMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(CubeEntity);
-		auto& transform = m_ECS_Manager.AddComponent<gwcEngine::Transform>(CubeEntity);
-		auto& t_Mat = m_ECS_Manager.AddComponent<gwcEngine::Material>(CubeEntity);
+//make a cube entity
+		m_CubeEntity = m_ECS_Manager.CreateEntity("Cube");
+		auto& triMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(m_CubeEntity);
+		auto& transform = m_ECS_Manager.AddComponent<gwcEngine::Transform>(m_CubeEntity);
+		auto& t_Mat = m_ECS_Manager.AddComponent<gwcEngine::Material>(m_CubeEntity);
 		//TODO add camera reference.
 
 #pragma region CubeMeshData
@@ -180,6 +176,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_UnlitTexturedShader->UploadUniformInt("u_Texture", 0);//slot 0) //
 
 		t_Mat.SetShader(m_UnlitColourShader);
+
 	}
 
 	void Env3D::CameraController(gwcEngine::Ref<gwcEngine::Camera> camera)
@@ -221,21 +218,27 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnUpdate()
 	{
-//Make the material change colour with time
+		GE_TRACE("fps = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());
+		//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime();
 		float r = 0.5f * (glm::sin(t + 45.0f) + 1.0f);
 		float g = 0.5f * (glm::sin(0.333f * t) + 1.0f);
 		float b = 0.5f * (glm::sin(2.0f * t) + 1.0f);
-		m_ECS_Manager.GetComponent<gwcEngine::Material>(CubeEntity).SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
+		m_ECS_Manager.GetComponent<gwcEngine::Material>(m_CubeEntity).SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
+
+
+
+//Move and rotate cube
+		auto& cubeTransform = m_ECS_Manager.GetComponent<gwcEngine::Transform>(m_CubeEntity);
+		auto xPos = cubeTransform.GetPosition();
+		xPos.x =(2.0f* r -1.0f);
+		cubeTransform.SetPosition(glm::vec3(r-1, g-1, b-1)*2.0f);
+		cubeTransform.SetRotation(glm::vec3(r, g, b)*8.0f);
 	
 //move perspective Camera
-		//todo - Camera should be a component
-		//todo - camera controller should be a component
-
 		CameraController(m_PCamera);
 
 //Draw 3d Environment renderPass
-
 		m_FrameBuffer->Bind();
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
@@ -243,28 +246,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_FrameBuffer->Unbind();
 
 //Draw 2D orthographic UI layer
-		//todo tomorrow!!! implement texture class with blending....
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_UICamera);
-		//m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
-		//m_castleTexture->Bind();
 		m_FrameBuffer->BindTexture();
 		gwcEngine::Renderer::Submit(QuadMesh.GetVertexArray(), m_UnlitTexturedShader);
-
 		gwcEngine::Renderer::EndScene();
 		
-	}
-
-	bool Env3D::onPPressed(int key)
-	{
-		if (key == (int)gwcEngine::KeyCode::P)
-			GE_TRACE("Key P was pressed");
-		return gwcEngine::PROPAGATE_EVENT;
-	}
-
-	bool Env3D::onPPressedUI(int key)
-	{
-		if (key == (int)gwcEngine::KeyCode::P)
-			GE_TRACE("UI - Key P was pressed");
-		return gwcEngine::TERMINATE_EVENT;
 	}

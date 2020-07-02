@@ -4,7 +4,7 @@
 namespace gwcEngine
 {
 	
-	void Material::SetShader(std::shared_ptr<Shader> shader)
+	void Material::SetShader(const Ref<Shader>& shader)
 	{
 		m_Shader = shader;
 		m_Uniforms = shader->m_Uniforms;

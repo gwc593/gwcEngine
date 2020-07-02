@@ -36,7 +36,7 @@ namespace gwcEngine
 		RenderCommand::SetViewport(0, 0, width, height);
 	}
 
-	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const glm::mat4 transform)
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const glm::mat4& transform)
 	{
 		shader->Bind();
 		//Todo - should only update the view matrix to the shader once per frame, currently its being uploaded once per draw.
@@ -50,7 +50,7 @@ namespace gwcEngine
 		RenderCommand::DrawIndexed(vertexArray);
 	}
 
-	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, Material& material, const glm::mat4 transform)
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, Material& material, const glm::mat4& transform)
 	{
 		const Ref<Shader>& shader = material.GetShader();
 		shader->Bind();
