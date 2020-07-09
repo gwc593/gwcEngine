@@ -170,8 +170,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		)";
 #pragma endregion
 
-		m_UnlitColourShader.reset(gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc));
-		m_UnlitTexturedShader.reset(gwcEngine::Shader::Create(unlitTextureVertexSrc, unlitTextureFragmentSrc));
+		//m_UnlitColourShader = gwcEngine::Shader::Create(unlitColourvertexSrc, unlitColourfragmentSrc);
+		//m_UnlitTexturedShader = gwcEngine::Shader::Create(unlitTextureVertexSrc, unlitTextureFragmentSrc);
+
+		m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
+		m_UnlitTexturedShader = gwcEngine::Shader::Create("assets/Shaders/UnlitTexture.glsl");
 
 		m_UnlitTexturedShader->Bind();
 		m_UnlitTexturedShader->UploadUniformInt("u_Texture", 0);//slot 0) //

@@ -24,7 +24,8 @@ namespace gwcEngine
 				if ((*it)->GetName() == name)
 					break;
 			}
-			(*it)->SetValue(value);
+			if(it != m_Uniforms.end())
+				(*it)->SetValue(value);
 		};
 
 		const std::shared_ptr<Shader>& GetShader() const { return m_Shader; }
