@@ -23,12 +23,13 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//temp texture.
 		m_castleTexture = gwcEngine::Texture2D::Create("assets/castle.png");
 
-		//subscribe frameBuffer to windowSizeChange
+		//subscribe frameBuffer and perspective camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
 		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::FrameBuffer::Resize, *m_FrameBuffer)));
+		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnFrameResize, *m_PCamera)));
 
 //entity and components and systems
-		//create entity renderer
+		//create entity renderer system
 		gwcEngine::Ref<gwcEngine::RendererECS> rendSys = gwcEngine::CreateRef<gwcEngine::RendererECS> ("3dRenderer",m_ECS_Manager);
 		//regiseter entity renderer
 		m_ECS_Manager.RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(rendSys));
