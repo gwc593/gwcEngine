@@ -131,10 +131,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Layers\World.h" />
+    <ClInclude Include="src\Layers\Env3D.h" />
+    <ClInclude Include="src\Layers\MainWindowLayer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Layers\World.cpp" />
+    <ClCompile Include="src\Layers\Env3D.cpp" />
+    <ClCompile Include="src\Layers\MainWindowLayer.cpp" />
     <ClCompile Include="src\sandbox.cpp" />
   </ItemGroup>
   <ItemGroup>

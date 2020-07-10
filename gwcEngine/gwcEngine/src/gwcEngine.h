@@ -19,6 +19,8 @@
 #include "gwcEngine/Renderer/Renderer.h"
 #include "gwcEngine/Renderer/RenderCommand.h"
 #include "gwcEngine/Renderer/Material.h"
+#include "gwcEngine/Renderer/FrameBuffer.h"
+#include "gwcEngine/Renderer/Texture.h"
 
 #include "gwcEngine/Renderer/Shader/Buffer.h"
 #include "gwcEngine/Renderer/Shader/Shader.h"

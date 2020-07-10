@@ -14,6 +14,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "gwcEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "gwcEngine/vendor/Glad/include"
 IncludeDir["glm"] = "gwcEngine/vendor/glm"
+IncludeDir["stb_image"] = "gwcEngine/vendor/stb_image"
 
 include "gwcEngine/vendor/GLFW"
 include "gwcEngine/vendor/Glad"
@@ -36,6 +37,8 @@ project "gwcEngine"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.hpp",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
@@ -46,7 +49,8 @@ project "gwcEngine"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 	
 	links

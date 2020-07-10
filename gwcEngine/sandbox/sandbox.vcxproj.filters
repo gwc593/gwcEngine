@@ -6,12 +6,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Layers\World.h">
+    <ClInclude Include="src\Layers\Env3D.h">
+      <Filter>Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Layers\MainWindowLayer.h">
       <Filter>Layers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Layers\World.cpp">
+    <ClCompile Include="src\Layers\Env3D.cpp">
+      <Filter>Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layers\MainWindowLayer.cpp">
       <Filter>Layers</Filter>
     </ClCompile>
     <ClCompile Include="src\sandbox.cpp" />

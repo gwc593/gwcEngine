@@ -23,6 +23,12 @@ namespace gwcEngine {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
+		//find layer by name or template type.
+		template<typename T>
+		T& FindLayer(const std::string& name) { return *(T*)s_Instance->m_LayerStack.GetLayer(name); }
+		Layer* FindLayer(const std::string& name) { return s_Instance->m_LayerStack.GetLayer(name); }
+
+
 		Window& GetWindow() { return *m_Window; }
 
 

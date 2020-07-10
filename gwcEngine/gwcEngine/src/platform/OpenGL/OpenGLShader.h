@@ -1,11 +1,15 @@
 #pragma once
 #include "gwcEngine/Renderer/Shader/Shader.h"
+#include<glad/glad.h>
+#include<glm/glm.hpp>
+#include<glm/gtc/type_ptr.hpp>
 namespace gwcEngine 
 {
 	class OpenGLShader : public Shader
 	{
 	public:
 		OpenGLShader(const std::string& vertextSrc, const std::string& fragmentSrc);
+		OpenGLShader(const std::string& shaderPath);
 		virtual ~OpenGLShader();
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
@@ -23,6 +27,11 @@ namespace gwcEngine
 		
 		virtual void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) override;
 		virtual void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) override;
+	
+	private:
+		std::string ReadFile(const std::string& shaderPath);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& shaderSource);
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderElements);
 	private:
 		uint32_t m_Renderer_ID;
 	};

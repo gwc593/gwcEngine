@@ -49,7 +49,7 @@ namespace gwcEngine
 			m_EntityManager.DestroyEntity(entity);
 		}
 
-		Ref<Entity> CreateEntity(const std::string& name)
+		Ref<Entity> CreateEntity(const std::string& name = "unNamed")
 		{
 			auto ret = m_EntityManager.CreateEntity(name);
 			m_SystemManager.OnEntityCompositionModified(ret);
