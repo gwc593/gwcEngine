@@ -1,52 +1,41 @@
 #pragma once
 
 #include"gepch.h"
-//For use in gwcEngine applications
+
+
+//Core Functionality
 #include"gwcEngine/Core/application.h"
-#include "gwcEngine/Core/Layer.h"
 #include "gwcEngine/Core/Log.h"
-
-//Entity component System
-//temp
-
-
+#include "gwcEngine/Core/Layer.h"
 #include "gwcEngine/Core/Time.h"
 
+//Input
 #include "gwcEngine/Core/KeyCodes.h"
 #include "gwcEngine/Core/MouseButtonCodes.h"
 #include "gwcEngine/Core/Input.h"
 
+//Rendering
 #include "gwcEngine/Renderer/Renderer.h"
 #include "gwcEngine/Renderer/RenderCommand.h"
 #include "gwcEngine/Renderer/Material.h"
 #include "gwcEngine/Renderer/FrameBuffer.h"
 #include "gwcEngine/Renderer/Texture.h"
-
 #include "gwcEngine/Renderer/Shader/Buffer.h"
 #include "gwcEngine/Renderer/Shader/Shader.h"
 #include "gwcEngine/Renderer/Shader/VertexArray.h"
-
 #include "gwcEngine/Renderer/Cameras/OrthographicCamera.h"
 #include "gwcEngine/Renderer/Cameras/PerspectiveCamera.h"
 
-////events///
+//Events System
 #include "gwcEngine/Events/Event.h"
 
-//ECS
+//ECS - Management
 #include "gwcEngine/ECS/ECS.h"
-//////////Components
-#include"gwcEngine/ECS/Components/Mesh.h"
-#include"gwcEngine/ECS/Components/Transform.h"
+//ECS - systems
+#include "gwcEngine/ECS/Systems/RendererECS.h"
 
-/////////systems
-#include "gwcEngine//ECS/Systems/RendererECS.h"
-
-//TODO, prevent double main inclusion.
-// !!!!!!!!! Entry point !!!!!!
-//#ifndef MAIN
-//#define MAIN
-//	#include "gwcEngine/Core/EntryPoint.h"
-//#endif // !MAIN
-
+//Components
+#include"gwcEngine/Components/Mesh.h"
+#include"gwcEngine/Components/Transform.h"
 
 

@@ -1,8 +1,8 @@
 #pragma once
 #include"gwcEngine/ECS/System.h"
 #include "gwcEngine/ECS/ECS.h"
-#include "gwcEngine/ECS/Components/Mesh.h"
-#include "gwcEngine/ECS/Components/Transform.h"
+#include "gwcEngine/Components/Mesh.h"
+#include "gwcEngine/Components/Transform.h"
 #include "gwcEngine/Renderer/Material.h"
 #include "gwcEngine/Renderer/Renderer.h"
 namespace gwcEngine 

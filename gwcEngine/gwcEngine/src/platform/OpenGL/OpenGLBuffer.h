@@ -31,7 +31,7 @@ namespace gwcEngine
 	class OpenGLIndexBuffer : public IndexBuffer
 	{
 	public:
-		OpenGLIndexBuffer(uint32_t* verticies, uint32_t count);
+		OpenGLIndexBuffer(uint32_t* verticies, uint32_t count, bool isDynamic = false);
 
 		virtual ~OpenGLIndexBuffer();
 
