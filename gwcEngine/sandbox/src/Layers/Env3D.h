@@ -36,8 +36,6 @@ private:
 	gwcEngine::Ref<gwcEngine::FrameBuffer> m_FrameBuffer;
 
 private: //temp
-	gwcEngine::Ref<gwcEngine::Texture2D> m_castleTexture;
-	gwcEngine::Mesh QuadMesh;
-	std::unordered_map<uint32_t, gwcEngine::Ref<gwcEngine::Entity>> m_ents;
+	gwcEngine::Mesh FullScreenQuad;
 };
 
