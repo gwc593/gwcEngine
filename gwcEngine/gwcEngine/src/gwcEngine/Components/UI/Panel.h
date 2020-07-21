@@ -2,6 +2,10 @@
 #include "gwcEngine/Renderer/FrameBuffer.h"
 #include "gwcEngine/Components/Mesh.h"
 
+#include "gwcEngine/Renderer/Renderer.h"
+#include "gwcEngine/Renderer/RenderCommand.h"
+
+
 namespace gwcEngine
 {
 
@@ -19,6 +23,13 @@ namespace gwcEngine
 			BottomRight,
 			Center
 		};
+
+		bool OnSizeChange(uint32_t width, uint32_t height);
+
+		void SetShader(const Ref<Shader>& shader) { m_UIShader = shader; }
+		void Bind();
+		void Unbind();
+		void flush();
 		
 	private:
 
@@ -28,6 +39,7 @@ namespace gwcEngine
 
 		FrameBufferSpecification m_PanelSpec;
 		Ref<FrameBuffer> m_FrameBuffer;
+		Ref<Shader> m_UIShader;
 		Mesh m_DrawArea;
 	};
 }

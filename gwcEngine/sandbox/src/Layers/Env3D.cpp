@@ -7,7 +7,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	Env3D::Env3D()
 		:Layer("3DEnv"),
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.1f, 300.0f)), //perspective camera initializer
-		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>()) //perspective camera initializer
+		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>()), //perspective camera initializer
+		m_PanelTest(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight())
 	{
 
 	}
@@ -56,39 +57,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 #pragma endregion
 
-		#pragma region QuadMeshData
-		gwcEngine::BufferLayout layoutTextureShader = {
-				{gwcEngine::ShaderDataType::Float3, "a_Position"},
-				{gwcEngine::ShaderDataType::Float2, "a_TexCoord"}
-		};
-
-		float verticesQuad[4 * 5] = {
-			// ----------Position--------------// -- Texture coordinates----- 
-				AspecRatio, AspecRatioInv, 0.0f,      1.0f, 1.0f,
-				AspecRatio,-AspecRatioInv, 0.0f,      1.0f, 0.0f,
-			   -AspecRatio,-AspecRatioInv, 0.0f,      0.0f, 0.0f,
-			   -AspecRatio, AspecRatioInv, 0.0f,      0.0f, 1.0f
-		};
-		//f   t   v
-		uint32_t indicesQuad[1 * 2 * 3] = {
-			0,1,2,
-			0,2,3,
-		};
-
-		FullScreenQuad.SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layoutTextureShader);
-		FullScreenQuad.SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t));
-
-#pragma endregion
-
-	//FullscreenFrameBuffer
-		gwcEngine::FrameBufferSpecification fbSpec;
-		fbSpec.Width = width;
-		fbSpec.Height = height;
-		m_FrameBuffer = gwcEngine::FrameBuffer::Create(fbSpec);
-
 	//subscribe frameBuffer and perspective camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::FrameBuffer::Resize, *m_FrameBuffer)));
 		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnFrameResize, *m_PCamera)));
 
 	//entity and components and systems
@@ -99,6 +69,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	//Compile shaders for use
 		m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
 		m_UnlitTexturedShader = gwcEngine::Shader::Create("assets/Shaders/UnlitTexture.glsl");
+		m_PanelTest.SetShader(m_UnlitTexturedShader);
 
 	//make a cube entity with a mesh, transform and Material
 		m_CubeEntity = m_ECS_Manager.CreateEntity("Cube");
@@ -172,17 +143,15 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		CameraController(m_PCamera);
 
 //Draw 3d Environment renderPass
-		m_FrameBuffer->Bind();
+		m_PanelTest.Bind();
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
 		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
-		m_FrameBuffer->Unbind();
+		m_PanelTest.Unbind();
 
 //Draw 2D orthographic UI layer
-		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_UICamera);
-		m_FrameBuffer->BindTexture();
-		gwcEngine::Renderer::Submit(FullScreenQuad.GetVertexArray(), m_UnlitTexturedShader);
+		m_PanelTest.flush();
 		gwcEngine::Renderer::EndScene();
 		
 	}

@@ -40,4 +40,38 @@ namespace gwcEngine
 		//make mesh dynamic to allow for panel resizing isDynamic = true.
 		m_DrawArea.SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), true);
 	}
+
+	bool Panel::OnSizeChange(uint32_t width, uint32_t height)
+	{
+		m_Width = width;
+		m_Height = height;
+		m_AspectRatio = m_Width / m_Height;
+
+		m_PanelSpec.Height = m_Height;
+		m_PanelSpec.Width = m_Width;
+	
+		
+		m_FrameBuffer->Resize(m_Width, m_Height);
+
+		//todo return PROPOGATE_EVENT
+		return false;
+	}
+
+	void Panel::Bind()
+	{
+		m_FrameBuffer->Bind();
+	}
+
+	void Panel::Unbind()
+	{
+		m_FrameBuffer->Unbind();
+	}
+
+	void Panel::flush()
+	{
+		RenderCommand::Clear();
+		m_FrameBuffer->BindTexture();
+		Renderer::Submit(m_DrawArea.GetVertexArray(), m_UIShader);
+	}
+
 }
