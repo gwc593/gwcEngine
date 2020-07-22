@@ -34,5 +34,6 @@ private:
 private: //temp
 	gwcEngine::Mesh FullScreenQuad;
 	gwcEngine::Panel m_PanelTest;
+	
 };
 

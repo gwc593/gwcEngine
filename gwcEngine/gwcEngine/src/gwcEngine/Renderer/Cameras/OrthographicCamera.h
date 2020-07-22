@@ -21,6 +21,7 @@ namespace gwcEngine
 		inline const glm::vec3& GetPostion() const override { return m_Position; }
 		inline float GetRotation() const { return m_Rotation; }
 
+		bool OnScreenResize(int width, int height);
 	private:
 
 		void CalculateViewMatrix();
