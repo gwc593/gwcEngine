@@ -90,7 +90,7 @@ namespace gwcEngine
 		Renderer::Submit(m_DrawArea.GetVertexArray(), m_DefaultShader, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -0.2f)));
 		
 		m_FrameBuffer->BindTexture();
-		Renderer::Submit(m_DrawArea.GetVertexArray(), m_UIShader, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f,0.5f,1.0f)));
+		//Renderer::Submit(m_DrawArea.GetVertexArray(), m_UIShader, glm::scale(glm::mat4(1.0f), glm::vec3(1.0, m_AspectRatio/m_mainAspect,1.0f)));
 	}
 
 }

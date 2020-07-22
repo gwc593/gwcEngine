@@ -23,7 +23,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		float height = gwcEngine::Application::Get()->GetWindow().GetHeight();
 		float AspecRatio = width / height;
 		float AspecRatioInv =  height / width ;
-		m_UICamera->SetSize(-AspecRatio, AspecRatio, -AspecRatioInv, AspecRatioInv);
+	    m_UICamera->SetSize(-AspecRatio, AspecRatio, -1.0, 1.0);
 		//m_UICamera->SetSize(-1, 1, -1, 1);
 
 		//todo should be assets
@@ -146,13 +146,13 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		CameraController(m_PCamera);
 
 //Draw 3d Environment renderPass
-		//m_PanelTest.Bind();
+		m_PanelTest.Bind();
 		gwcEngine::RenderCommand::Clear();
-		gwcEngine::Renderer::SetActiveCamera(m_UICamera);
+		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
 		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
-		//m_PanelTest.Unbind();
+		m_PanelTest.Unbind();
 
 //Draw 2D orthographic UI layer
-		//m_PanelTest.flush();
-		//gwcEngine::Renderer::EndScene();
+		m_PanelTest.flush();
+		gwcEngine::Renderer::EndScene();
 	}

@@ -47,7 +47,7 @@ namespace gwcEngine
 	{
 		float AspecRatio = (float)width / (float)height;
 		float AspecRatioInv = (float)height / (float)width;
-		SetSize(-AspecRatio, AspecRatio, -AspecRatioInv, AspecRatioInv);
+		SetSize(-AspecRatio, AspecRatio, -1.0, 1.0);
 		return PROPAGATE_EVENT;
 	}
 }
