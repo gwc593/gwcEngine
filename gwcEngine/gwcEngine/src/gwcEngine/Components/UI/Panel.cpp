@@ -4,15 +4,19 @@
 
 namespace gwcEngine
 {
-	Panel::Panel(uint32_t width, uint32_t height, Ref<Camera> camera) 
-		:m_Width(width), m_Height(height),m_PanelCamera(camera)
+	Panel::Panel(uint32_t width, uint32_t height, Ref<Camera> renderingCamera, Ref<Camera> capturingCamera)
+		:m_Width(width), m_Height(height),m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera)
 	{
+		if (capturingCamera == nullptr)
+			m_CapturingCamera = m_RenderingCamera;
+
 		//get window and panel geometry
 		m_MainWindowWidth = Application::Get()->GetWindow().GetWidth();
 		m_MainWindowHeight = Application::Get()->GetWindow().GetHeight();
 		m_MainAspect = (float)m_MainWindowWidth / (float)m_MainWindowHeight;
 
 		m_AspectRatio = (float)m_Width / (float)m_Height;
+		
 		m_PanelSpec.Height = m_Height;
 		m_PanelSpec.Width = m_Width;
 		m_FrameBuffer = FrameBuffer::Create(m_PanelSpec);
@@ -67,6 +71,11 @@ namespace gwcEngine
 		m_Width = width;
 		m_Height = height;
 		m_AspectRatio = width / height;
+
+		m_PanelSpec.Height = m_Height;
+		m_PanelSpec.Width = m_Width;
+		m_FrameBuffer->Resize(width, height);
+
 	}
 	void Panel::SetPosition(int x, int y, Anchor relativeTo)
 	{
@@ -101,25 +110,25 @@ namespace gwcEngine
 	void Panel::flush()
 	{
 		RenderCommand::Clear();
-		Renderer::SetActiveCamera(m_PanelCamera);
-		float testAsp = m_PanelCamera->GetAspectRatio();
+		Renderer::SetActiveCamera(m_RenderingCamera);
+		float testAsp = m_RenderingCamera->GetAspectRatio();
 		glm::mat4 transform = glm::mat4(1.0f);
-		transform = glm::scale(glm::mat4(1.0f), glm::vec3(m_PanelCamera->GetAspectRatio() * ((float)m_Width / (float)m_MainWindowWidth), 1.0f * ((float)m_Height / (float)m_MainWindowHeight), 1.0f));
+		transform = glm::scale(glm::mat4(1.0f), glm::vec3(m_RenderingCamera->GetAspectRatio() * ((float)m_Width / (float)m_MainWindowWidth), 1.0f * ((float)m_Height / (float)m_MainWindowHeight), 1.0f));
 		transform = glm::translate(transform, glm::vec3(m_Position.x, m_Position.y, -0.2f));
 		gwcEngine::Renderer::Submit(m_DrawArea.GetVertexArray(), m_DefaultShader, transform);
 
 		
 		m_FrameBuffer->BindTexture();
 		transform = glm::mat4(1.0f);
-		transform = glm::scale(glm::mat4(1.0f), glm::vec3(m_PanelCamera->GetAspectRatio() * ((float)m_Width / (float)m_MainWindowWidth), 1.0f * ((float)m_Height / (float)m_MainWindowHeight), 1.0f));
+		transform = glm::scale(glm::mat4(1.0f), glm::vec3(m_RenderingCamera->GetAspectRatio() * ((float)m_Width / (float)m_MainWindowWidth), 1.0f * ((float)m_Height / (float)m_MainWindowHeight), 1.0f));
 
-		if (m_AspectRatio > m_PanelCamera->GetAspectRatio()) {
-			transform = glm::scale(transform, glm::vec3(m_PanelCamera->GetAspectRatio()/m_AspectRatio, 1.0f, 1.0f));
+		if (m_AspectRatio > m_CapturingCamera->GetAspectRatio()) {
+			
+			transform = glm::scale(transform, glm::vec3(m_CapturingCamera->GetAspectRatio() / m_AspectRatio, 1.0f, 1.0f));
 		}
 		else {
-			transform = glm::scale(transform, glm::vec3(1.0f, m_AspectRatio/ m_PanelCamera->GetAspectRatio(), 1.0f));
+			transform = glm::scale(transform, glm::vec3(1.0f, m_AspectRatio/ m_CapturingCamera->GetAspectRatio(), 1.0f));
 		}
-
 		
 		transform = glm::translate(transform, glm::vec3(m_Position.x, m_Position.y, 0.0f));
 		Renderer::Submit(m_DrawArea.GetVertexArray(), m_UnlitTextureShader, transform);

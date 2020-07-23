@@ -9,7 +9,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.1f, 300.0f)), //perspective camera initializer
 		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>()), //perspective camera initializer
 		//m_PanelTest(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), m_UICamera)
-		m_PanelTest(300, 600, m_UICamera)
+		m_ViewPortPanel(800, 600, m_UICamera, m_PCamera)
 	{
 
 	}
@@ -21,8 +21,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		float height = gwcEngine::Application::Get()->GetWindow().GetHeight();
 		float AspecRatio = width / height;
 		float AspecRatioInv =  height / width ;
-	    m_UICamera->SetSize(-AspecRatio/2.0f, AspecRatio/2.0f, -1.0/2.0f, 1.0/2.0f);
-		//m_UICamera->SetSize(-1, 1, -1, 1);
+	    //m_UICamera->SetSize(-AspecRatio/2.0f, AspecRatio/2.0f, -1.0/2.0f, 1.0/2.0f);
+		m_UICamera->SetAspectRatio(AspecRatio);
 
 		//todo should be assets
 		#pragma region CubeMeshData
@@ -59,8 +59,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//subscribe frameBuffer and perspective camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnFrameResize, *m_PCamera)));
-		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::Panel::OnMainWindowSizeChange, m_PanelTest)));
+		//resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnFrameResize, *m_PCamera)));
+		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::Panel::OnMainWindowSizeChange, m_ViewPortPanel)));
 		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::OrthographicCamera::OnScreenResize, *m_UICamera)));
 
 	//entity and components and systems
@@ -131,7 +131,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 //Move and rotate cube
-
 		auto& cubeTransform = m_ECS_Manager.GetComponent<gwcEngine::Transform>(m_CubeEntity);
 		auto xPos = cubeTransform.GetPosition();
 		xPos.x =(2.0f* r -1.0f);
@@ -143,14 +142,13 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		CameraController(m_PCamera);
 
 //Draw 3d Environment renderPass
-		m_PanelTest.Bind();
+		m_ViewPortPanel.Bind();
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
 		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
-		m_PanelTest.Unbind();
+		m_ViewPortPanel.Unbind();
 
 //Draw 2D orthographic UI layer
-		m_PanelTest.SetPosition(-400, 00);
-		m_PanelTest.flush();
+		m_ViewPortPanel.flush();
 		gwcEngine::Renderer::EndScene();
 	}

@@ -11,7 +11,7 @@ namespace gwcEngine
 	class Panel
 	{
 	public:
-		Panel(uint32_t width, uint32_t height, Ref<Camera> camera);
+		Panel(uint32_t width, uint32_t height, Ref<Camera> renderingCamera, Ref<Camera> capturingCamera = nullptr);
 		   
 		static enum class Anchor
 		{
@@ -33,7 +33,7 @@ namespace gwcEngine
 		uint32_t GetWidth()const { return m_Width; }
 		uint32_t GetHeight()const { return m_Height; }
 		
-		const Ref<Camera> GetCamera() const { return m_PanelCamera; }
+		const Ref<Camera> GetCamera() const { return m_RenderingCamera; }
 		
 	private://data
 
@@ -47,15 +47,20 @@ namespace gwcEngine
 		Ref<Shader> m_UnlitTextureShader;
 		Ref<Shader> m_DefaultShader;
 		Mesh m_DrawArea;
-		Ref<Camera> m_PanelCamera;
+		Ref<Camera> m_RenderingCamera;
+		Ref<Camera> m_CapturingCamera;
 
 		glm::vec2 m_Position;
-	#
+	
 	private://methods
 		glm::vec2 PixelsToScreenSpace(int x, int y);
 
 	private://Callbacks
 		Ref<EventCallback<int, int>> c_OnMainWindowSizeChange;
-		//EventCallback<uint32_t, uint32_t> c_OnPanelSizeChange;
+
+	private://Events;
+		Event<> e_OnCursorEnter;
+		Event<> e_OnCursorExit;
+		Event<> e_OnClosed;
 	};
 }

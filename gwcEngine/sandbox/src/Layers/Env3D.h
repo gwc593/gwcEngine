@@ -32,7 +32,7 @@ private:
 	std::pair<float, float> mouse;
 
 private: //temp
-	gwcEngine::Panel m_PanelTest;
+	gwcEngine::Panel m_ViewPortPanel;
 	gwcEngine::Mesh m_Quad;
 	
 };

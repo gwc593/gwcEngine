@@ -7,11 +7,8 @@ namespace gwcEngine
 	class OrthographicCamera: public Camera
 	{
 	public:
-		OrthographicCamera(float left=-1.0f, float right=1.0f, float bottom=-1.0f, float top=1.0f);
-		OrthographicCamera(float aspectRatio);
+		OrthographicCamera(float aspectRatio = 1.79);
 		
-
-		void SetSize(float left, float right, float bottom, float top);
 		void SetAspectRatio(float aspectRatio);
 
 		inline glm::mat4 GetProjectMatrix() override{			return m_ProjectionMatrix; }
