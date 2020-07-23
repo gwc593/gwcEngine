@@ -32,8 +32,8 @@ private:
 	std::pair<float, float> mouse;
 
 private: //temp
-	gwcEngine::Mesh FullScreenQuad;
 	gwcEngine::Panel m_PanelTest;
+	gwcEngine::Mesh m_Quad;
 	
 };
 

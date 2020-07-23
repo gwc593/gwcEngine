@@ -8,22 +8,20 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		:Layer("3DEnv"),
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.1f, 300.0f)), //perspective camera initializer
 		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>()), //perspective camera initializer
-		//m_PanelTest(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight())
-		m_PanelTest(800, 800, m_UICamera)
+		//m_PanelTest(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), m_UICamera)
+		m_PanelTest(300, 600, m_UICamera)
 	{
 
 	}
 
 	void Env3D::OnAttach()
 	{
-
-
 	//setup orthographic camera
 		float width = gwcEngine::Application::Get()->GetWindow().GetWidth();
 		float height = gwcEngine::Application::Get()->GetWindow().GetHeight();
 		float AspecRatio = width / height;
 		float AspecRatioInv =  height / width ;
-	    m_UICamera->SetSize(-AspecRatio, AspecRatio, -1.0, 1.0);
+	    m_UICamera->SetSize(-AspecRatio/2.0f, AspecRatio/2.0f, -1.0/2.0f, 1.0/2.0f);
 		//m_UICamera->SetSize(-1, 1, -1, 1);
 
 		//todo should be assets
@@ -81,7 +79,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		cubeMesh.SetVertexBuffer(verticesCube, sizeof(verticesCube), layoutUnlitShader);
 		cubeMesh.SetIndexBuffer(indicesCube, sizeof(indicesCube) / sizeof(uint32_t));
 		cubeMaterial.SetShader(m_UnlitColourShader);
-
 	}
 
 	void Env3D::CameraController(gwcEngine::Ref<gwcEngine::Camera> camera)
@@ -134,13 +131,13 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 //Move and rotate cube
-/*
+
 		auto& cubeTransform = m_ECS_Manager.GetComponent<gwcEngine::Transform>(m_CubeEntity);
 		auto xPos = cubeTransform.GetPosition();
 		xPos.x =(2.0f* r -1.0f);
 		cubeTransform.SetPosition(glm::vec3(r-1, g-1, b-1)*2.0f);
 		cubeTransform.SetRotation(glm::vec3(r, g, b)*8.0f);
-*/
+
 
 //move perspective Camera
 		CameraController(m_PCamera);
@@ -153,6 +150,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_PanelTest.Unbind();
 
 //Draw 2D orthographic UI layer
+		m_PanelTest.SetPosition(-400, 00);
 		m_PanelTest.flush();
 		gwcEngine::Renderer::EndScene();
 	}

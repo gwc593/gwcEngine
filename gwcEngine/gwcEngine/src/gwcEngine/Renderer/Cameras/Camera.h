@@ -11,5 +11,7 @@ namespace gwcEngine
 
 		virtual void SetPosition(const glm::vec3& position) = 0;
 		virtual const glm::vec3& GetPostion() const = 0;
+
+		virtual const float GetAspectRatio() const = 0;
 	};
 }

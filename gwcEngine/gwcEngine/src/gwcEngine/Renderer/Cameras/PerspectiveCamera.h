@@ -28,7 +28,7 @@ namespace gwcEngine
 		}
 
 		inline float GetFOV() { return m_FOV; }
-		inline float GetAspectRatio() { return m_AspectRatio; }
+		inline const float GetAspectRatio() const override { return m_AspectRatio; }
 		inline float GetNClip() { return m_NearClip; }
 		inline float GetFClip() { return m_FarClip; }
 

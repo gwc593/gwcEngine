@@ -4,13 +4,13 @@
 
 namespace gwcEngine
 {
-	Panel::Panel(uint32_t width, uint32_t height, Ref<OrthographicCamera> camera) 
+	Panel::Panel(uint32_t width, uint32_t height, Ref<Camera> camera) 
 		:m_Width(width), m_Height(height),m_PanelCamera(camera)
 	{
 		//get window and panel geometry
 		m_MainWindowWidth = Application::Get()->GetWindow().GetWidth();
 		m_MainWindowHeight = Application::Get()->GetWindow().GetHeight();
-		m_mainAspect = (float)m_MainWindowWidth / (float)m_MainWindowHeight;
+		m_MainAspect = (float)m_MainWindowWidth / (float)m_MainWindowHeight;
 
 		m_AspectRatio = (float)m_Width / (float)m_Height;
 		m_PanelSpec.Height = m_Height;
@@ -56,12 +56,26 @@ namespace gwcEngine
 		Application::Get()->GetWindow().GetWindowResizeEvent().subscribe(c_OnMainWindowSizeChange);
 
 		//setup panel shader
-		m_UIShader = gwcEngine::Shader::Create("assets/Shaders/UnlitTexture.glsl");
+		m_UnlitTextureShader = gwcEngine::Shader::Create("assets/Shaders/UnlitTexture.glsl");
 		m_DefaultShader = gwcEngine::Shader::Create("assets/Shaders/PanelBackground.glsl");
+
+		m_Position = glm::vec2(0.0f);
+	}
+
+	void Panel::SetSize(uint32_t width, uint32_t height)
+	{
+		m_Width = width;
+		m_Height = height;
+		m_AspectRatio = width / height;
+	}
+	void Panel::SetPosition(int x, int y, Anchor relativeTo)
+	{
+		m_Position = PixelsToScreenSpace(x, y);
 	}
 
 	bool Panel::OnSizeChange(uint32_t width, uint32_t height)
 	{
+		SetSize(width, height);
 		return PROPAGATE_EVENT;
 	}
 
@@ -69,7 +83,7 @@ namespace gwcEngine
 	{
 		m_MainWindowWidth = width;
 		m_MainWindowHeight = height;
-		m_mainAspect = (float)m_MainWindowWidth / (float)m_MainWindowHeight;
+		m_MainAspect = (float)m_MainWindowWidth / (float)m_MainWindowHeight;
 		return PROPAGATE_EVENT;
 	}
 
@@ -81,16 +95,49 @@ namespace gwcEngine
 	void Panel::Unbind()
 	{
 		m_FrameBuffer->Unbind();
+		RenderCommand::SetViewport(0, 0, m_MainWindowWidth, m_MainWindowHeight);
 	}
 
 	void Panel::flush()
 	{
-		Renderer::SetActiveCamera(m_PanelCamera);
 		RenderCommand::Clear();
-		Renderer::Submit(m_DrawArea.GetVertexArray(), m_DefaultShader, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -0.2f)));
+		Renderer::SetActiveCamera(m_PanelCamera);
+		float testAsp = m_PanelCamera->GetAspectRatio();
+		glm::mat4 transform = glm::mat4(1.0f);
+		transform = glm::scale(glm::mat4(1.0f), glm::vec3(m_PanelCamera->GetAspectRatio() * ((float)m_Width / (float)m_MainWindowWidth), 1.0f * ((float)m_Height / (float)m_MainWindowHeight), 1.0f));
+		transform = glm::translate(transform, glm::vec3(m_Position.x, m_Position.y, -0.2f));
+		gwcEngine::Renderer::Submit(m_DrawArea.GetVertexArray(), m_DefaultShader, transform);
+
 		
 		m_FrameBuffer->BindTexture();
-		//Renderer::Submit(m_DrawArea.GetVertexArray(), m_UIShader, glm::scale(glm::mat4(1.0f), glm::vec3(1.0, m_AspectRatio/m_mainAspect,1.0f)));
+		transform = glm::mat4(1.0f);
+		transform = glm::scale(glm::mat4(1.0f), glm::vec3(m_PanelCamera->GetAspectRatio() * ((float)m_Width / (float)m_MainWindowWidth), 1.0f * ((float)m_Height / (float)m_MainWindowHeight), 1.0f));
+
+		if (m_AspectRatio > m_PanelCamera->GetAspectRatio()) {
+			transform = glm::scale(transform, glm::vec3(m_PanelCamera->GetAspectRatio()/m_AspectRatio, 1.0f, 1.0f));
+		}
+		else {
+			transform = glm::scale(transform, glm::vec3(1.0f, m_AspectRatio/ m_PanelCamera->GetAspectRatio(), 1.0f));
+		}
+
+		
+		transform = glm::translate(transform, glm::vec3(m_Position.x, m_Position.y, 0.0f));
+		Renderer::Submit(m_DrawArea.GetVertexArray(), m_UnlitTextureShader, transform);
 	}
 
+
+	glm::vec2 Panel::PixelsToScreenSpace(int x, int y)
+	{
+		float xdx = (float)m_MainWindowWidth;
+		float xdy = (float)m_MainAspect;
+		float xm = xdy / xdx;
+		float xc = 0.0f;
+
+		float ydx = (float)m_MainWindowHeight;
+		float ydy = 1.0f;
+		float ym = xdy / xdx;
+		float yc = 0.0f;
+
+		return glm::vec2{ xm * (float)x + xc,ym * (float)y + yc };
+	}
 }
