@@ -128,7 +128,6 @@ namespace gwcEngine
 		transform = glm::translate(transform, glm::vec3(m_Position.x, m_Position.y, -0.2f));
 		gwcEngine::Renderer::Submit(m_DrawArea.GetVertexArray(), m_DefaultShader, transform);
 
-		
 		m_FrameBuffer->BindTexture();
 		transform = glm::mat4(1.0f);
 		transform = glm::scale(glm::mat4(1.0f), glm::vec3(m_RenderingCamera->GetAspectRatio() * ((float)m_Width / (float)m_MainWindowWidth), 1.0f * ((float)m_Height / (float)m_MainWindowHeight), 1.0f));
@@ -143,6 +142,7 @@ namespace gwcEngine
 		
 		transform = glm::translate(transform, glm::vec3(m_Position.x, m_Position.y, 0.0f));
 		Renderer::Submit(m_DrawArea.GetVertexArray(), m_UnlitTextureShader, transform);
+		
 	}
 
 	glm::vec2 Panel::PixelsToScreenSpace(int x, int y)

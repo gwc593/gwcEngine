@@ -87,4 +87,9 @@ namespace gwcEngine
 		glBindTexture(GL_TEXTURE_2D, m_ColourAttachment);
 	}
 
+	void OpenGLFrameBuffer::UnbindTexture() const
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
 }
