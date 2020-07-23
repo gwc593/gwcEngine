@@ -1,6 +1,7 @@
 #include "gepch.h"*
 #include "Panel.h"
 #include "gwcEngine/Core/application.h"
+#include "gwcEngine/Core/Input.h"
 
 namespace gwcEngine
 {
@@ -59,6 +60,11 @@ namespace gwcEngine
 		c_OnMainWindowSizeChange->SetCallback(BIND_EVENT_FN2(Panel::OnMainWindowSizeChange));
 		Application::Get()->GetWindow().GetWindowResizeEvent().subscribe(c_OnMainWindowSizeChange);
 
+		c_OnMouseMoved = CreateRef<EventCallback<float, float>>();
+		//c_OnMouseMoved->SetCallback([&](float& x, float& y) {GE_TRACE("{0}, {1}",x,y); return false; });
+		c_OnMouseMoved->SetCallback(BIND_EVENT_FN2(Panel::OnMouseMovedHandler));
+		Input::GetMouseMovedEvent().subscribe(c_OnMouseMoved);
+
 		//setup panel shader
 		m_UnlitTextureShader = gwcEngine::Shader::Create("assets/Shaders/UnlitTexture.glsl");
 		m_DefaultShader = gwcEngine::Shader::Create("assets/Shaders/PanelBackground.glsl");
@@ -94,6 +100,11 @@ namespace gwcEngine
 		m_MainWindowHeight = height;
 		m_MainAspect = (float)m_MainWindowWidth / (float)m_MainWindowHeight;
 		return PROPAGATE_EVENT;
+	}
+	bool Panel::OnMouseMovedHandler(float x, float y)
+	{
+		GE_TRACE("{0}, {1}", x, y);
+		return false;
 	}
 
 	void Panel::Bind()
@@ -133,7 +144,6 @@ namespace gwcEngine
 		transform = glm::translate(transform, glm::vec3(m_Position.x, m_Position.y, 0.0f));
 		Renderer::Submit(m_DrawArea.GetVertexArray(), m_UnlitTextureShader, transform);
 	}
-
 
 	glm::vec2 Panel::PixelsToScreenSpace(int x, int y)
 	{

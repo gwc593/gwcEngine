@@ -103,7 +103,6 @@ namespace gwcEngine
 				//terminate propagation of event
 				break;
 			}
-
 		}
 	}
 }

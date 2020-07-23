@@ -143,12 +143,14 @@ namespace gwcEngine
 
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset)
 								{
-								  Input::GetMouseMovedEvent().raiseEvent((float&)xoffset, (float&)yoffset);
+									 Input::GetMouseScrolledEvent().raiseEvent((float&)xoffset, (float&)yoffset);
 								});
 
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos)
 								 {
-									 Input::GetMouseMovedEvent().raiseEvent((float&)xpos,(float&)ypos);
+									 float x = (float)xpos;
+									 float y = (float)ypos;
+									 Input::GetMouseMovedEvent().raiseEvent(x,y);
 								 });
 	}
 

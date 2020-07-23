@@ -26,6 +26,7 @@ namespace gwcEngine
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);
 		bool OnSizeChange(uint32_t width, uint32_t height);
 		bool OnMainWindowSizeChange(int width, int height);
+		bool OnMouseMovedHandler(float x, float y);
 		void Bind();
 		void Unbind();
 		void flush();
@@ -57,7 +58,7 @@ namespace gwcEngine
 
 	private://Callbacks
 		Ref<EventCallback<int, int>> c_OnMainWindowSizeChange;
-
+		Ref<EventCallback<float, float>> c_OnMouseMoved;
 	private://Events;
 		Event<> e_OnCursorEnter;
 		Event<> e_OnCursorExit;
