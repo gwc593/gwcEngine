@@ -7,19 +7,19 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	Env3D::Env3D()
 		:Layer("3DEnv"),
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 300.0f)), //perspective camera initializer
-		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight())), //perspective camera initializer
-		m_ViewPortPanel(800, 600, m_UICamera, m_PCamera)
+		m_WindowCamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight())), //perspective camera initializer
+		m_ViewPortPanel(800, 600, m_WindowCamera, m_PCamera)
 	{
 
 	}
 
 	void Env3D::OnAttach()
 	{
-	//setup orthographic camera
-		float width = gwcEngine::Application::Get()->GetWindow().GetWidth();
-		float height = gwcEngine::Application::Get()->GetWindow().GetHeight();
-		float AspecRatio = width / height;
-		float AspecRatioInv =  height / width ;
+		//set the Windows camera's clear colour
+		m_WindowCamera->SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
+
+		//set perspective camera's clear colour
+		m_PCamera->SetClearColour({ 0.65,0.65,0.65,1.0 });
 
 		//todo should be assets
 		#pragma region CubeMeshData
@@ -56,7 +56,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//subscribe frameBuffer and perspective camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::OrthographicCamera::OnScreenResize, *m_UICamera)));
+		resizeEvent.subscribePriority((BIND_EVENT_FNO2(gwcEngine::OrthographicCamera::OnScreenResize, *m_WindowCamera)));
 
 	//entity and components and systems
 		//create entity renderer system and register it
@@ -136,16 +136,20 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		CameraController(m_PCamera);
 
 //Draw 3d Environment renderPass
-		m_ViewPortPanel.Bind();
-		gwcEngine::RenderCommand::SetClearColour({ 0.65,0.65,0.65,1.0 });
+		m_PCamera->GetFrameBuffer()->Bind();
+		gwcEngine::RenderCommand::SetClearColour(m_PCamera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
 		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
-		m_ViewPortPanel.Unbind();
+		m_PCamera->GetFrameBuffer()->Unbind();
+
 
 //Draw 2D orthographic UI layer
 		//m_ViewPortPanel.SetPosition(-1*(int)gwcEngine::Application::Get()->GetWindow().GetWidth() /2  + (m_ViewPortPanel.GetWidth() /2),
-			//						  ((int)gwcEngine::Application::Get()->GetWindow().GetHeight()/2) - (m_ViewPortPanel.GetHeight()/2)); //anchor top left
+			//						  ((int)gwcEngine::Application::Get()->GetWindow().GetHeight()/2) - (m_ViewPortPanel.GetHeight()/2)); //anchor top left		
+		gwcEngine::RenderCommand::SetClearColour(m_WindowCamera->GetClearColour());
+		gwcEngine::RenderCommand::Clear();
+
 		m_ViewPortPanel.flush();
 		gwcEngine::Renderer::EndScene();
 	}

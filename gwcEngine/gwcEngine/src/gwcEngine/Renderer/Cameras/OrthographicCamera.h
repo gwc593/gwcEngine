@@ -10,7 +10,7 @@ namespace gwcEngine
 	public:
 		OrthographicCamera(uint32_t resX = 800, uint32_t resY= 600);
 		
-		inline void SetResolution(uint32_t resX, uint32_t resY) { m_ResX = resX; m_ResY = resY; SetAspectRatio((float)m_ResX / (float)m_ResY); }
+		inline void SetResolution(uint32_t resX, uint32_t resY) override; 
 
 		inline glm::mat4 GetProjectMatrix() override{			return m_ProjectionMatrix; }
 		inline glm::mat4 GetViewtMatrix() override{				return m_ViewMatrix; }
@@ -29,6 +29,12 @@ namespace gwcEngine
 		glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) override;
 
 		Ref<FrameBuffer> GetFrameBuffer() const override { return m_FrameBuffer; }
+
+		glm::vec4 GetClearColour() const override { return m_ClearColour; }
+		void SetClearColour(glm::vec4 colour) override { m_ClearColour = colour; }
+
+		uint32_t GetWidth() const override { return m_ResX; }
+		uint32_t GetHeight() const override { return m_ResY; }
 	private:
 
 		void SetAspectRatio(float aspectRatio);
@@ -37,6 +43,7 @@ namespace gwcEngine
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ViewProjectionMatrix;
+		glm::vec4 m_ClearColour;
 
 		glm::vec3 m_Position;
 		float m_Rotation;
@@ -46,5 +53,6 @@ namespace gwcEngine
 		Ref<FrameBuffer> m_FrameBuffer;
 
 		uint32_t m_ResX, m_ResY;
+
 	};
 }

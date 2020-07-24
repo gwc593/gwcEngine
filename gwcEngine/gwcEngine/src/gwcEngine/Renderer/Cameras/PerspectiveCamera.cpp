@@ -17,6 +17,10 @@ namespace gwcEngine
 		m_FarClip(FClip),
 		m_ProjectionMatrix(glm::perspective(FOV, (float)resX / (float)resY,NClip,FClip)),m_ViewMatrix(glm::mat4(1.0f))
 	{
+		m_FrameBufferSpec.Height = m_ResY;
+		m_FrameBufferSpec.Width = m_ResX;
+		m_FrameBuffer = FrameBuffer::Create(m_FrameBufferSpec);
+
 		if (Renderer::GetAPI() == RendererAPI::API::DirectX) {
 			m_ViewProjectionMatrix = m_ViewMatrix * m_ProjectionMatrix;
 		}
@@ -32,6 +36,21 @@ namespace gwcEngine
 		
 		glDepthRange(m_NearClip, m_FarClip);
 	}
+
+	void PerspectiveCamera::SetResolution(uint32_t resX, uint32_t resY)
+	{
+		m_ResX = resX; 
+		m_ResY = resY; 
+		SetAspectRatio((float)m_ResX / (float)m_ResY);
+
+		m_FrameBufferSpec.Width = resX;
+		m_FrameBufferSpec.Height = resY;
+
+		if (m_FrameBuffer != nullptr)
+			m_FrameBuffer->Resize(resX, resY);
+	}
+
+
 
 	void PerspectiveCamera::SetRotation(const glm::vec3& eulerRotation)
 	{

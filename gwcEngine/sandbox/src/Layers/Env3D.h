@@ -17,7 +17,7 @@ public:
 
 private:
 	gwcEngine::Ref<gwcEngine::PerspectiveCamera> m_PCamera;
-	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_UICamera;
+	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_WindowCamera;
 
 	gwcEngine::Ref<gwcEngine::Shader> m_UnlitColourShader;
 	std::shared_ptr<gwcEngine::Shader> m_UnlitTexturedShader;
@@ -34,6 +34,7 @@ private:
 private: //temp
 	gwcEngine::Panel m_ViewPortPanel;
 	gwcEngine::Mesh m_Quad;
+	
 	
 };
 

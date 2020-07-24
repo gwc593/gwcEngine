@@ -27,7 +27,7 @@ namespace gwcEngine
 			return PROPAGATE_EVENT;
 		}
 
-		inline void SetResolution(uint32_t resX, uint32_t resY) override { m_ResX = resX; m_ResY = resY; SetAspectRatio((float)m_ResX / (float)m_ResY); }
+		inline void SetResolution(uint32_t resX, uint32_t resY) override; 
 		inline void SetFOV(float FOV) { m_FOV = FOV; CalculateProjectionMatrix(); CalculateViewMatrix(); }
 		inline void SetNClip(float NClip) { m_NearClip = NClip; CalculateProjectionMatrix(); CalculateViewMatrix(); }
 		inline void SetFClip(float FClip) { m_FarClip = FClip; CalculateProjectionMatrix();  CalculateViewMatrix(); }
@@ -87,6 +87,12 @@ namespace gwcEngine
 			return ret;
 		}
 
+		glm::vec4 GetClearColour() const override { return m_ClearColour; }
+		void SetClearColour(glm::vec4 colour) override { m_ClearColour = colour; }
+
+		uint32_t GetWidth() const override { return m_ResX; }
+		uint32_t GetHeight() const override { return m_ResY; }
+
 	private:
 
 		inline void SetAspectRatio(float ARatio) { m_AspectRatio = ARatio; CalculateProjectionMatrix(); CalculateViewMatrix(); }
@@ -96,6 +102,8 @@ namespace gwcEngine
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ViewProjectionMatrix;
+
+		glm::vec4 m_ClearColour;
 
 		glm::vec3 m_Position;
 		glm::quat m_Rotation;

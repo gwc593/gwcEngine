@@ -25,8 +25,6 @@ namespace gwcEngine
 
 		void SetSize(uint32_t width, uint32_t height);
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);
-		void Bind();
-		void Unbind();
 		void flush();
 
 		uint32_t GetWidth()const { return m_Width; }
@@ -37,13 +35,9 @@ namespace gwcEngine
 		bool OnMouseMovedHandler(float x, float y);
 	private://data
 
-		uint32_t m_Width, m_MainWindowWidth;
-		uint32_t m_Height, m_MainWindowHeight;
+		uint32_t m_Width;
+		uint32_t m_Height;
 		float m_AspectRatio;
-		float m_MainAspect;
-
-		FrameBufferSpecification m_PanelSpec;
-		Ref<FrameBuffer> m_FrameBuffer;
 
 		Ref<Shader> m_UnlitTextureShader;
 		Ref<Shader> m_DefaultShader;
@@ -56,13 +50,10 @@ namespace gwcEngine
 		Transform m_MainTransform;
 		Transform m_RenderPlaneTransform;
 
-
-
 	public://Callbacks
 		Ref<EventCallback<int, int>> c_OnMainWindowSizeChange;
 		Ref<EventCallback<float, float>> c_OnMouseMoved;
 	private://methods
-		glm::vec2 PixelsToScreenSpace(int x, int y);
 		bool OnMainWindowSizeChangeHandler(int width, int height);
 
 	private://Events;
