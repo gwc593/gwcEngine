@@ -15,17 +15,6 @@ namespace gwcEngine
 		m_VA.reset(gwcEngine::VertexArray::Create());
 	}
 
-	Mesh::Mesh(int i)
-	{
-		m_VB = nullptr;
-		m_VA = nullptr;
-		m_IB = nullptr;
-
-		m_VA.reset(gwcEngine::VertexArray::Create());
-
-		GE_CORE_TRACE("The number {0} pass passed", i);
-	}
-
 	Mesh::Mesh(const std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<IndexBuffer>& ib)
 	{
 		m_VB = vb;
@@ -33,12 +22,12 @@ namespace gwcEngine
 		InitVertexArray();
 	}
 
-	Mesh::Mesh(float* const& verts, std::size_t sizeV, BufferLayout layout, uint32_t* const& indicies, uint32_t sizeI)
+	Mesh::Mesh(float* const& verts, std::size_t sizeV, BufferLayout layout, uint32_t* const& indicies, uint32_t sizeI, bool isDynamic)
 	{
 		m_VB.reset(VertexBuffer::Create(verts, (uint32_t)sizeV));
 		m_VB->SetLayout(layout);
 
-		m_IB.reset(IndexBuffer::Create(indicies, sizeI));
+		m_IB.reset(IndexBuffer::Create(indicies, sizeI, isDynamic));
 		InitVertexArray();
 
 	}
@@ -50,10 +39,10 @@ namespace gwcEngine
 		InitVertexArray();
 	}
 
-	void Mesh::SetIndexBuffer(uint32_t* const& indicies, const uint32_t& sizeI)
+	void Mesh::SetIndexBuffer(uint32_t* const& indicies, const uint32_t& sizeI, bool isDynamic)
 	{
 
-		m_IB.reset(IndexBuffer::Create(indicies, sizeI));
+		m_IB.reset(IndexBuffer::Create(indicies, sizeI, isDynamic));
 		InitVertexArray();
 
 	}

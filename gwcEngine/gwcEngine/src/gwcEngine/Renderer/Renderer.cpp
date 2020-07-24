@@ -26,6 +26,11 @@ namespace gwcEngine
 		m_SceneData->ViewProjectionMatrix = camera->GetViewProjectionMatrix();
 	}
 
+	void Renderer::SetViewProjection(const glm::mat4& vp)
+	{
+		m_SceneData->ViewProjectionMatrix = vp;
+	}
+
 	void Renderer::EndScene()
 	{
 

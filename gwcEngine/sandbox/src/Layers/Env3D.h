@@ -15,8 +15,6 @@ public:
 	bool onPPressed(int key);
 	bool onPPressedUI(int key);
 
-	gwcEngine::Ref<gwcEngine::FrameBuffer> GetFrameBuffer() { return m_FrameBuffer; }
-
 private:
 	gwcEngine::Ref<gwcEngine::PerspectiveCamera> m_PCamera;
 	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_UICamera;
@@ -33,9 +31,9 @@ private:
 	gwcEngine::ECSLayerManager m_ECS_Manager;
 	std::pair<float, float> mouse;
 
-	gwcEngine::Ref<gwcEngine::FrameBuffer> m_FrameBuffer;
-
 private: //temp
-	gwcEngine::Mesh FullScreenQuad;
+	gwcEngine::Panel m_ViewPortPanel;
+	gwcEngine::Mesh m_Quad;
+	
 };
 

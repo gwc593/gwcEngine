@@ -24,6 +24,7 @@ namespace gwcEngine
 		virtual void Unbind() = 0;
 
 		virtual void BindTexture() const = 0;
+		virtual void UnbindTexture() const = 0;
 
 		virtual uint32_t GetColourAttachmentRendererID() const = 0;
 		

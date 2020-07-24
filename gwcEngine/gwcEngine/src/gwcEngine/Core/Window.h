@@ -3,6 +3,7 @@
 #include"core.h"
 #include"gwcEngine/Events/Event.h"
 #include "gwcEngine/Core/application.h"
+#include<glm/glm.hpp>
 
 namespace gwcEngine 
 {
@@ -21,7 +22,7 @@ namespace gwcEngine
 
 
 	//abstract window interface.
-	class GE_API Window
+	class Window
 	{
 	public:
 		virtual ~Window(){}

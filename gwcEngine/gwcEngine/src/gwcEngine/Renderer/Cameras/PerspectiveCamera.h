@@ -28,7 +28,7 @@ namespace gwcEngine
 		}
 
 		inline float GetFOV() { return m_FOV; }
-		inline float GetAspectRatio() { return m_AspectRatio; }
+		inline const float GetAspectRatio() const override { return m_AspectRatio; }
 		inline float GetNClip() { return m_NearClip; }
 		inline float GetFClip() { return m_FarClip; }
 
@@ -43,6 +43,42 @@ namespace gwcEngine
 
 		inline const glm::vec3& GetPostion() const override { return m_Position; }
 		inline glm::quat GetRotation() const;
+
+		glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) override
+		{
+			GE_CORE_ASSERT(false, "need to get depth pixel, assume zero for now");
+
+			float mX, mY, cx, cy, uX, uY;
+
+			mX = (2.0f) / (float(window.GetWidth()));
+			mY = (-2.0f) / (float(window.GetHeight()));
+
+			cx = 1.0f - (mX * float(window.GetWidth()));
+			cy = 1.0f + (mY * float(window.GetHeight()));
+
+
+			uX = (mX * (float)x) + cx;
+			uY = (mY * (float)y) - cy;
+
+			glm::mat4 vp = GetViewProjectionMatrix();
+			auto vpi = glm::inverse(vp);
+
+			glm::vec4 data;
+			data.x = uX;
+			data.y = uY;
+			data.z = 1.0f;
+			data.w = 1.0f;
+
+			auto temp = data * vpi;
+
+			temp.w = 1.0f / temp.w;
+			temp.x *= temp.w;
+			temp.y *= temp.w;
+			temp.z *= temp.w;
+
+			glm::vec3 ret{ temp.x,temp.y,temp.z };
+			return ret;
+		}
 
 	private:
 

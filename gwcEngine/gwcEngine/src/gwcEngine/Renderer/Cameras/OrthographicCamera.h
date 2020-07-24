@@ -1,15 +1,16 @@
 #pragma once
 #include<glm/glm.hpp>
 #include "gwcEngine/Renderer/Cameras/Camera.h"
+
 namespace gwcEngine
 {
 
 	class OrthographicCamera: public Camera
 	{
 	public:
-		OrthographicCamera(float left=-1.0f, float right=1.0f, float bottom=-1.0f, float top=1.0f);
+		OrthographicCamera(float aspectRatio = 1.79);
 		
-		void SetSize(float left, float right, float bottom, float top);
+		void SetAspectRatio(float aspectRatio);
 
 		inline glm::mat4 GetProjectMatrix() override{			return m_ProjectionMatrix; }
 		inline glm::mat4 GetViewtMatrix() override{				return m_ViewMatrix; }
@@ -21,6 +22,11 @@ namespace gwcEngine
 		inline const glm::vec3& GetPostion() const override { return m_Position; }
 		inline float GetRotation() const { return m_Rotation; }
 
+		inline const float GetAspectRatio()const override { return m_AspectRatio; }
+
+		bool OnScreenResize(int width, int height);
+
+		glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) override;
 	private:
 
 		void CalculateViewMatrix();
@@ -31,5 +37,6 @@ namespace gwcEngine
 
 		glm::vec3 m_Position;
 		float m_Rotation;
+		float m_AspectRatio;
 	};
 }

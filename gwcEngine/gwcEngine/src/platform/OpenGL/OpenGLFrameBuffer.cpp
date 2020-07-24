@@ -73,6 +73,7 @@ namespace gwcEngine
 
 	void OpenGLFrameBuffer::Bind()
 	{
+		glViewport(0, 0, m_Specification.Width, m_Specification.Height);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 	}
 
@@ -84,6 +85,11 @@ namespace gwcEngine
 	void OpenGLFrameBuffer::BindTexture() const
 	{
 		glBindTexture(GL_TEXTURE_2D, m_ColourAttachment);
+	}
+
+	void OpenGLFrameBuffer::UnbindTexture() const
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 }

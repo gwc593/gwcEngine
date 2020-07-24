@@ -7,21 +7,20 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	Env3D::Env3D()
 		:Layer("3DEnv"),
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.1f, 300.0f)), //perspective camera initializer
-		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>()) //perspective camera initializer
+		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>()), //perspective camera initializer
+		m_ViewPortPanel(800, 600, m_UICamera, m_PCamera)
 	{
 
 	}
 
 	void Env3D::OnAttach()
 	{
-
-
 	//setup orthographic camera
 		float width = gwcEngine::Application::Get()->GetWindow().GetWidth();
 		float height = gwcEngine::Application::Get()->GetWindow().GetHeight();
 		float AspecRatio = width / height;
 		float AspecRatioInv =  height / width ;
-		m_UICamera->SetSize(-AspecRatio, AspecRatio, -AspecRatioInv, AspecRatioInv);
+		m_UICamera->SetAspectRatio(AspecRatio);
 
 		//todo should be assets
 		#pragma region CubeMeshData
@@ -56,40 +55,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 #pragma endregion
 
-		#pragma region QuadMeshData
-		gwcEngine::BufferLayout layoutTextureShader = {
-				{gwcEngine::ShaderDataType::Float3, "a_Position"},
-				{gwcEngine::ShaderDataType::Float2, "a_TexCoord"}
-		};
-
-		float verticesQuad[4 * 5] = {
-			// ----------Position--------------// -- Texture coordinates----- 
-				AspecRatio, AspecRatioInv, 0.0f,      1.0f, 1.0f,
-				AspecRatio,-AspecRatioInv, 0.0f,      1.0f, 0.0f,
-			   -AspecRatio,-AspecRatioInv, 0.0f,      0.0f, 0.0f,
-			   -AspecRatio, AspecRatioInv, 0.0f,      0.0f, 1.0f
-		};
-		//f   t   v
-		uint32_t indicesQuad[1 * 2 * 3] = {
-			0,1,2,
-			0,2,3,
-		};
-
-		FullScreenQuad.SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layoutTextureShader);
-		FullScreenQuad.SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t));
-
-#pragma endregion
-
-	//FullscreenFrameBuffer
-		gwcEngine::FrameBufferSpecification fbSpec;
-		fbSpec.Width = width;
-		fbSpec.Height = height;
-		m_FrameBuffer = gwcEngine::FrameBuffer::Create(fbSpec);
-
 	//subscribe frameBuffer and perspective camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::FrameBuffer::Resize, *m_FrameBuffer)));
-		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::PerspectiveCamera::OnFrameResize, *m_PCamera)));
+		resizeEvent.subscribe((BIND_EVENT_FNO2(gwcEngine::OrthographicCamera::OnScreenResize, *m_UICamera)));
 
 	//entity and components and systems
 		//create entity renderer system and register it
@@ -98,7 +66,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//Compile shaders for use
 		m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
-		m_UnlitTexturedShader = gwcEngine::Shader::Create("assets/Shaders/UnlitTexture.glsl");
 
 	//make a cube entity with a mesh, transform and Material
 		m_CubeEntity = m_ECS_Manager.CreateEntity("Cube");
@@ -108,7 +75,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		cubeMesh.SetVertexBuffer(verticesCube, sizeof(verticesCube), layoutUnlitShader);
 		cubeMesh.SetIndexBuffer(indicesCube, sizeof(indicesCube) / sizeof(uint32_t));
 		cubeMaterial.SetShader(m_UnlitColourShader);
-
 	}
 
 	void Env3D::CameraController(gwcEngine::Ref<gwcEngine::Camera> camera)
@@ -150,39 +116,37 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnUpdate()
 	{
-		GE_TRACE("fps = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());
 		//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime();
-		float r = 0.5f * (glm::sin(t + 45.0f) + 1.0f);
-		float g = 0.5f * (glm::sin(0.333f * t) + 1.0f);
-		float b = 0.5f * (glm::sin(2.0f * t) + 1.0f);
+		float r = 0.5f * (glm::sin(1.6f * glm::cos(1.0f * t) + 45.0f) + 1.0f);
+		float g = 0.5f * (glm::sin(0.333f * 1.3f * glm::cos(1.8f* t)) + 1.0f);
+		float b = 0.5f * (glm::sin(2.0f * 1.1f*glm::cos(1.4*t)) + 1.0f);
 		m_ECS_Manager.GetComponent<gwcEngine::Material>(m_CubeEntity).SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 
 
 
 //Move and rotate cube
-
 		auto& cubeTransform = m_ECS_Manager.GetComponent<gwcEngine::Transform>(m_CubeEntity);
 		auto xPos = cubeTransform.GetPosition();
-		xPos.x =(2.0f* r -1.0f);
-		cubeTransform.SetPosition(glm::vec3(r-1, g-1, b-1)*2.0f);
-		cubeTransform.SetRotation(glm::vec3(r, g, b)*8.0f);
-	
+		xPos.x =(3.0f* r -1.0f);
+		cubeTransform.SetPosition(glm::vec3(r-0.5f, g-0.5f, b-0.5f)*3.0f);
+		cubeTransform.SetRotation(glm::vec3(r, g, b)*12.0f);
+
+
 //move perspective Camera
 		CameraController(m_PCamera);
 
 //Draw 3d Environment renderPass
-		m_FrameBuffer->Bind();
+		m_ViewPortPanel.Bind();
+		gwcEngine::RenderCommand::SetClearColour({ 0.65,0.65,0.65,1.0 });
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
 		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
-		m_FrameBuffer->Unbind();
+		m_ViewPortPanel.Unbind();
 
 //Draw 2D orthographic UI layer
-		gwcEngine::RenderCommand::Clear();
-		gwcEngine::Renderer::SetActiveCamera(m_UICamera);
-		m_FrameBuffer->BindTexture();
-		gwcEngine::Renderer::Submit(FullScreenQuad.GetVertexArray(), m_UnlitTexturedShader);
+		m_ViewPortPanel.SetPosition(-1*(int)gwcEngine::Application::Get()->GetWindow().GetWidth() /2  + (m_ViewPortPanel.GetWidth() /2),
+									  ((int)gwcEngine::Application::Get()->GetWindow().GetHeight()/2) - (m_ViewPortPanel.GetHeight()/2)); //anchor top left
+		m_ViewPortPanel.flush();
 		gwcEngine::Renderer::EndScene();
-		
 	}

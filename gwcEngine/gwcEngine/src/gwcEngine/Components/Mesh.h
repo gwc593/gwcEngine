@@ -8,10 +8,9 @@ namespace gwcEngine
 	{
 	public:
 		Mesh();
-		Mesh(int i);
 
 		Mesh(const std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<IndexBuffer>& ib);
-		Mesh(float* const& verts, std::size_t sizeV, BufferLayout layout, uint32_t* const& indicies, uint32_t sizeI);
+		Mesh(float* const& verts, std::size_t sizeV, BufferLayout layout, uint32_t* const& indicies, uint32_t sizeI, bool isDynamic = false);
 
 		inline std::shared_ptr<VertexBuffer> GetVertexBuffer() const { return m_VB; }
 		inline std::shared_ptr<IndexBuffer> GetIndexBuffer() const { return m_IB; }
@@ -19,7 +18,7 @@ namespace gwcEngine
 
 		void SetVertexBuffer(float* const& verts, uint32_t sizeV, BufferLayout layout);
 
-		void SetIndexBuffer(uint32_t* const& indicies, const uint32_t& sizeI);
+		void SetIndexBuffer(uint32_t* const& indicies, const uint32_t& sizeI, bool isDynamic = false);
 
 		void InitVertexArray();
 
