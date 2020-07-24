@@ -120,6 +120,7 @@ namespace gwcEngine
 
 	void Panel::flush()
 	{
+		
 		RenderCommand::Clear();
 		Renderer::SetActiveCamera(m_RenderingCamera);
 		float testAsp = m_RenderingCamera->GetAspectRatio();
