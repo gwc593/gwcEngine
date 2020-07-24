@@ -6,8 +6,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	Env3D::Env3D()
 		:Layer("3DEnv"),
-		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, 1.78f, 0.1f, 300.0f)), //perspective camera initializer
-		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>()), //perspective camera initializer
+		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 300.0f)), //perspective camera initializer
+		m_UICamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight())), //perspective camera initializer
 		m_ViewPortPanel(800, 600, m_UICamera, m_PCamera)
 	{
 
@@ -20,7 +20,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		float height = gwcEngine::Application::Get()->GetWindow().GetHeight();
 		float AspecRatio = width / height;
 		float AspecRatioInv =  height / width ;
-		m_UICamera->SetAspectRatio(AspecRatio);
 
 		//todo should be assets
 		#pragma region CubeMeshData
@@ -145,8 +144,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_ViewPortPanel.Unbind();
 
 //Draw 2D orthographic UI layer
-		m_ViewPortPanel.SetPosition(-1*(int)gwcEngine::Application::Get()->GetWindow().GetWidth() /2  + (m_ViewPortPanel.GetWidth() /2),
-									  ((int)gwcEngine::Application::Get()->GetWindow().GetHeight()/2) - (m_ViewPortPanel.GetHeight()/2)); //anchor top left
+		//m_ViewPortPanel.SetPosition(-1*(int)gwcEngine::Application::Get()->GetWindow().GetWidth() /2  + (m_ViewPortPanel.GetWidth() /2),
+			//						  ((int)gwcEngine::Application::Get()->GetWindow().GetHeight()/2) - (m_ViewPortPanel.GetHeight()/2)); //anchor top left
 		m_ViewPortPanel.flush();
 		gwcEngine::Renderer::EndScene();
 	}

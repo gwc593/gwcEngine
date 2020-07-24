@@ -8,9 +8,14 @@
 namespace gwcEngine
 {
 
-	PerspectiveCamera::PerspectiveCamera(float FOV, float ARatio, float NClip, float FClip):
-		m_FOV(FOV), m_AspectRatio(ARatio),m_NearClip(NClip),m_FarClip(FClip),
-		m_ProjectionMatrix(glm::perspective(FOV,ARatio,NClip,FClip)),m_ViewMatrix(glm::mat4(1.0f))
+	PerspectiveCamera::PerspectiveCamera(float FOV, uint32_t resX, uint32_t resY, float NClip, float FClip):
+		m_ResX(resX), 
+		m_ResY(resY),
+		m_FOV(FOV), 
+		m_AspectRatio((float)resX / (float)resY),
+		m_NearClip(NClip),
+		m_FarClip(FClip),
+		m_ProjectionMatrix(glm::perspective(FOV, (float)resX / (float)resY,NClip,FClip)),m_ViewMatrix(glm::mat4(1.0f))
 	{
 		if (Renderer::GetAPI() == RendererAPI::API::DirectX) {
 			m_ViewProjectionMatrix = m_ViewMatrix * m_ProjectionMatrix;

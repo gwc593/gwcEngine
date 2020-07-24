@@ -8,9 +8,9 @@ namespace gwcEngine
 	class OrthographicCamera: public Camera
 	{
 	public:
-		OrthographicCamera(float aspectRatio = 1.79);
+		OrthographicCamera(uint32_t resX = 800, uint32_t resY= 600);
 		
-		void SetAspectRatio(float aspectRatio);
+		inline void SetResolution(uint32_t resX, uint32_t resY) { m_ResX = resX; m_ResY = resY; SetAspectRatio((float)m_ResX / (float)m_ResY); }
 
 		inline glm::mat4 GetProjectMatrix() override{			return m_ProjectionMatrix; }
 		inline glm::mat4 GetViewtMatrix() override{				return m_ViewMatrix; }
@@ -27,8 +27,11 @@ namespace gwcEngine
 		bool OnScreenResize(int width, int height);
 
 		glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) override;
+
+		Ref<FrameBuffer> GetFrameBuffer() const override { return m_FrameBuffer; }
 	private:
 
+		void SetAspectRatio(float aspectRatio);
 		void CalculateViewMatrix();
 	private:
 		glm::mat4 m_ProjectionMatrix;
@@ -38,5 +41,10 @@ namespace gwcEngine
 		glm::vec3 m_Position;
 		float m_Rotation;
 		float m_AspectRatio;
+
+		FrameBufferSpecification m_FrameBufferSpec;
+		Ref<FrameBuffer> m_FrameBuffer;
+
+		uint32_t m_ResX, m_ResY;
 	};
 }
