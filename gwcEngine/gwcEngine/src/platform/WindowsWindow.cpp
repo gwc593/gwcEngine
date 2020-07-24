@@ -21,6 +21,8 @@ namespace gwcEngine
 				return nullptr;
 	}
 
+
+
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
 		Init(props);

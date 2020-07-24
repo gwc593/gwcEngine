@@ -1,6 +1,7 @@
 #pragma once
 #include<glm/glm.hpp>
 #include "gwcEngine/Renderer/Cameras/Camera.h"
+
 namespace gwcEngine
 {
 
@@ -24,6 +25,8 @@ namespace gwcEngine
 		inline const float GetAspectRatio()const override { return m_AspectRatio; }
 
 		bool OnScreenResize(int width, int height);
+
+		glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) override;
 	private:
 
 		void CalculateViewMatrix();

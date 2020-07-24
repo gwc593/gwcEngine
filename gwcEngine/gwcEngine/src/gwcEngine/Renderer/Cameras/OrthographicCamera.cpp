@@ -49,11 +49,45 @@ namespace gwcEngine
 
 	}
 
-	bool OrthographicCamera::OnScreenResize(int width, int height)
+	bool OrthographicCamera::OnScreenResize(int width, int height )
 	{
 		m_AspectRatio = (float)width / (float)height;
 		SetAspectRatio(m_AspectRatio);
 		return PROPAGATE_EVENT;
+	}
+
+	glm::vec3 OrthographicCamera::ScreenToWorld(uint32_t x, uint32_t y, const Window& window) 
+	{
+		float mX, mY, cx, cy,uX, uY;
+
+		mX = ( 2.0f) / (float(window.GetWidth()));
+		mY = ( -2.0f) / (float(window.GetHeight()));
+
+		cx = 1.0f - (mX * float(window.GetWidth()));
+		cy = 1.0f + (mY * float(window.GetHeight()));
+
+
+		uX = (mX * (float)x) + cx;
+		uY = (mY * (float)y) - cy;
+
+		glm::mat4 vp = GetViewProjectionMatrix();
+		auto vpi = glm::inverse(vp);
+
+		glm::vec4 data;
+		data.x = uX;
+		data.y = uY;
+		data.z = 1.0f;
+		data.w = 1.0f;
+		
+		auto temp = data * vpi;
+		
+		temp.w = 1.0f / temp.w;
+		temp.x *= temp.w;
+		temp.y *= temp.w;
+		temp.z *= temp.w;
+
+		glm::vec3 ret{temp.x,temp.y,temp.z};
+		return ret;
 	}
 }
 
