@@ -50,12 +50,12 @@ namespace gwcEngine
 
 		//setup callbacks
 		c_OnMainWindowSizeChange = CreateRef<EventCallback<int, int>>();
-		c_OnMainWindowSizeChange->SetCallback(BIND_EVENT_FN2(Panel::OnMainWindowSizeChangeHandler));
+		c_OnMainWindowSizeChange->SetCallback(BIND_EVENT_FN(Panel::OnMainWindowSizeChangeHandler));
 		Application::Get()->GetWindow().GetWindowResizeEvent().subscribe(c_OnMainWindowSizeChange);
 
 		c_OnMouseMoved = CreateRef<EventCallback<float, float>>();
 		//c_OnMouseMoved->SetCallback([&](float& x, float& y) {GE_TRACE("{0}, {1}",x,y); return false; });
-		c_OnMouseMoved->SetCallback(BIND_EVENT_FN2(Panel::OnMouseMovedHandler));
+		c_OnMouseMoved->SetCallback(BIND_EVENT_FN(Panel::OnMouseMovedHandler));
 		Input::GetMouseMovedEvent().subscribe(c_OnMouseMoved);
 
 		//setup panel shader

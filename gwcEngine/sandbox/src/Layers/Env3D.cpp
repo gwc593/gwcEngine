@@ -56,8 +56,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//subscribe frameBuffer and perspective camera to windowSizeChange
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		resizeEvent.subscribePriority((BIND_EVENT_FNO2(gwcEngine::OrthographicCamera::OnScreenResize, *m_WindowCamera)));
-
+		//resizeEvent.subscribePriority((BIND_EVENT_FNO2(gwcEngine::OrthographicCamera::OnScreenResize, *m_WindowCamera)));
+		resizeEvent.subscribePriority((BIND_EVENT_FNO(gwcEngine::OrthographicCamera::OnScreenResize, m_WindowCamera)));
+		
 	//entity and components and systems
 		//create entity renderer system and register it
 		gwcEngine::Ref<gwcEngine::RendererECS> rendSys = gwcEngine::CreateRef<gwcEngine::RendererECS> ("3dRenderer",m_ECS_Manager);

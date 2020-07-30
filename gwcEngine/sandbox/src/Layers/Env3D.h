@@ -15,9 +15,9 @@ public:
 	bool onPPressed(int key);
 	bool onPPressedUI(int key);
 
+	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_WindowCamera;
 private:
 	gwcEngine::Ref<gwcEngine::PerspectiveCamera> m_PCamera;
-	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_WindowCamera;
 
 	gwcEngine::Ref<gwcEngine::Shader> m_UnlitColourShader;
 	std::shared_ptr<gwcEngine::Shader> m_UnlitTexturedShader;

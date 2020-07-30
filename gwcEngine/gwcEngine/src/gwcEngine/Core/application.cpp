@@ -20,10 +20,10 @@ namespace gwcEngine {
 
 		m_ECSManager = ECSGlobalManager::GetInstance();
 
-		Ref<EventCallback<>> windCloseCallback{ new EventCallback<>(BIND_EVENT_FN0(Application::OnWindowClose)) };
+		Ref<EventCallback<>> windCloseCallback{ new EventCallback<>(BIND_EVENT_FN(Application::OnWindowClose)) };
 		s_Instance->GetWindow().GetWindowCloseEvent().subscribe(windCloseCallback);
 
-		Ref<EventCallback<int,int>> windResizeCallback{ new EventCallback<int,int>(BIND_EVENT_FN2(Application::OnWindowResize)) };
+		Ref<EventCallback<int,int>> windResizeCallback{ new EventCallback<int,int>(BIND_EVENT_FN(Application::OnWindowResize)) };
 		s_Instance->GetWindow().GetWindowResizeEvent().subscribe(windResizeCallback);
 
 	}
