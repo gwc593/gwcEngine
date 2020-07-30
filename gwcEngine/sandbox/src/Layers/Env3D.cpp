@@ -8,7 +8,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		:Layer("3DEnv"),
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 300.0f)), //perspective camera initializer
 		m_WindowCamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight())), //perspective camera initializer
-		m_ViewPortPanel(800, 600, m_WindowCamera, m_PCamera)
+		m_ViewPortPanel(1000, 750, m_WindowCamera, m_PCamera)
 	{
 
 	}
