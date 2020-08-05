@@ -63,6 +63,8 @@ namespace gwcEngine
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height, 0,
 					 GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
 
+		GE_CORE_ASSERT((glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE), "Frame buffer not complete");
+
 		return false;
 	}
 

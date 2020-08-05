@@ -96,6 +96,7 @@ namespace gwcEngine
 
 		void SetTansformMatrix()
 		{
+			//m_TransformMat = glm::translate(glm::mat4(1.0f), GetCompoundPosition()) * glm::mat4(GetCompoundRotation()) * glm::scale(glm::mat4(1.0f), GetCompoundScale()) ;
 			m_TransformMat = glm::translate(glm::mat4(1.0f), GetCompoundPosition()) * glm::mat4(GetCompoundRotation()) * glm::scale(glm::mat4(1.0f), GetCompoundScale()) ;
 		}
 		glm::quat m_Rotation;

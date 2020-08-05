@@ -10,14 +10,12 @@ public:
 
 	void OnUpdate() override;
 	void OnAttach() override;
+		
+	void AnimateCube();
 
-	//test callbacks
-	bool onPPressed(int key);
-	bool onPPressedUI(int key);
-
+	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_WindowCamera;
 private:
 	gwcEngine::Ref<gwcEngine::PerspectiveCamera> m_PCamera;
-	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_UICamera;
 
 	gwcEngine::Ref<gwcEngine::Shader> m_UnlitColourShader;
 	std::shared_ptr<gwcEngine::Shader> m_UnlitTexturedShader;
@@ -29,11 +27,10 @@ private:
 	gwcEngine::Ref<gwcEngine::Entity> m_CubeEntity;
 
 	gwcEngine::ECSLayerManager m_ECS_Manager;
-	std::pair<float, float> mouse;
 
 private: //temp
 	gwcEngine::Panel m_ViewPortPanel;
-	gwcEngine::Mesh m_Quad;
+	
 	
 };
 
