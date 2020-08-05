@@ -54,9 +54,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 #pragma endregion
 
-	//subscribe frameBuffer and perspective camera to windowSizeChange
+	//subscribe window camera to window size changes
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		//resizeEvent.subscribePriority((BIND_EVENT_FNO2(gwcEngine::OrthographicCamera::OnScreenResize, *m_WindowCamera)));
 		resizeEvent.subscribePriority((BIND_EVENT_FNO(gwcEngine::OrthographicCamera::OnScreenResize, m_WindowCamera)));
 		
 	//entity and components and systems
@@ -75,6 +74,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		cubeMesh.SetVertexBuffer(verticesCube, sizeof(verticesCube), layoutUnlitShader);
 		cubeMesh.SetIndexBuffer(indicesCube, sizeof(indicesCube) / sizeof(uint32_t));
 		cubeMaterial.SetShader(m_UnlitColourShader);
+
+
 	}
 
 	void Env3D::CameraController(gwcEngine::Ref<gwcEngine::Camera> camera)
@@ -114,29 +115,33 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	}
 
-	void Env3D::OnUpdate()
+	void Env3D::AnimateCube()
 	{
 		//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime();
 		float r = 0.5f * (glm::sin(1.6f * glm::cos(1.0f * t) + 45.0f) + 1.0f);
-		float g = 0.5f * (glm::sin(0.333f * 1.3f * glm::cos(1.8f* t)) + 1.0f);
-		float b = 0.5f * (glm::sin(2.0f * 1.1f*glm::cos(1.4*t)) + 1.0f);
+		float g = 0.5f * (glm::sin(0.333f * 1.3f * glm::cos(1.8f * t)) + 1.0f);
+		float b = 0.5f * (glm::sin(2.0f * 1.1f * glm::cos(1.4 * t)) + 1.0f);
 		m_ECS_Manager.GetComponent<gwcEngine::Material>(m_CubeEntity).SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 
 
 
-//Move and rotate cube
+		//Move and rotate cube
 		auto& cubeTransform = m_ECS_Manager.GetComponent<gwcEngine::Transform>(m_CubeEntity);
 		auto xPos = cubeTransform.GetPosition();
-		xPos.x =(3.0f* r -1.0f);
-		cubeTransform.SetPosition(glm::vec3(r-0.5f, g-0.5f, b-0.5f)*3.0f);
-		cubeTransform.SetRotation(glm::vec3(r, g, b)*12.0f);
+		xPos.x = (3.0f * r - 1.0f);
+		cubeTransform.SetPosition(glm::vec3(r - 0.5f, g - 0.5f, b - 0.5f) * 3.0f);
+		cubeTransform.SetRotation(glm::vec3(r, g, b) * 12.0f);
+	}
 
-
-//move perspective Camera
+	void Env3D::OnUpdate()
+	{
+		//Animate Cube
+		AnimateCube();
+		//move perspective Camera
 		CameraController(m_PCamera);
 
-//Draw 3d Environment renderPass
+		//Draw 3d Environment renderPass
 		m_PCamera->GetFrameBuffer()->Bind();
 		gwcEngine::RenderCommand::SetClearColour(m_PCamera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
@@ -145,12 +150,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_PCamera->GetFrameBuffer()->Unbind();
 
 
-//Draw 2D orthographic UI layer
-		//m_ViewPortPanel.SetPosition(-1*(int)gwcEngine::Application::Get()->GetWindow().GetWidth() /2  + (m_ViewPortPanel.GetWidth() /2),
-			//						  ((int)gwcEngine::Application::Get()->GetWindow().GetHeight()/2) - (m_ViewPortPanel.GetHeight()/2)); //anchor top left		
+		//Draw 2D orthographic UI layer
 		gwcEngine::RenderCommand::SetClearColour(m_WindowCamera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
-
 		m_ViewPortPanel.flush();
 		gwcEngine::Renderer::EndScene();
 	}

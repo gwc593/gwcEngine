@@ -10,10 +10,8 @@ public:
 
 	void OnUpdate() override;
 	void OnAttach() override;
-
-	//test callbacks
-	bool onPPressed(int key);
-	bool onPPressedUI(int key);
+		
+	void AnimateCube();
 
 	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_WindowCamera;
 private:
@@ -29,11 +27,9 @@ private:
 	gwcEngine::Ref<gwcEngine::Entity> m_CubeEntity;
 
 	gwcEngine::ECSLayerManager m_ECS_Manager;
-	std::pair<float, float> mouse;
 
 private: //temp
 	gwcEngine::Panel m_ViewPortPanel;
-	gwcEngine::Mesh m_Quad;
 	
 	
 };
