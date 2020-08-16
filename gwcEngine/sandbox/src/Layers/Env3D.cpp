@@ -68,7 +68,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//make a cube entity with a mesh, transform and Material
 		m_CubeEntity = m_ECS_Manager.CreateEntity("Cube");
-		auto& cubeMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(m_CubeEntity);
+		auto& cubeMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(m_CubeEntity,5);
 		auto& cubeTransform = m_ECS_Manager.AddComponent<gwcEngine::Transform>(m_CubeEntity);
 		auto& cubeMaterial = m_ECS_Manager.AddComponent<gwcEngine::Material>(m_CubeEntity);
 		cubeMesh.SetVertexBuffer(verticesCube, sizeof(verticesCube), layoutUnlitShader);

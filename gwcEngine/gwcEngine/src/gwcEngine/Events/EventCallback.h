@@ -45,5 +45,5 @@ namespace gwcEngine
 		uint32_t m_ID;
 		std::function<bool(T...)> m_Callback;
 	};
-
+	
 }

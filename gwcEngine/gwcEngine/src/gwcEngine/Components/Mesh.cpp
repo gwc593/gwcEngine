@@ -15,6 +15,18 @@ namespace gwcEngine
 		m_VA.reset(gwcEngine::VertexArray::Create());
 	}
 
+	Mesh::Mesh(int value)
+	{
+		m_VB = nullptr;
+		m_VA = nullptr;
+		m_IB = nullptr;
+
+		m_VA.reset(gwcEngine::VertexArray::Create());
+
+		std::cout << "Mesh initialised with values of " << value << std::endl;
+	}
+
+
 	Mesh::Mesh(const std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<IndexBuffer>& ib)
 	{
 		m_VB = vb;

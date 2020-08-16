@@ -24,7 +24,7 @@ namespace gwcEngine
 	class Component : public IComponent
 	{
 	public:
-		Component(TArgs&&... mArgs)
+		Component(TArgs... mArgs)
 			:
 			m_CompRef(new T(std::forward<TArgs>(mArgs)...))
 		{
@@ -148,14 +148,15 @@ namespace gwcEngine
 		}
 		
 		template<typename T, typename... TArgs>
-		T& AddComponent(Ref<Entity>entity, TArgs&&... mArgs) noexcept
+		T& AddComponent(Ref<Entity>entity, TArgs... mArgs) noexcept
 		{
 			//find component component array
 			auto search = m_ArrayOfComponentArrays.find(typeid(T).name());
 
-			//make new component
-			Ref<Component<T>> _component{ new Component<T>(std::forward<TArgs>(mArgs)...) };
-			
+			//TODO - I know, this is hideous type punning, but it works... Is there a cleaner way?
+			Ref<Component<T>> _component( (Component<T>*) &(*new Component<T, TArgs...>(std::forward<TArgs>(mArgs)...)));
+
+
 			//if component array does not exist within the array of component arrays, make it and add it.
 			if (search == m_ArrayOfComponentArrays.end()){
 				auto arrRef{ new ComponentArray<T>() };
