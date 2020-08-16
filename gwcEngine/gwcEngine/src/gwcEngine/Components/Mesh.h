@@ -8,6 +8,7 @@ namespace gwcEngine
 	{
 	public:
 		Mesh();
+		Mesh(int value);
 
 		Mesh(const std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<IndexBuffer>& ib);
 		Mesh(float* const& verts, std::size_t sizeV, BufferLayout layout, uint32_t* const& indicies, uint32_t sizeI, bool isDynamic = false);
