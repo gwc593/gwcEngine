@@ -51,7 +51,6 @@ namespace gwcEngine
 		Bind();
 		GE_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout defined...");
 
-		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
 
 
@@ -77,7 +76,7 @@ namespace gwcEngine
 	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
 	{
 		Bind();
-		glBindVertexArray(m_RendererID);
+		//glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
 
 		m_IndexBuffer = indexBuffer;

@@ -29,7 +29,7 @@ namespace gwcEngine
 		void unsubscribe(const Ref < EventCallback<T...>>& callback)const;
 		void unsubscribe(const uint32_t& id)const;
 
-		void raiseEvent(T&... mArgs) const;
+		void raiseEvent(T... mArgs) const;
 
 		void operator = (const Event<T...>& D) = delete;
 
@@ -96,7 +96,7 @@ namespace gwcEngine
 	}
 
 	template<typename... T>
-	void Event<T...>::raiseEvent(T&... mArgs) const
+	void Event<T...>::raiseEvent(T... mArgs) const
 	{
 		for (auto it = callbacks.begin(); it != callbacks.end(); it++) {
 			if ((*it)->GetFunction()(std::forward<T>(mArgs)...)) {

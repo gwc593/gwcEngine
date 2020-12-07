@@ -24,18 +24,21 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//todo should be assets
 		#pragma region CubeMeshData
 		gwcEngine::BufferLayout layoutUnlitShader = {
-			{gwcEngine::ShaderDataType::Float3, "a_Position"} };
+			{gwcEngine::ShaderDataType::Float3, "a_Position"},
+			{gwcEngine::ShaderDataType::Float2, "a_UV"},
+			{gwcEngine::ShaderDataType::Float3, "a_Norm"}
+															 };
 
-		float verticesCube[8 * 3] = {
-			// -----Position-----// -- normal-------- 
-				0.5f, 0.5f, 0.5f,
-			   -0.5f, 0.5f, 0.5f,
-			   -0.5f,-0.5f, 0.5f,
-				0.5f,-0.5f, 0.5f,
-				0.5f, 0.5f,-0.5f,
-			   -0.5f, 0.5f,-0.5f,
-			   -0.5f,-0.5f,-0.5f,
-				0.5f,-0.5f,-0.5f
+		float verticesCube[8 * (3+2+3)] = {
+			// -----Position-----// UV Text//--Normal// 
+				0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			   -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			   -0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+				0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+				0.5f, 0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			   -0.5f, 0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			   -0.5f,-0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+				0.5f,-0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
 		};
 		//f   t   v
 		uint32_t indicesCube[6 * 2 * 3] = {
@@ -54,6 +57,25 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 #pragma endregion
 
+		#pragma region Quad data
+
+		float QuadVer[4 * (3+2+3)] = {
+			// -----Position-----// UV Text    //--Normal// 
+			 -0.25f,0.25f,0.0,     0.0f,0.0f,  0.0f,0.0f,0.0f,
+			-0.25f,-0.25f,0.0,     0.0f,0.0f,  0.0f,0.0f,0.0f,
+			 0.25f,-0.25f,0.0,     0.0f,0.0f,  0.0f,0.0f,0.0f,
+			 0.25f,0.25f,0.0,      0.0f,0.0f,  0.0f,0.0f,0.0f
+		};
+
+		uint32_t QuadInd[2 * 3]{
+			0,1,2,
+			3,0,2
+		};
+
+#pragma endregion
+
+
+
 	//subscribe window camera to window size changes
 		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
 		resizeEvent.subscribePriority((BIND_EVENT_FNO(gwcEngine::OrthographicCamera::OnScreenResize, m_WindowCamera)));
@@ -68,13 +90,22 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//make a cube entity with a mesh, transform and Material
 		m_CubeEntity = m_ECS_Manager.CreateEntity("Cube");
-		auto& cubeMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(m_CubeEntity,5);
+		auto& cubeMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(m_CubeEntity);
 		auto& cubeTransform = m_ECS_Manager.AddComponent<gwcEngine::Transform>(m_CubeEntity);
 		auto& cubeMaterial = m_ECS_Manager.AddComponent<gwcEngine::Material>(m_CubeEntity);
 		cubeMesh.SetVertexBuffer(verticesCube, sizeof(verticesCube), layoutUnlitShader);
 		cubeMesh.SetIndexBuffer(indicesCube, sizeof(indicesCube) / sizeof(uint32_t));
 		cubeMaterial.SetShader(m_UnlitColourShader);
 
+	//make quad entity
+		auto m_quad = m_ECS_Manager.CreateEntity("Quad");
+		auto& quadMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(m_quad);
+		auto& quadTransform = m_ECS_Manager.AddComponent<gwcEngine::Transform>(m_quad);
+		auto& quadMaterial = m_ECS_Manager.AddComponent<gwcEngine::Material>(m_quad);
+		quadMesh.SetVertexBuffer(QuadVer, sizeof(QuadVer), layoutUnlitShader);
+		quadMesh.SetIndexBuffer(QuadInd, sizeof(QuadInd) / sizeof(uint32_t));
+		quadMaterial.SetShader(m_UnlitColourShader);
+		
 
 	}
 
@@ -141,7 +172,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//move perspective Camera
 		CameraController(m_PCamera);
 
-		//Draw 3d Environment renderPass
+		//Render perspective camera
 		m_PCamera->GetFrameBuffer()->Bind();
 		gwcEngine::RenderCommand::SetClearColour(m_PCamera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
@@ -150,9 +181,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_PCamera->GetFrameBuffer()->Unbind();
 
 
+
+		//
 		//Draw 2D orthographic UI layer
 		gwcEngine::RenderCommand::SetClearColour(m_WindowCamera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
+		m_ViewPortPanel.SetPosition(0, 0, gwcEngine::Anchor::Center);
 		m_ViewPortPanel.flush();
 		gwcEngine::Renderer::EndScene();
 	}

@@ -1,4 +1,4 @@
-#include "gepch.h"*
+#include "gepch.h"
 #include "Panel.h"
 #include "gwcEngine/Core/application.h"
 #include "gwcEngine/Core/Input.h"
@@ -91,8 +91,18 @@ namespace gwcEngine
 
 	void Panel::SetPosition(int x, int y, Anchor relativeTo)
 	{
-		m_Position = m_RenderingCamera->ScreenToWorld(x, y, Application::Get()->GetWindow());
-		m_RenderPlaneTransform.SetPosition(glm::vec3(m_Position.x, m_Position.y, 0.02f));
+		int xp = 0;
+		int yp = 0;
+		switch (relativeTo) {
+		case Anchor::TopLeft:{ break; }
+		case Anchor::TopRight: { xp = m_RenderingCamera->GetWidth(); break; }
+		case Anchor::BottomLeft: {yp = m_RenderingCamera->GetHeight();  break; }
+		case Anchor::BottomRight:{xp = m_RenderingCamera->GetWidth(); yp = m_RenderingCamera->GetHeight(); break; }
+		case Anchor::Center: {xp = m_RenderingCamera->GetWidth() / 2; yp = m_RenderingCamera->GetHeight() / 2; break; }
+		}
+
+		m_Position = m_RenderingCamera->ScreenToWorld(x+xp, y+yp, Application::Get()->GetWindow());
+		m_MainTransform.SetPosition(glm::vec3(m_Position.x, m_Position.y, 0.02f));
 	}
 
 	bool Panel::OnMainWindowSizeChangeHandler(int width, int height)

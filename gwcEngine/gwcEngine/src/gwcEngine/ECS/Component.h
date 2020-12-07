@@ -148,7 +148,7 @@ namespace gwcEngine
 		}
 		
 		template<typename T, typename... TArgs>
-		T& AddComponent(Ref<Entity>entity, TArgs... mArgs) noexcept
+		T& AddComponent(Ref<Entity>entity, TArgs&&... mArgs) noexcept
 		{
 			//find component component array
 			auto search = m_ArrayOfComponentArrays.find(typeid(T).name());
