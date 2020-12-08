@@ -11,20 +11,15 @@ public:
 	void OnUpdate() override;
 	void OnAttach() override;
 		
-	void AnimateCube();
+	void AnimateCube(gwcEngine::Ref<gwcEngine::Entity> gameObject, float offset = 0.0f);
 
+	//todo NEXT make singleton
 	gwcEngine::Ref<gwcEngine::OrthographicCamera> m_WindowCamera;
 private:
 	gwcEngine::Ref<gwcEngine::PerspectiveCamera> m_PCamera;
-
-	gwcEngine::Ref<gwcEngine::Shader> m_UnlitColourShader;
-	std::shared_ptr<gwcEngine::Shader> m_UnlitTexturedShader;
-
-	float m_squareRotation = 0.0f;
-	float m_camerRotY = 0.0f;
-	float m_camerRotX = 0.0f;
 	
 	gwcEngine::Ref<gwcEngine::Entity> m_CubeEntity;
+	gwcEngine::Ref<gwcEngine::Entity> m_quad;
 
 	gwcEngine::ECSLayerManager m_ECS_Manager;
 

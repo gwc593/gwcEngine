@@ -27,6 +27,9 @@ namespace gwcEngine
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);
 		std::tuple<uint32_t, uint32_t> GetCenter(Anchor relativeTo = Anchor::Center);
 
+		//todo replace this with an object.
+		glm::vec2 GetNormalisedMousePos(float x, float y);
+
 		void flush();
 
 		uint32_t GetWidth()const { return m_Width; }

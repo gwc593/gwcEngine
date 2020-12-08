@@ -83,6 +83,7 @@ namespace gwcEngine
 		}
 	}
 
+
 	void Panel::SetSize(uint32_t width, uint32_t height)
 	{
 		m_Width = width;
@@ -141,6 +142,30 @@ namespace gwcEngine
 
 		return ret;
 	}
+
+
+	glm::vec2 Panel::GetNormalisedMousePos(float x, float y)
+	{
+		float panelx, panely, mx, my;
+
+
+		float ac_ar = m_CapturingCamera->GetAspectRatio() / ((float)GetWidth() / (float)GetHeight());
+
+		if (ac_ar >= 1.0f) {
+			mx = 2.0f / m_Width;
+			my = (-2.0f * ac_ar) / m_Height;
+		}
+		else {
+			mx = 2.0f / (m_Width * ac_ar);
+			my = -2.0f / m_Height;
+		}
+
+		float cx = -mx * std::get<0>(GetCenter(Anchor::TopLeft));
+		float cy = -my * std::get<1>(GetCenter(Anchor::TopLeft));
+
+		return { mx * x + cx,my * y + cy };
+	}
+
 	bool Panel::OnMainWindowSizeChangeHandler(int width, int height)
 	{
 		float  WS = ((float)m_Width / (float)m_RenderingCamera->GetWidth()) * m_RenderingCamera->GetAspectRatio();
@@ -160,27 +185,20 @@ namespace gwcEngine
 
 		return PROPAGATE_EVENT;
 	}
+
+
 	bool Panel::OnMouseMovedHandler(float x, float y)
 	{
 
-		//auto res = m_CapturingCamera->ScreenToWorld(x, y, Application::Get()->GetWindow());
-		//GE_TRACE("{0}, {1}", res.x, res.y);
+		auto mPos = GetNormalisedMousePos(x, y);
 
-		float panelx, panely;
-
-		float mx = 2.0f / m_Width;
-		float my = -2.0f / m_Height;
-
-		float cx = -mx * std::get<0>(GetCenter(Anchor::TopLeft));
-		float cy = -my * std::get<1>(GetCenter(Anchor::TopLeft));
-
-
-		GE_TRACE("Window Pixle {0}, {1} = Panel {2}, {3}", x, y,mx*x+cx,my*y+cy);
+		GE_TRACE("Window Pixle {0}, {1} = Panel {2}, {3}", x, y,mPos.x, mPos.y);
 
 		if(gwcEngine::Input::IsMouseButtonPressed(0))
 			SetPosition(x, y, gwcEngine::Anchor::TopLeft);
 		return false;
 	}
+
 
 	void Panel::flush()
 	{
@@ -195,6 +213,5 @@ namespace gwcEngine
 		m_CapturingCamera->GetFrameBuffer()->BindTexture();
 		
 		Renderer::Submit(m_RenderPlane.GetVertexArray(), m_UnlitTextureShader, m_RenderPlaneTransform.GetTransformMatrix());
-		
 	}
 }
