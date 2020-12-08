@@ -53,7 +53,7 @@ namespace gwcEngine
 
 		glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) override
 		{
-			GE_CORE_ASSERT(false, "need to get depth pixel, assume zero for now");
+			//GE_CORE_ASSERT(false, "need to get depth pixel, assume zero for now");
 
 			float mX, mY, cx, cy, uX, uY;
 

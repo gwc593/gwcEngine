@@ -30,7 +30,6 @@ private:
 
 private: //temp
 	gwcEngine::Panel m_ViewPortPanel;
-	
-	
+
 };
 

@@ -186,7 +186,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//Draw 2D orthographic UI layer
 		gwcEngine::RenderCommand::SetClearColour(m_WindowCamera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
-		m_ViewPortPanel.SetPosition(0, 0, gwcEngine::Anchor::Center);
 		m_ViewPortPanel.flush();
 		gwcEngine::Renderer::EndScene();
 	}

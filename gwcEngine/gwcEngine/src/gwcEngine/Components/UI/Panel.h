@@ -25,6 +25,8 @@ namespace gwcEngine
 
 		void SetSize(uint32_t width, uint32_t height);
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);
+		std::tuple<uint32_t, uint32_t> GetCenter(Anchor relativeTo = Anchor::Center);
+
 		void flush();
 
 		uint32_t GetWidth()const { return m_Width; }
@@ -37,6 +39,7 @@ namespace gwcEngine
 
 		uint32_t m_Width;
 		uint32_t m_Height;
+		std::tuple<uint32_t,uint32_t> m_Center; 
 		float m_AspectRatio;
 
 		Ref<Shader> m_UnlitTextureShader;
@@ -45,10 +48,10 @@ namespace gwcEngine
 
 		Ref<Camera> m_RenderingCamera;
 		Ref<Camera> m_CapturingCamera;
-		glm::vec2 m_Position;
 
 		Transform m_MainTransform;
 		Transform m_RenderPlaneTransform;
+		Anchor m_Anchor;
 
 	public://Callbacks
 		Ref<EventCallback<int, int>> c_OnMainWindowSizeChange;

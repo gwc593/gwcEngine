@@ -1,12 +1,12 @@
 #include "gepch.h"
+#include<cmath>
 #include "Panel.h"
 #include "gwcEngine/Core/application.h"
 #include "gwcEngine/Core/Input.h"
-
 namespace gwcEngine
 {
 	Panel::Panel(uint32_t width, uint32_t height, Ref<Camera> renderingCamera, Ref<Camera> capturingCamera)
-		:m_Width(width), m_Height(height),m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera)
+		:m_Width(width), m_Height(height),m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera), m_Anchor(gwcEngine::Anchor::Center)
 	{
 		if (capturingCamera == nullptr)
 			m_CapturingCamera = m_RenderingCamera;
@@ -62,8 +62,7 @@ namespace gwcEngine
 		m_UnlitTextureShader = gwcEngine::Shader::Create("assets/Shaders/UnlitTexture.glsl");
 		m_DefaultShader = gwcEngine::Shader::Create("assets/Shaders/PanelBackground.glsl");
 
-		m_Position = glm::vec2(0.0f);
-		m_RenderPlaneTransform.SetPosition(glm::vec3(m_Position.x, m_Position.y, 0.2f));
+		m_RenderPlaneTransform.SetPosition(glm::vec3(0.0f,0.0f, 0.2f));
 		
 		m_RenderPlaneTransform.SetParent(m_MainTransform);
 
@@ -71,7 +70,9 @@ namespace gwcEngine
 		float  WS = ((float)m_Width / (float)m_RenderingCamera->GetWidth()) * m_RenderingCamera->GetAspectRatio();
 		float HS = ((float)m_Height / (float)m_RenderingCamera->GetHeight());
 		m_MainTransform.SetScale(glm::vec3(WS, HS, 1.0f));
-		m_MainTransform.SetPosition(glm::vec3(m_Position.x, m_Position.y, -0.2f));
+		m_MainTransform.SetPosition(glm::vec3((0.0f, 0.0f, -0.2f)));
+
+		SetPosition(0, 0);
 
 		if (m_AspectRatio > m_CapturingCamera->GetAspectRatio()) {
 
@@ -94,23 +95,58 @@ namespace gwcEngine
 		int xp = 0;
 		int yp = 0;
 		switch (relativeTo) {
-		case Anchor::TopLeft:{ break; }
-		case Anchor::TopRight: { xp = m_RenderingCamera->GetWidth(); break; }
-		case Anchor::BottomLeft: {yp = m_RenderingCamera->GetHeight();  break; }
-		case Anchor::BottomRight:{xp = m_RenderingCamera->GetWidth(); yp = m_RenderingCamera->GetHeight(); break; }
-		case Anchor::Center: {xp = m_RenderingCamera->GetWidth() / 2; yp = m_RenderingCamera->GetHeight() / 2; break; }
+			case Anchor::TopLeft:{ break; }
+			case Anchor::TopRight: { xp = m_RenderingCamera->GetWidth(); break; }
+			case Anchor::BottomLeft: {yp = m_RenderingCamera->GetHeight();  break; }
+			case Anchor::BottomRight:{xp = m_RenderingCamera->GetWidth(); yp = m_RenderingCamera->GetHeight(); break; }
+			case Anchor::Center: {xp = m_RenderingCamera->GetWidth() / 2; yp = m_RenderingCamera->GetHeight() / 2; break; }
 		}
 
-		m_Position = m_RenderingCamera->ScreenToWorld(x+xp, y+yp, Application::Get()->GetWindow());
-		m_MainTransform.SetPosition(glm::vec3(m_Position.x, m_Position.y, 0.02f));
+		m_Anchor = relativeTo;
+		m_Center = { x,y };
+		//m_Position = m_RenderingCamera->ScreenToWorld(x+xp, y+yp, Application::Get()->GetWindow());
+		
+		auto temp = m_RenderingCamera->ScreenToWorld(x + xp, y + yp, Application::Get()->GetWindow());
+		m_MainTransform.SetPosition(glm::vec3(temp.x, temp.y, 0.02f));
 	}
 
+	std::tuple<uint32_t, uint32_t> Panel::GetCenter(Anchor relativeTo)
+	{
+		int xp = 0;
+		int yp = 0;
+
+		int height = m_RenderingCamera->GetHeight();
+		int width = m_RenderingCamera->GetWidth();
+
+		switch (m_Anchor) {
+			case Anchor::TopLeft: { break; }
+			case Anchor::TopRight: { xp = -width; break; }
+			case Anchor::BottomLeft: {yp = -height;  break; }
+			case Anchor::BottomRight: {xp = -width; yp = -height; break; }
+			case Anchor::Center: {xp = -width / 2; yp = -height / 2; break; }
+		}
+
+		switch (relativeTo) {
+			case Anchor::TopLeft: { break; }
+			case Anchor::TopRight: { xp += width; break; }
+			case Anchor::BottomLeft: {yp += height;  break; }
+			case Anchor::BottomRight: {xp += width; yp += height; break; }
+			case Anchor::Center: {xp += width / 2; yp += height / 2; break; }
+		}
+
+		auto ret = m_Center;
+
+		std::get<0>(ret) -= xp;
+		std::get<1>(ret) -= yp;
+
+		return ret;
+	}
 	bool Panel::OnMainWindowSizeChangeHandler(int width, int height)
 	{
 		float  WS = ((float)m_Width / (float)m_RenderingCamera->GetWidth()) * m_RenderingCamera->GetAspectRatio();
 		float HS = ((float)m_Height / (float)m_RenderingCamera->GetHeight());
 		m_MainTransform.SetScale(glm::vec3(WS, HS, 1.0f));
-		m_MainTransform.SetPosition(glm::vec3(m_Position.x, m_Position.y, 0.0f));
+		//m_MainTransform.SetPosition(glm::vec3(m_Position.x, m_Position.y, 0.0f));
 
 		if (m_AspectRatio > m_CapturingCamera->GetAspectRatio()) {
 
@@ -120,13 +156,29 @@ namespace gwcEngine
 			m_RenderPlaneTransform.SetScale(glm::vec3(1.0f, m_AspectRatio / m_CapturingCamera->GetAspectRatio(), 1.0f));
 		}
 
+		SetPosition(std::get<0>(m_Center), std::get<1>(m_Center), m_Anchor);
+
 		return PROPAGATE_EVENT;
 	}
 	bool Panel::OnMouseMovedHandler(float x, float y)
 	{
 
-		auto res = m_RenderingCamera->ScreenToWorld(x, y, Application::Get()->GetWindow());
-		GE_TRACE("{0}, {1}", res.x, res.y);
+		//auto res = m_CapturingCamera->ScreenToWorld(x, y, Application::Get()->GetWindow());
+		//GE_TRACE("{0}, {1}", res.x, res.y);
+
+		float panelx, panely;
+
+		float mx = 2.0f / m_Width;
+		float my = -2.0f / m_Height;
+
+		float cx = -mx * std::get<0>(GetCenter(Anchor::TopLeft));
+		float cy = -my * std::get<1>(GetCenter(Anchor::TopLeft));
+
+
+		GE_TRACE("Window Pixle {0}, {1} = Panel {2}, {3}", x, y,mx*x+cx,my*y+cy);
+
+		if(gwcEngine::Input::IsMouseButtonPressed(0))
+			SetPosition(x, y, gwcEngine::Anchor::TopLeft);
 		return false;
 	}
 
