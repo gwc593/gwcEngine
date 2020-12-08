@@ -24,7 +24,7 @@ private:
 	gwcEngine::ECSLayerManager m_ECS_Manager;
 
 private: //temp
-	gwcEngine::Panel m_ViewPortPanel;
+	gwcEngine::Panel m_Env3DViewPortPanel;
 
 };
 

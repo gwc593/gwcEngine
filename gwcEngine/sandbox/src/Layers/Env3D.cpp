@@ -8,7 +8,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		:Layer("3DEnv"),
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 300.0f)), //perspective camera initializer
 		m_WindowCamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight())), //perspective camera initializer
-		m_ViewPortPanel(1000, 750, m_WindowCamera, m_PCamera)
+		m_Env3DViewPortPanel(1000, 750, m_WindowCamera, m_PCamera)
 	{
 		//set the Windows camera's clear colour
 		m_WindowCamera->SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
@@ -196,6 +196,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//Draw Panel to screen
 		gwcEngine::RenderCommand::SetClearColour(m_WindowCamera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
-		m_ViewPortPanel.flush();
+		m_Env3DViewPortPanel.flush();
 		gwcEngine::Renderer::EndScene();
 	}

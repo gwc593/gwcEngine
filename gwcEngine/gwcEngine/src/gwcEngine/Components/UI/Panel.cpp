@@ -1,5 +1,4 @@
 #include "gepch.h"
-#include<cmath>
 #include "Panel.h"
 #include "gwcEngine/Core/application.h"
 #include "gwcEngine/Core/Input.h"
@@ -186,16 +185,36 @@ namespace gwcEngine
 		return PROPAGATE_EVENT;
 	}
 
-
-	bool Panel::OnMouseMovedHandler(float x, float y)
+	void Panel::DragPanel(float x, float y)
 	{
+		static bool isHeld = false;
+		static int xHeld = 0;
+		static int yHeld = 0;
+		static std::tuple<uint32_t, uint32_t> currentPos;
 
 		auto mPos = GetNormalisedMousePos(x, y);
 
-		GE_TRACE("Window Pixle {0}, {1} = Panel {2}, {3}", x, y,mPos.x, mPos.y);
+		if (gwcEngine::Input::IsMouseButtonPressed(0) && std::fabs(mPos.x) <= 1.0f && std::fabs(mPos.y) <= 1.0f) {
+			if (!isHeld) {
+				isHeld = true;
+				xHeld = x;
+				yHeld = y;
+				currentPos = GetCenter(Anchor::TopLeft);
+			}
 
-		if(gwcEngine::Input::IsMouseButtonPressed(0))
-			SetPosition(x, y, gwcEngine::Anchor::TopLeft);
+			int diffx = x - xHeld;
+			int diffy = y - yHeld;
+
+			SetPosition(std::get<0>(currentPos) + diffx, std::get<1>(currentPos) + diffy, gwcEngine::Anchor::TopLeft);
+		}
+		else {
+			isHeld = false;
+		}
+	}
+
+	bool Panel::OnMouseMovedHandler(float x, float y)
+	{
+		DragPanel(x, y);
 		return false;
 	}
 

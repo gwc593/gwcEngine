@@ -62,6 +62,8 @@ namespace gwcEngine
 	private://methods
 		bool OnMainWindowSizeChangeHandler(int width, int height);
 
+		void DragPanel(float x, float y);
+
 	private://Events;
 		Event<> e_OnCursorEnter;
 		Event<> e_OnCursorExit;
