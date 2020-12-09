@@ -21,7 +21,9 @@ namespace gwcEngine
 	class Panel
 	{
 	public:
-		Panel(uint32_t width, uint32_t height, Ref<Camera> renderingCamera, Ref<Camera> capturingCamera = nullptr);
+		Panel(uint32_t width, uint32_t height, Ref<Camera> capturingCamera = nullptr, Ref<Camera> renderingCamera = Application::Get()->GetWindow().GetCamera());
+
+		static Ref<Panel> Create(uint32_t width, uint32_t height, Ref<Camera> capturingCamera = nullptr, Ref<Camera> renderingCamera = Application::Get()->GetWindow().GetCamera());
 
 		void SetSize(uint32_t width, uint32_t height);
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);
@@ -38,6 +40,7 @@ namespace gwcEngine
 		const Ref<Camera> GetCamera() const { return m_RenderingCamera; }
 		
 		bool OnMouseMovedHandler(float x, float y);
+		static std::vector<gwcEngine::Ref<Panel>> s_Panels;
 	private://data
 
 		uint32_t m_Width;
@@ -55,6 +58,7 @@ namespace gwcEngine
 		Transform m_MainTransform;
 		Transform m_RenderPlaneTransform;
 		Anchor m_Anchor;
+		
 
 	public://Callbacks
 		Ref<EventCallback<int, int>> c_OnMainWindowSizeChange;

@@ -4,7 +4,9 @@
 #include "gwcEngine/Core/Input.h"
 namespace gwcEngine
 {
-	Panel::Panel(uint32_t width, uint32_t height, Ref<Camera> renderingCamera, Ref<Camera> capturingCamera)
+	std::vector<Ref<Panel>> Panel::s_Panels;
+
+	Panel::Panel(uint32_t width, uint32_t height, Ref<Camera> capturingCamera, Ref<Camera> renderingCamera)
 		:m_Width(width), m_Height(height),m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera), m_Anchor(gwcEngine::Anchor::Center)
 	{
 		if (capturingCamera == nullptr)
@@ -82,6 +84,12 @@ namespace gwcEngine
 		}
 	}
 
+	Ref<Panel> Panel::Create(uint32_t width, uint32_t height, Ref<Camera> capturingCamera, Ref<Camera> renderingCamera)
+	{
+		auto temp = CreateRef<Panel>(width, height, capturingCamera, renderingCamera);
+		s_Panels.push_back(temp);
+		return temp;
+	}
 
 	void Panel::SetSize(uint32_t width, uint32_t height)
 	{

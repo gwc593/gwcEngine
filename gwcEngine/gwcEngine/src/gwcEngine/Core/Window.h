@@ -8,6 +8,7 @@
 namespace gwcEngine 
 {
 	class Application;
+	class OrthographicCamera;
 
 	struct WindowProps
 	{
@@ -47,11 +48,14 @@ namespace gwcEngine
 		inline Event<>& GetCursorEnterEvent() { return m_CursorEnter; }
 		inline Event<>& GetCursorExitEvent() { return m_CursorExit; }
 
-	private:
+		Ref<OrthographicCamera> GetCamera() { return m_WindowCamera; }
+
+	protected:
 		Event<int/*width*/, int/*height*/> m_windowResizeEvent;
 		Event<> m_windowCloseEvent;
 		Event<> m_CursorEnter;
 		Event<> m_CursorExit;
+		Ref<OrthographicCamera> m_WindowCamera;
 	};
 }
 

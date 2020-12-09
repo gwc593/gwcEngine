@@ -24,3 +24,4 @@ gwcEngine::Application* gwcEngine::CreateApplication()
 {
 	return new MainApp();
 }
+

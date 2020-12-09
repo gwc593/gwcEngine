@@ -32,8 +32,6 @@ namespace gwcEngine {
 		Window& GetWindow() { return *m_Window; }
 
 
-
-
 		inline static Application* Get() { return s_Instance; }
 	private:
 		bool OnWindowClose();
@@ -47,16 +45,8 @@ namespace gwcEngine {
 
 		bool m_Minimised = false;
 
-		//Application Events
-
-
 	private:
-
-
 		static Application* s_Instance;
-
-		
-
 	};
 
 	//to be defined in client

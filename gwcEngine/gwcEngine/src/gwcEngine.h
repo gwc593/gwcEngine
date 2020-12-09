@@ -37,6 +37,6 @@
 //Components
 #include"gwcEngine/Components/Mesh.h"
 #include"gwcEngine/Components/Transform.h"
-#include"gwcEngine/Components/UI/Panel.h"
+#include"gwcEngine/Renderer/Panel.h"
 
 

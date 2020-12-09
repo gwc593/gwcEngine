@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include"gwcEngine/Renderer/Renderer.h"
+#include"gwcEngine/Renderer/Panel.h"
 //#include"Input.h"
 
 #include<GLFW/glfw3.h>
@@ -53,8 +54,16 @@ namespace gwcEngine {
 			if (!m_Minimised) {
 				Time::BeginFrame();
 
+				//update layers
 				for (Layer* layer : m_LayerStack)
 					layer->OnUpdateBase();
+
+				//render panels to window
+				gwcEngine::RenderCommand::SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
+				gwcEngine::RenderCommand::Clear();
+				for (auto panel : Panel::s_Panels)
+					panel->flush();
+				gwcEngine::Renderer::EndScene();
 			}
 
 			m_Window->OnUpdate();

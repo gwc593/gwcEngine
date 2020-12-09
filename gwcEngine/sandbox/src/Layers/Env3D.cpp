@@ -7,18 +7,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	Env3D::Env3D()
 		:Layer("3DEnv"),
 		m_PCamera(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 300.0f)), //perspective camera initializer
-		m_WindowCamera(gwcEngine::CreateRef<gwcEngine::OrthographicCamera>(gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight())), //perspective camera initializer
-		m_Env3DViewPortPanel(1000, 750, m_WindowCamera, m_PCamera)
+		m_Env3DViewPortPanel(gwcEngine::Panel::Create(1000, 750, m_PCamera))
 	{
-		//set the Windows camera's clear colour
-		m_WindowCamera->SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
-
 		//set perspective camera's clear colour
 		m_PCamera->SetClearColour({ 0.65,0.65,0.65,1.0 });
-
-		//subscribe window camera to window size changes
-		auto& resizeEvent = gwcEngine::Application::Get()->GetWindow().GetWindowResizeEvent();
-		resizeEvent.subscribePriority((BIND_EVENT_FNO(gwcEngine::OrthographicCamera::OnScreenResize, m_WindowCamera)));
 
 		//entity and components and systems
 			//create entity renderer system and register it
@@ -144,7 +136,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	}
 
-	void Env3D::AnimateCube(gwcEngine::Ref<gwcEngine::Entity> gameObject, float offset)
+	void Env3D::AnimateEntity(gwcEngine::Ref<gwcEngine::Entity> gameObject, float offset)
 	{
 		//Make the material change colour with time
 		float t = gwcEngine::Time::GetTime()+offset;
@@ -166,17 +158,17 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnUpdate()
 	{
-	///Physics Pipeline - should be controlled by ECS
+	///Physics Pipeline
 	////////////////////
 		//Animate Cube
-		AnimateCube(m_CubeEntity);
-		AnimateCube(m_quad,123456.12f);
+		AnimateEntity(m_CubeEntity);
+		AnimateEntity(m_quad,600.0f);
 
 		//move perspective Camera
 		CameraController(m_PCamera);
 
 
-	////Render Pipeline - Should NOT be on ECS....
+	////Render Pipeline
 	///////////////////
 	
 		//Render out perspective camera
@@ -184,18 +176,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		gwcEngine::RenderCommand::SetClearColour(m_PCamera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
 		gwcEngine::Renderer::SetActiveCamera(m_PCamera);
-
-		//invoke renderer within ECS
 		m_ECS_Manager.OnUpdate(gwcEngine::Time::GetDeltaTime());
 		
 		//unbind perspective camera
 		m_PCamera->GetFrameBuffer()->Unbind();
 
-
-
-		//Draw Panel to screen
-		gwcEngine::RenderCommand::SetClearColour(m_WindowCamera->GetClearColour());
-		gwcEngine::RenderCommand::Clear();
-		m_Env3DViewPortPanel.flush();
-		gwcEngine::Renderer::EndScene();
 	}

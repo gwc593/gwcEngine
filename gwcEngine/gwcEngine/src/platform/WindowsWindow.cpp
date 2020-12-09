@@ -2,6 +2,7 @@
 #include"WindowsWindow.h"
 
 #include"platform/OpenGL/OpenGLContext.h"
+#include"gwcEngine/Renderer/Cameras/OrthographicCamera.h"
 
 namespace gwcEngine 
 {
@@ -26,6 +27,9 @@ namespace gwcEngine
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
 		Init(props);
+		m_WindowCamera = CreateRef<OrthographicCamera>(GetWidth(), GetHeight());
+		auto& resizeEvent = GetWindowResizeEvent();
+		resizeEvent.subscribePriority((BIND_EVENT_FNO(gwcEngine::OrthographicCamera::OnScreenResize, m_WindowCamera)));
 	}
 
 	WindowsWindow::~WindowsWindow()
