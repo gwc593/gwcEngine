@@ -41,15 +41,15 @@ namespace gwcEngine
 
 		static void Init();
 
-		Entity& FindEntity(const std::string& name)
+		Ref<Entity> FindEntity(const std::string& name)
 		{
 			auto search = m_Entities.find(name);
 
 			if (search == m_Entities.end()) {
-				return *(Entity*)nullptr;
+				return nullptr;
 			}
 
-			return *(search->second);
+			return (search->second);
 		}
 
 		void DestroyEntity(Entity& entity)

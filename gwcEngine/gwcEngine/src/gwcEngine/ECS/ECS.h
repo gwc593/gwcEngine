@@ -39,7 +39,7 @@ namespace gwcEngine
 	public:
 		ECSLayerManager() = default;
 #pragma region Entity Manager Interface
-		Entity& FindEntity(const std::string& name)
+		Ref<Entity> FindEntity(const std::string& name)
 		{
 			return m_EntityManager.FindEntity(name);
 		}

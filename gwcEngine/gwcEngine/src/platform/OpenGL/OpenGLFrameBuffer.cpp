@@ -44,7 +44,7 @@ namespace gwcEngine
 
 		GE_CORE_ASSERT((glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE), "Frame buffer not complete");
 			
-
+		//glDepthRange(m_Specification.NClip, m_Specification.FClip);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -94,4 +94,19 @@ namespace gwcEngine
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
+	void OpenGLFrameBuffer::GetDepthData(uint32_t x, uint32_t y)
+	{
+		if (x > m_Specification.Width || y > m_Specification.Height)
+			return;
+
+		glViewport(0, 0, m_Specification.Width, m_Specification.Height);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+
+		unsigned char data;
+		glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, &data);
+
+		auto center = x + (y * m_Specification.Width);
+		if (data != 255)
+			GE_TRACE("depth = {0}", data);
+	}
 }

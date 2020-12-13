@@ -7,12 +7,13 @@ namespace gwcEngine
 {
 
 	OrthographicCamera::OrthographicCamera(uint32_t resX, uint32_t resY)
-		: m_ResX(resX), 
-		  m_ResY(resY),
-		  m_AspectRatio((float)resX / (float)resY),
-		  m_ProjectionMatrix(glm::ortho(-(float)resX / (float)resY /2.0f, (float)resX / (float)resY /2.0f, -0.5f, 0.5f, -100.0f, 100.0f)),
+		: m_ProjectionMatrix(glm::ortho(-(float)resX / (float)resY /2.0f, (float)resX / (float)resY /2.0f, -0.5f, 0.5f, -100.0f, 100.0f)),
 		  m_ViewMatrix(glm::mat4(1.0f))
 	{
+		m_ResX = resX;
+		m_ResY = resY;
+		m_AspectRatio = (float)resX / (float)resY;
+
 		m_FrameBufferSpec.Height = m_ResY;
 		m_FrameBufferSpec.Width = m_ResX;
 		m_FrameBuffer = FrameBuffer::Create(m_FrameBufferSpec);

@@ -223,6 +223,10 @@ namespace gwcEngine
 	bool Panel::OnMouseMovedHandler(float x, float y)
 	{
 		DragPanel(x, y);
+		auto mp = GetNormalisedMousePos(x, y);
+		auto fb = m_CapturingCamera->GetFrameBuffer();
+
+		fb->GetDepthData(0.5f*(mp.x+1)*fb->GetSpecification().Width,0.5f*(mp.y+1)*fb->GetSpecification().Height);
 		return false;
 	}
 

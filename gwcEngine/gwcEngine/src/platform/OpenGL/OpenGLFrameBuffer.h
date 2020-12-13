@@ -19,6 +19,7 @@ namespace gwcEngine
 
 		virtual void BindTexture() const override;
 		virtual void UnbindTexture() const override;
+		virtual void GetDepthData(uint32_t x, uint32_t y) override;
 
 		const FrameBufferSpecification& GetSpecification() const override;
 

@@ -109,14 +109,7 @@ namespace gwcEngine
 		glm::quat m_Rotation;
 
 		float m_FOV;
-		float m_AspectRatio;
 		float m_NearClip;
 		float m_FarClip;
-
-		uint32_t m_ResX;
-		uint32_t m_ResY;
-
-		FrameBufferSpecification m_FrameBufferSpec;
-		Ref<FrameBuffer> m_FrameBuffer;
 	};
 }

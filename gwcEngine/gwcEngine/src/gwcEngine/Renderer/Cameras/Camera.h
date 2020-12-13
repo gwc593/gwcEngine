@@ -27,7 +27,11 @@ namespace gwcEngine
 		virtual void SetClearColour(glm::vec4 colour) = 0;
 		virtual glm::vec4 GetClearColour() const= 0;
 
-	private:
+	protected:
+		uint32_t m_ResX, m_ResY;
+		float m_AspectRatio;
+		FrameBufferSpecification m_FrameBufferSpec;
+		Ref<FrameBuffer> m_FrameBuffer;
 
 	};
 }

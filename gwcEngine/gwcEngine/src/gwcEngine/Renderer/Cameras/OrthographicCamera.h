@@ -47,12 +47,6 @@ namespace gwcEngine
 
 		glm::vec3 m_Position;
 		float m_Rotation;
-		float m_AspectRatio;
-
-		FrameBufferSpecification m_FrameBufferSpec;
-		Ref<FrameBuffer> m_FrameBuffer;
-
-		uint32_t m_ResX, m_ResY;
-
+		
 	};
 }
