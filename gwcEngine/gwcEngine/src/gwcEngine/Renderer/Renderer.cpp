@@ -1,23 +1,15 @@
 #include"gepch.h"
 #include"Renderer.h"
-
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Cameras/Camera.h"
 namespace gwcEngine
 {
-
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
-	void Renderer::BeginScene(OrthographicCamera& camera)
+
+	void Renderer::BeginScene(const Ref<CameraBase>& camera)
 	{
 		//TODO -shader data cube maps etc etc
-		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
-
-	}
-
-	//todo - camera polymorphic
-	void Renderer::BeginScene(PerspectiveCamera& camera)
-	{
-		//TODO - shader data cube maps etc etc
-		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+		m_SceneData->ViewProjectionMatrix = camera->GetViewProjectionMatrix();
 
 	}
 

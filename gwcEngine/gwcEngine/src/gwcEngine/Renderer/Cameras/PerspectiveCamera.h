@@ -10,7 +10,7 @@ namespace gwcEngine
 	class PerspectiveCamera : public CameraBase
 	{
 	public:
-		PerspectiveCamera(float FOV, uint32_t resX, uint32_t resY, float NClip, float FClip);
+		PerspectiveCamera(float FOV, uint32_t resX, uint32_t resY, float NClip, float FClip, Ref<Transform> transform = nullptr);
 
 
 		
@@ -43,12 +43,12 @@ namespace gwcEngine
 		inline glm::mat4 GetViewtMatrix() override{ return m_ViewMatrix; }
 		inline glm::mat4 GetViewProjectionMatrix() override{ return m_ViewProjectionMatrix; }
 
-		inline void SetPosition(const glm::vec3& position) override{ m_Position = position; CalculateViewMatrix(); }
+		inline void SetPosition(const glm::vec3& position) override{ m_Transform->SetPosition(position); CalculateViewMatrix(); }
 
 		void SetRotation(const glm::vec3& eulerRotation);
 		void SetRotation(glm::quat rotation);
 
-		inline const glm::vec3& GetPostion() const override { return m_Position; }
+		inline const glm::vec3& GetPostion() const override { return m_Transform->GetPosition(); }
 		inline glm::quat GetRotation() const;
 
 		glm::vec3 ScreenToWorld(int32_t x, int32_t y, const Window& window) override
@@ -96,17 +96,9 @@ namespace gwcEngine
 	private:
 
 		inline void SetAspectRatio(float ARatio) { m_AspectRatio = ARatio; CalculateProjectionMatrix(); CalculateViewMatrix(); }
-		void CalculateViewMatrix();
+
 		void CalculateProjectionMatrix();
 	private:
-		glm::mat4 m_ProjectionMatrix;
-		glm::mat4 m_ViewMatrix;
-		glm::mat4 m_ViewProjectionMatrix;
-
-		glm::vec4 m_ClearColour;
-
-		glm::vec3 m_Position;
-		glm::quat m_Rotation;
 
 		float m_FOV;
 		float m_NearClip;

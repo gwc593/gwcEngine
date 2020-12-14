@@ -20,14 +20,14 @@ namespace gwcEngine
 		EntityID GetID()const{return m_ID;}
 
 		template<typename T, typename... TArgs>
-		T& AddComponent(TArgs&&... mArgs) noexcept
+		Ref<T> AddComponent(TArgs&&... mArgs) noexcept
 		{
 			return Application::Get()->m_ECSManager->AddComponent<T>(shared_from_this(),std::forward<TArgs>(mArgs)...);
 		}
 
 
 		template<typename T>
-		T& GetComponent()
+		Ref<T> GetComponent()
 		{
 			return Application::Get()->m_ECSManager->GetComponent<T>(shared_from_this());
 		}

@@ -2,6 +2,7 @@
 #include "Panel.h"
 #include "gwcEngine/Core/application.h"
 #include "gwcEngine/Core/Input.h"
+#include "gwcEngine/Renderer/Renderer.h"
 namespace gwcEngine
 {
 	std::vector<Ref<Panel>> Panel::s_Panels;
@@ -245,7 +246,6 @@ namespace gwcEngine
 
 	void Panel::flush()
 	{
-		
 		Renderer::SetActiveCamera(m_RenderingCamera);
 		RenderCommand::SetViewport(0, 0, m_RenderingCamera->GetWidth(), m_RenderingCamera->GetHeight());
 

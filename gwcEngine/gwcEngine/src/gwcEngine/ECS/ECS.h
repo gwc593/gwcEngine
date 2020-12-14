@@ -58,9 +58,9 @@ namespace gwcEngine
 		}
 
 		template<typename T, typename... TArgs>
-		T& AddComponent(Ref<Entity>entity, TArgs&&... mArgs) noexcept
+		Ref<T> AddComponent(Ref<Entity>entity, TArgs&&... mArgs) noexcept
 		{
-			T& ret = m_ComponentManager.AddComponent<T>(entity, std::forward<TArgs>(mArgs)...);
+			Ref<T> ret = m_ComponentManager.AddComponent<T>(entity, std::forward<TArgs>(mArgs)...);
 			m_SystemManager.OnEntityCompositionModified(entity);
 			return ret;
 		}
@@ -73,7 +73,7 @@ namespace gwcEngine
 		}
 
 		template<typename T>
-		T& GetComponent(const Ref<Entity>& entity)
+		Ref<T> GetComponent(const Ref<Entity>& entity)
 		{
 			return m_ComponentManager.GetComponent<T>(entity);
 		}

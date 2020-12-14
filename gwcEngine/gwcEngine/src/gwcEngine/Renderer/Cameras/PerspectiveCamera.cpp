@@ -1,19 +1,20 @@
 #include"gepch.h"
 #include "PerspectiveCamera.h"
-#include "gwcEngine/Renderer/Renderer.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include<glad/glad.h>
 
 #include "gwcEngine/Core/application.h"
+#include "gwcEngine/Renderer/Renderer.h"
 namespace gwcEngine
 {
 
-	PerspectiveCamera::PerspectiveCamera(float FOV, uint32_t resX, uint32_t resY, float NClip, float FClip):
+	PerspectiveCamera::PerspectiveCamera(float FOV, uint32_t resX, uint32_t resY, float NClip, float FClip, Ref<Transform> transform):
 		m_FOV(FOV), 
 		m_NearClip(NClip),
-		m_FarClip(FClip),
-		m_ProjectionMatrix(glm::perspective(FOV, (float)resX / (float)resY,NClip,FClip)),m_ViewMatrix(glm::mat4(1.0f))
+		m_FarClip(FClip)	
 	{
+		m_ProjectionMatrix = glm::perspective(FOV, (float)resX / (float)resY, NClip, FClip);
+		m_ViewMatrix = glm::mat4(1.0f);
 		m_ResX = resX;
 		m_ResY = resY;
 		m_AspectRatio = (float)resX / (float)resY;
@@ -30,13 +31,14 @@ namespace gwcEngine
 		else {
 			m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 		}
-
-		SetRotation(glm::vec3(0.0f));
-		m_Position = glm::vec3(0.0f,0.0f,3.0f);
-		CalculateProjectionMatrix();
-		CalculateViewMatrix();
-
 		
+		CalculateProjectionMatrix();
+
+		if (transform != nullptr) {
+			m_Transform = transform;
+			CalculateViewMatrix();
+		}
+
 		glDepthRange(m_NearClip, m_FarClip);
 	}
 
@@ -57,34 +59,19 @@ namespace gwcEngine
 
 	void PerspectiveCamera::SetRotation(const glm::vec3& eulerRotation)
 	{
-		m_Rotation = glm::quat(eulerRotation);
+		m_Transform->SetRotation(glm::quat(eulerRotation));
 		CalculateViewMatrix();
 	}
 
 	void PerspectiveCamera::SetRotation(glm::quat rotation)
 	{
-		m_Rotation = rotation;
+		m_Transform->SetRotation(rotation);
 		CalculateViewMatrix();
 	}
 
 	glm::quat PerspectiveCamera::GetRotation() const
 	{
-		return m_Rotation;
-	}
-
-	void PerspectiveCamera::CalculateViewMatrix()
-	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(m_Rotation);
-		//glm::mat4 transform = glm::rotate(glm::mat4(1.0f),glm::radians(m_Rotation),glm::vec3(0.0f,0.0f,1.0f))* glm::translate(glm::mat4(1.0f), m_Position);
-
-		m_ViewMatrix = glm::inverse(transform);
-
-		if (Renderer::GetAPI() == RendererAPI::API::DirectX) {
-			m_ViewProjectionMatrix = m_ViewMatrix * m_ProjectionMatrix;
-		}
-		else {
-			m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
-		}
+		return m_Transform->GetRotation();
 	}
 
 	void PerspectiveCamera::CalculateProjectionMatrix()

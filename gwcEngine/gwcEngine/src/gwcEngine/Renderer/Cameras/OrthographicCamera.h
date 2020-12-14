@@ -38,12 +38,7 @@ namespace gwcEngine
 	private:
 
 		void SetAspectRatio(float aspectRatio);
-		void CalculateViewMatrix();
 	private:
-		glm::mat4 m_ProjectionMatrix;
-		glm::mat4 m_ViewMatrix;
-		glm::mat4 m_ViewProjectionMatrix;
-		glm::vec4 m_ClearColour;
 
 		glm::vec3 m_Position;
 		float m_Rotation;

@@ -2,10 +2,8 @@
 #include "gwcEngine/Renderer/FrameBuffer.h"
 #include "gwcEngine/Components/Mesh.h"
 #include "gwcEngine/Components/Transform.h"
-
-#include "gwcEngine/Renderer/Renderer.h"
-#include "gwcEngine/Renderer/RenderCommand.h"
-
+#include "Cameras/Camera.h"
+#include "gwcEngine/Renderer/Shader/Shader.h"
 
 namespace gwcEngine
 {
@@ -21,9 +19,9 @@ namespace gwcEngine
 	class Panel
 	{
 	public:
-		Panel(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = Application::Get()->GetWindow().GetCamera());
+		Panel(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = std::dynamic_pointer_cast<gwcEngine::CameraBase>(Application::Get()->GetWindow().GetCamera()));
 
-		static Ref<Panel> Create(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = Application::Get()->GetWindow().GetCamera());
+		static Ref<Panel> Create(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = std::dynamic_pointer_cast<gwcEngine::CameraBase>(Application::Get()->GetWindow().GetCamera()));
 
 		void SetSize(uint32_t width, uint32_t height);
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);

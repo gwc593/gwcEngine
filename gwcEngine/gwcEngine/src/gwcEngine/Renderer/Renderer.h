@@ -1,22 +1,19 @@
 #pragma once
 #include "RendererAPI.h"
 #include"RenderCommand.h"
-#include"Cameras/OrthographicCamera.h"
-#include"Cameras/PerspectiveCamera.h"
 #include"Shader/Shader.h"
 #include "Material.h"
 
 
-
 namespace gwcEngine
 {
+	class CameraBase;
 	class Renderer
 	{
 
 	public:
 
-		static void BeginScene(OrthographicCamera& camera); //TODO - take in scene params, lights etc
-		static void BeginScene(PerspectiveCamera& camera); //TODO - take in scene params, lights etc
+		static void BeginScene(const Ref<CameraBase>& camera); //TODO - take in scene params, lights etc
 
 		static void SetActiveCamera(const Ref<CameraBase>& camera);
 		static void SetViewProjection(const glm::mat4& vp);
