@@ -94,19 +94,17 @@ namespace gwcEngine
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	void OpenGLFrameBuffer::GetDepthData(uint32_t x, uint32_t y)
+	uint8_t OpenGLFrameBuffer::GetDepthData(uint32_t x, uint32_t y) const
 	{
 		if (x > m_Specification.Width || y > m_Specification.Height)
-			return;
+			return 255;
 
 		glViewport(0, 0, m_Specification.Width, m_Specification.Height);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 
-		unsigned char data;
+		uint8_t data;
 		glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, &data);
-
-		auto center = x + (y * m_Specification.Width);
-		if (data != 255)
-			GE_TRACE("depth = {0}", data);
+		
+		return data;
 	}
 }

@@ -79,6 +79,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto m_UnlitColourShader2 = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
 		auto m_UnlitColourShader3 = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
 
+
+	// make camera entity
+		auto CameraEnt = m_ECS_Manager.CreateEntity("MainCamera");
+		auto CameraComp = m_ECS_Manager.AddComponent<gwcEngine::PerspectiveCamera>(CameraEnt,58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 10.0f);
 	//make a cube entity 
 		m_CubeEntity = m_ECS_Manager.CreateEntity("Cube");
 	//Add Mesh, transform and material to cube
@@ -89,7 +93,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		cubeMesh.SetIndexBuffer(indicesCube, sizeof(indicesCube) / sizeof(uint32_t));
 		cubeMaterial.SetShader(m_UnlitColourShader);
 
-		/*
+		
 		auto tempEnt = m_ECS_Manager.CreateEntity("Cube2");
 		auto& tempMesh = m_ECS_Manager.AddComponent<gwcEngine::Mesh>(tempEnt);
 		auto& tempTran = m_ECS_Manager.AddComponent<gwcEngine::Transform>(tempEnt);
@@ -107,7 +111,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		quadMesh.SetVertexBuffer(QuadVer, sizeof(QuadVer), layoutUnlitShader);
 		quadMesh.SetIndexBuffer(QuadInd, sizeof(QuadInd) / sizeof(uint32_t));
 		quadMaterial.SetShader(m_UnlitColourShader2);
-		*/
+		
 	}
 
 	void Env3D::CameraController(gwcEngine::Ref<gwcEngine::Camera> camera)
@@ -173,8 +177,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	////////////////////
 		//Animate Cube
 		AnimateEntity(m_CubeEntity);
-		//AnimateEntity(m_quad,600.0f);
-		//AnimateEntity(m_ECS_Manager.FindEntity("Cube2"),1000.0f);
+		AnimateEntity(m_quad,600.0f);
+		AnimateEntity(m_ECS_Manager.FindEntity("Cube2"),1000.0f);
 
 		//move perspective Camera
 		CameraController(m_PCamera);

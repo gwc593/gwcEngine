@@ -26,7 +26,7 @@ namespace gwcEngine
 		virtual void BindTexture() const = 0;
 		virtual void UnbindTexture() const = 0;
 
-		virtual void GetDepthData(uint32_t x, uint32_t y) = 0;
+		virtual uint8_t GetDepthData(uint32_t x, uint32_t y) const = 0;
 
 		virtual uint32_t GetColourAttachmentRendererID() const = 0;
 		

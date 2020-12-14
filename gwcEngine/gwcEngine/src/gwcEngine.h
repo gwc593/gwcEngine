@@ -16,6 +16,7 @@
 
 //Rendering
 #include "gwcEngine/Renderer/Renderer.h"
+#include "gwcEngine/Renderer/RenderLayer.h"
 #include "gwcEngine/Renderer/RenderCommand.h"
 #include "gwcEngine/Renderer/Material.h"
 #include "gwcEngine/Renderer/FrameBuffer.h"

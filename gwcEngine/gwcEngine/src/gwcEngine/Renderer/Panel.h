@@ -29,8 +29,14 @@ namespace gwcEngine
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);
 		std::tuple<uint32_t, uint32_t> GetCenter(Anchor relativeTo = Anchor::Center);
 
-		//todo replace this with an object.
-		glm::vec2 GetNormalisedMousePos(float x, float y);
+		/// @brief get clip space position of a screen space mouse cordinat (pixel on full window)
+		/// @param x x-Pixel of full window
+		/// @param y y-Pixel of full window
+		/// @return vec2 of clip space position of the 'capture' shown within the panel
+		glm::vec2 GetScreenToClipSpacePosition(float x, float y);
+
+
+		uint8_t GetDepth(float x, float y);
 
 		void flush();
 
@@ -38,6 +44,7 @@ namespace gwcEngine
 		uint32_t GetHeight()const { return m_Height; }
 		
 		const Ref<Camera> GetCamera() const { return m_RenderingCamera; }
+		void SetCaptureCamera(const Ref<Camera>& camera);
 		
 		bool OnMouseMovedHandler(float x, float y);
 		static std::vector<gwcEngine::Ref<Panel>> s_Panels;

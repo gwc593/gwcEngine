@@ -150,8 +150,7 @@ namespace gwcEngine
 		return ret;
 	}
 
-
-	glm::vec2 Panel::GetNormalisedMousePos(float x, float y)
+	glm::vec2 Panel::GetScreenToClipSpacePosition(float x, float y)
 	{
 		float panelx, panely, mx, my;
 
@@ -171,6 +170,13 @@ namespace gwcEngine
 		float cy = -my * std::get<1>(GetCenter(Anchor::TopLeft));
 
 		return { mx * x + cx,my * y + cy };
+	}
+
+	uint8_t Panel::GetDepth(float x, float y)
+	{
+		auto mp = GetScreenToClipSpacePosition(x, y);
+		auto spec = m_CapturingCamera->GetFrameBuffer()->GetSpecification();
+		return m_CapturingCamera->GetFrameBuffer()->GetDepthData(spec.Width * 0.5f * (mp.x + 1.0f), spec.Height * 0.5f * (mp.y + 1.0f));
 	}
 
 	bool Panel::OnMainWindowSizeChangeHandler(int width, int height)
@@ -200,7 +206,7 @@ namespace gwcEngine
 		static int yHeld = 0;
 		static std::tuple<uint32_t, uint32_t> currentPos;
 
-		auto mPos = GetNormalisedMousePos(x, y);
+		auto mPos = GetScreenToClipSpacePosition(x, y);
 
 		if (gwcEngine::Input::IsMouseButtonPressed(0) && std::fabs(mPos.x) <= 1.0f && std::fabs(mPos.y) <= 1.0f) {
 			if (!isHeld) {
@@ -223,13 +229,11 @@ namespace gwcEngine
 	bool Panel::OnMouseMovedHandler(float x, float y)
 	{
 		DragPanel(x, y);
-		auto mp = GetNormalisedMousePos(x, y);
-		auto fb = m_CapturingCamera->GetFrameBuffer();
 
-		fb->GetDepthData(0.5f*(mp.x+1)*fb->GetSpecification().Width,0.5f*(mp.y+1)*fb->GetSpecification().Height);
-		return false;
+		GE_TRACE("depth = {0}", GetDepth(x,y));
+
+		return PROPAGATE_EVENT;
 	}
-
 
 	void Panel::flush()
 	{
