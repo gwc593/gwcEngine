@@ -73,7 +73,7 @@ namespace gwcEngine
 		return PROPAGATE_EVENT;
 	}
 
-	glm::vec3 OrthographicCamera::ScreenToWorld(uint32_t x, uint32_t y, const Window& window) 
+	glm::vec3 OrthographicCamera::ScreenToWorld(int32_t x, int32_t y, const Window& window) 
 	{
 		float mX, mY, cx, cy,uX, uY;
 

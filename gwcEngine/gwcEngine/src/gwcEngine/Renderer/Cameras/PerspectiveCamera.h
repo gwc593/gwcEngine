@@ -51,7 +51,7 @@ namespace gwcEngine
 		inline const glm::vec3& GetPostion() const override { return m_Position; }
 		inline glm::quat GetRotation() const;
 
-		glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) override
+		glm::vec3 ScreenToWorld(int32_t x, int32_t y, const Window& window) override
 		{
 			//GE_CORE_ASSERT(false, "need to get depth pixel, assume zero for now");
 

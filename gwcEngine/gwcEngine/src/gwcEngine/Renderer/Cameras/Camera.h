@@ -19,7 +19,7 @@ namespace gwcEngine
 		virtual void SetResolution(uint32_t resX, uint32_t resY) = 0;
 		virtual const float GetAspectRatio() const = 0;
 
-		virtual glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) = 0;
+		virtual glm::vec3 ScreenToWorld(int32_t x, int32_t y, const Window& window) = 0;
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
 

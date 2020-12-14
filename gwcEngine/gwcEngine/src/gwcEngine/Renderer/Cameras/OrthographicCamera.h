@@ -26,7 +26,7 @@ namespace gwcEngine
 
 		bool OnScreenResize(int width, int height);
 
-		glm::vec3 ScreenToWorld(uint32_t x, uint32_t y, const Window& window) override;
+		glm::vec3 ScreenToWorld(int32_t x, int32_t y, const Window& window) override;
 
 		Ref<FrameBuffer> GetFrameBuffer() const override { return m_FrameBuffer; }
 

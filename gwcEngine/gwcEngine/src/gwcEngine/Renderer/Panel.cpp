@@ -228,6 +228,8 @@ namespace gwcEngine
 			int diffx = x - xHeld;
 			int diffy = y - yHeld;
 
+			GE_TRACE("new Pos ({0},{1})", std::get<0>(currentPos) + diffx, std::get<1>(currentPos) + diffy);
+
 			SetPosition(std::get<0>(currentPos) + diffx, std::get<1>(currentPos) + diffy, gwcEngine::Anchor::TopLeft);
 		}
 		else {
