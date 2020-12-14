@@ -6,7 +6,7 @@ namespace gwcEngine
 {
 	std::vector<Ref<Panel>> Panel::s_Panels;
 
-	Panel::Panel(uint32_t width, uint32_t height, Ref<Camera> capturingCamera, Ref<Camera> renderingCamera)
+	Panel::Panel(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
 		:m_Width(width), m_Height(height),m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera), m_Anchor(gwcEngine::Anchor::Center)
 	{
 		if (capturingCamera == nullptr)
@@ -84,7 +84,7 @@ namespace gwcEngine
 		}
 	}
 
-	Ref<Panel> Panel::Create(uint32_t width, uint32_t height, Ref<Camera> capturingCamera, Ref<Camera> renderingCamera)
+	Ref<Panel> Panel::Create(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
 	{
 		auto temp = CreateRef<Panel>(width, height, capturingCamera, renderingCamera);
 		s_Panels.push_back(temp);
@@ -102,6 +102,8 @@ namespace gwcEngine
 	{
 		int xp = 0;
 		int yp = 0;
+
+
 		switch (relativeTo) {
 			case Anchor::TopLeft:{ break; }
 			case Anchor::TopRight: { xp = m_RenderingCamera->GetWidth(); break; }
@@ -118,7 +120,7 @@ namespace gwcEngine
 		m_MainTransform.SetPosition(glm::vec3(temp.x, temp.y, 0.02f));
 	}
 
-	std::tuple<uint32_t, uint32_t> Panel::GetCenter(Anchor relativeTo)
+	std::tuple<int32_t, int32_t> Panel::GetCenter(Anchor relativeTo)
 	{
 		int xp = 0;
 		int yp = 0;
@@ -148,6 +150,18 @@ namespace gwcEngine
 		std::get<1>(ret) -= yp;
 
 		return ret;
+	}
+
+	void Panel::SetCaptureCamera(const Ref<CameraBase>& capturingCamera)
+	{
+		m_CapturingCamera = capturingCamera;
+		if (m_AspectRatio > m_CapturingCamera->GetAspectRatio()) {
+
+			m_RenderPlaneTransform.SetScale(glm::vec3(m_CapturingCamera->GetAspectRatio() / m_AspectRatio, 1.0f, 1.0f));
+		}
+		else {
+			m_RenderPlaneTransform.SetScale(glm::vec3(1.0f, m_AspectRatio / m_CapturingCamera->GetAspectRatio(), 1.0f));
+		}
 	}
 
 	glm::vec2 Panel::GetScreenToClipSpacePosition(float x, float y)
@@ -201,11 +215,6 @@ namespace gwcEngine
 
 	void Panel::DragPanel(float x, float y)
 	{
-		static bool isHeld = false;
-		static int xHeld = 0;
-		static int yHeld = 0;
-		static std::tuple<uint32_t, uint32_t> currentPos;
-
 		auto mPos = GetScreenToClipSpacePosition(x, y);
 
 		if (gwcEngine::Input::IsMouseButtonPressed(0) && std::fabs(mPos.x) <= 1.0f && std::fabs(mPos.y) <= 1.0f) {
@@ -229,9 +238,6 @@ namespace gwcEngine
 	bool Panel::OnMouseMovedHandler(float x, float y)
 	{
 		DragPanel(x, y);
-
-		GE_TRACE("depth = {0}", GetDepth(x,y));
-
 		return PROPAGATE_EVENT;
 	}
 

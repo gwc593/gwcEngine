@@ -19,7 +19,7 @@ namespace gwcEngine {
 		s_Instance = this;
 		m_Window->SetAppReference(s_Instance);
 
-		m_ECSManager = ECSGlobalManager::GetInstance();
+		m_ECSManager = ECSManager::GetInstance();
 
 		Ref<EventCallback<>> windCloseCallback{ new EventCallback<>(BIND_EVENT_FN(Application::OnWindowClose)) };
 		s_Instance->GetWindow().GetWindowCloseEvent().subscribe(windCloseCallback);

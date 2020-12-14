@@ -18,7 +18,7 @@ namespace gwcEngine
 		static void BeginScene(OrthographicCamera& camera); //TODO - take in scene params, lights etc
 		static void BeginScene(PerspectiveCamera& camera); //TODO - take in scene params, lights etc
 
-		static void SetActiveCamera(const Ref<Camera>& camera);
+		static void SetActiveCamera(const Ref<CameraBase>& camera);
 		static void SetViewProjection(const glm::mat4& vp);
 		static void EndScene();
 		

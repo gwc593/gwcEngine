@@ -3,8 +3,9 @@
 namespace gwcEngine
 {
 
+	class Application;
 	
-	class Entity
+	class Entity: public std::enable_shared_from_this<Entity>
 	{
 		
 	public:
@@ -18,9 +19,21 @@ namespace gwcEngine
 
 		EntityID GetID()const{return m_ID;}
 
-		//Todo - allow an entity to add a component to itself?
-	
-	public:
+		template<typename T, typename... TArgs>
+		T& AddComponent(TArgs&&... mArgs) noexcept
+		{
+			return Application::Get()->m_ECSManager->AddComponent<T>(shared_from_this(),std::forward<TArgs>(mArgs)...);
+		}
+
+
+		template<typename T>
+		T& GetComponent()
+		{
+			return Application::Get()->m_ECSManager->GetComponent<T>(shared_from_this());
+		}
+
+
+		static Ref<Entity> Find(const std::string name);
 
 
 	private:
@@ -79,4 +92,6 @@ namespace gwcEngine
 			return nextID;
 		}
 	};
+
+	using GameObject = gwcEngine::Ref<gwcEngine::Entity>;
 }

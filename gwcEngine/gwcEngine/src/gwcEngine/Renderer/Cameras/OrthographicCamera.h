@@ -5,7 +5,7 @@
 namespace gwcEngine
 {
 
-	class OrthographicCamera: public Camera
+	class OrthographicCamera: public CameraBase
 	{
 	public:
 		OrthographicCamera(uint32_t resX = 800, uint32_t resY= 600);

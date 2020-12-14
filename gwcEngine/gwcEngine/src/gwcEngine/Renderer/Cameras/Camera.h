@@ -4,7 +4,8 @@
 #include "gwcEngine/Renderer/FrameBuffer.h"
 namespace gwcEngine
 {
-	class Camera
+	
+	class CameraBase
 	{
 	public:
 
@@ -34,4 +35,7 @@ namespace gwcEngine
 		Ref<FrameBuffer> m_FrameBuffer;
 
 	};
+
+
+	using Camera = gwcEngine::Ref<gwcEngine::CameraBase>;
 }

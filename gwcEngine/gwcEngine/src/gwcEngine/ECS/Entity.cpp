@@ -1,8 +1,9 @@
 #include"gepch.h"
 #include "Entity.h"
-
+#include "gwcEngine/Core/application.h"
 namespace gwcEngine
 {
+
 	bool EntityManager::m_init = false;
 
 	std::queue<EntityID> EntityManager::s_AvailableIDs{};
@@ -27,6 +28,11 @@ namespace gwcEngine
 			}
 			m_init = true;
 		}
+	}
+
+	Ref<Entity> Entity::Find(const std::string name)
+	{
+		return Application::Get()->m_ECSManager->FindEntity(name);;
 	}
 
 }

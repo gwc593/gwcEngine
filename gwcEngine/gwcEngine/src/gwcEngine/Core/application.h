@@ -11,7 +11,7 @@ namespace gwcEngine {
 	class GE_API Application
 	{
 	public:
-		ECSGlobalManager* m_ECSManager;
+		ECSManager* m_ECSManager;
 
 
 	public:

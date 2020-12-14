@@ -21,14 +21,14 @@ namespace gwcEngine
 	class Panel
 	{
 	public:
-		Panel(uint32_t width, uint32_t height, Ref<Camera> capturingCamera = nullptr, Ref<Camera> renderingCamera = Application::Get()->GetWindow().GetCamera());
+		Panel(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = Application::Get()->GetWindow().GetCamera());
 
-		static Ref<Panel> Create(uint32_t width, uint32_t height, Ref<Camera> capturingCamera = nullptr, Ref<Camera> renderingCamera = Application::Get()->GetWindow().GetCamera());
+		static Ref<Panel> Create(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = Application::Get()->GetWindow().GetCamera());
 
 		void SetSize(uint32_t width, uint32_t height);
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);
-		std::tuple<uint32_t, uint32_t> GetCenter(Anchor relativeTo = Anchor::Center);
-
+		std::tuple<int32_t, int32_t> GetCenter(Anchor relativeTo = Anchor::Center);
+		
 		/// @brief get clip space position of a screen space mouse cordinat (pixel on full window)
 		/// @param x x-Pixel of full window
 		/// @param y y-Pixel of full window
@@ -43,8 +43,8 @@ namespace gwcEngine
 		uint32_t GetWidth()const { return m_Width; }
 		uint32_t GetHeight()const { return m_Height; }
 		
-		const Ref<Camera> GetCamera() const { return m_RenderingCamera; }
-		void SetCaptureCamera(const Ref<Camera>& camera);
+		const Ref<CameraBase> GetCamera() const { return m_RenderingCamera; }
+		void SetCaptureCamera(const Ref<CameraBase>& camera);
 		
 		bool OnMouseMovedHandler(float x, float y);
 		static std::vector<gwcEngine::Ref<Panel>> s_Panels;
@@ -52,19 +52,24 @@ namespace gwcEngine
 
 		uint32_t m_Width;
 		uint32_t m_Height;
-		std::tuple<uint32_t,uint32_t> m_Center; 
+		std::tuple<int32_t,int32_t> m_Center; 
 		float m_AspectRatio;
 
 		Ref<Shader> m_UnlitTextureShader;
 		Ref<Shader> m_DefaultShader;
 		Mesh m_RenderPlane;
 
-		Ref<Camera> m_RenderingCamera;
-		Ref<Camera> m_CapturingCamera;
+		Ref<CameraBase> m_RenderingCamera;
+		Ref<CameraBase> m_CapturingCamera;
 
 		Transform m_MainTransform;
 		Transform m_RenderPlaneTransform;
 		Anchor m_Anchor;
+
+		bool isHeld = false;
+		int xHeld = 0;
+		int yHeld = 0;
+		std::tuple<int32_t, int32_t> currentPos;
 		
 
 	public://Callbacks

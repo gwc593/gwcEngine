@@ -3,5 +3,5 @@
 
 namespace gwcEngine 
 {
-	ECSGlobalManager* ECSGlobalManager::s_instance = nullptr;
+	ECSManager* ECSManager::s_instance = nullptr;
 }

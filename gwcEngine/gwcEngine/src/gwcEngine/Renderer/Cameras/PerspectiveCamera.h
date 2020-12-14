@@ -7,7 +7,7 @@
 namespace gwcEngine
 {
 
-	class PerspectiveCamera : public Camera
+	class PerspectiveCamera : public CameraBase
 	{
 	public:
 		PerspectiveCamera(float FOV, uint32_t resX, uint32_t resY, float NClip, float FClip);

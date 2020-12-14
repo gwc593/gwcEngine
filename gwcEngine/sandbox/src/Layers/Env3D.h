@@ -6,23 +6,14 @@ class Env3D : public gwcEngine::Layer
 public:
 	Env3D();
 
-	void CameraController(gwcEngine::Ref<gwcEngine::Camera> camera);
-
 	void OnUpdate() override;
 	void OnAttach() override;
 		
-	void AnimateEntity(gwcEngine::Ref<gwcEngine::Entity> gameObject, float offset = 0.0f);
+	void AnimateEntity(gwcEngine::GameObject gameObject, float offset = 0.0f);
 
 private:
-	gwcEngine::Ref<gwcEngine::PerspectiveCamera> m_PCamera;
 	
-	gwcEngine::Ref<gwcEngine::Entity> m_CubeEntity;
-	gwcEngine::Ref<gwcEngine::Entity> m_quad;
-
-	gwcEngine::ECSLayerManager m_ECS_Manager;
-
-private: //temp
-	gwcEngine::Ref<gwcEngine::Panel> m_Env3DViewPortPanel;
+	gwcEngine::ECSManager* m_ECS_Manager;
 
 };
 
