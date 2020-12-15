@@ -22,19 +22,20 @@ namespace gwcEngine
 		template<typename T, typename... TArgs>
 		Ref<T> AddComponent(TArgs&&... mArgs) noexcept
 		{
-			return Application::Get()->m_ECSManager->AddComponent<T>(shared_from_this(),std::forward<TArgs>(mArgs)...);
+			return ECSManager::GetInstance()->AddComponent<T>(shared_from_this(),std::forward<TArgs>(mArgs)...);
 		}
 
 
 		template<typename T>
 		Ref<T> GetComponent()
 		{
-			return Application::Get()->m_ECSManager->GetComponent<T>(shared_from_this());
+			return ECSManager::GetInstance()->GetComponent<T>(shared_from_this());
 		}
 
 
 		static Ref<Entity> Find(const std::string name);
 
+		bool MatchesSignature(const Signature& signature);
 
 	private:
 		EntityID m_ID;

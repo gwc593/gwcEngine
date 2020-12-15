@@ -35,6 +35,17 @@ namespace gwcEngine
 		return Application::Get()->m_ECSManager->FindEntity(name);;
 	}
 
+	bool Entity::MatchesSignature(const Signature& signature)
+	{
+		Signature result;
+
+		result = signature & m_Signature;
+
+		if (result == signature) {
+			return true;
+		}
+		return false;
+	}
 }
 
 

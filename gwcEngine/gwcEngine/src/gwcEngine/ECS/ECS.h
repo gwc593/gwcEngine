@@ -101,6 +101,8 @@ namespace gwcEngine
 			return ComponentManager::FindID<T>();
 		}
 
+		const Event<const GameObject&> GetOnECSUpdated() { return m_ComponentManager.GetOnECSUpdateEvent(); }
+
 #pragma endregion
 
 

@@ -172,6 +172,7 @@ namespace gwcEngine
 			sig[_component->GetID()] = true;
 			entity->SetSignature(sig);	
 
+			m_OnECSUpdate.raiseEvent(entity);
 			return _component->GetComponent();
 		}
 
@@ -188,6 +189,8 @@ namespace gwcEngine
 			Signature sig = entity->GetSignature();
 			sig[ComponentManager::FindID(typeid(T).name())] = false;
 			entity->SetSignature(sig);
+
+			m_OnECSUpdate.raiseEvent(entity);
 		}
 
 		template<typename T>
@@ -205,6 +208,8 @@ namespace gwcEngine
 			return comptContainer->GetComponent();
 		}
 
+		const Event<const GameObject&>& GetOnECSUpdateEvent()const { return m_OnECSUpdate; }
+
 
 
 	private:
@@ -219,7 +224,7 @@ namespace gwcEngine
 		//Array of component Arrays
 		std::unordered_map<std::string,Ref<IComponentArray>> m_ArrayOfComponentArrays;
 		
-
+		Event<const GameObject&> m_OnECSUpdate;
 
 	};
 

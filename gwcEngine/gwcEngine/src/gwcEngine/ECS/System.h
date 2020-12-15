@@ -132,5 +132,6 @@ namespace gwcEngine
 	private:
 		std::array<Ref<ISystem>, MAX_SYSTEMS> m_SystemArray;
 		SystemID m_NextID = 0;
+		
 	};
 }

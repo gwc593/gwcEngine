@@ -133,7 +133,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto transform = gwcEngine::Entity::Find("MainCamera")->GetComponent<gwcEngine::Transform>();
 		transform->SetPosition(transform->GetPosition() + glm::vec3{ 0,0,gwcEngine::Time::GetTime() * 0.5f }*gwcEngine::Time::GetDeltaTime());
 
-
 		camera->GetFrameBuffer()->Bind();
 		gwcEngine::RenderCommand::SetClearColour(camera->GetClearColour());
 		gwcEngine::RenderCommand::Clear();
@@ -141,6 +140,5 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		m_ECS_Manager->OnUpdate(gwcEngine::Time::GetDeltaTime());
 		//unbind perspective camera
 		camera->GetFrameBuffer()->Unbind();
-		GE_TRACE("FPS = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());
 
 	}
