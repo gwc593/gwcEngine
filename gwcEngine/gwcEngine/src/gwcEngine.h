@@ -34,6 +34,7 @@
 #include "gwcEngine/ECS/ECS.h"
 //ECS - systems
 #include "gwcEngine/ECS/Systems/RendererECS.h"
+#include "gwcEngine/ECS/Systems/CameraSystem.h"
 
 //Components
 #include"gwcEngine/Components/Mesh.h"

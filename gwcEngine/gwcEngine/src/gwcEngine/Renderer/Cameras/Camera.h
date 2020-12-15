@@ -36,6 +36,7 @@ namespace gwcEngine
 			m_Transform = transform;
 			CalculateViewMatrix(); 
 		}
+
 	protected:
 		uint32_t m_ResX, m_ResY;
 		float m_AspectRatio;
@@ -49,7 +50,6 @@ namespace gwcEngine
 		glm::vec4 m_ClearColour;
 
 	};
-
 
 	using Camera = gwcEngine::Ref<gwcEngine::CameraBase>;
 }

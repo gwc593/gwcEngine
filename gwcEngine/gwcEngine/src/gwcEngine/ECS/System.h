@@ -3,15 +3,32 @@
 #include "Entity.h"
 namespace gwcEngine
 {
-	
+	class ECSManager;
+
 	class ISystem
 	{
-	friend class SystemManager;
-		
-	public :
+		friend class SystemManager;
+
+	public:
 		virtual ~ISystem() = default;
 
-		virtual void OnUpdate(const float& dT) = 0;
+		ISystem();
+		
+
+		virtual void OnUpdate(const float& dT)
+		{
+
+		}
+
+		virtual void OnEntityRegistered(GameObject gameobject)
+		{
+
+		}
+
+		virtual void OnEntityUnregistered(GameObject gameobject)
+		{
+
+		}
 
 		virtual void RegisterRequiredComponents() = 0;
 		virtual void InitSignature() = 0;
@@ -33,12 +50,14 @@ namespace gwcEngine
 				
 				if (it == m_EntityArray.end()) {//and doesn't exist
 					m_EntityArray.push_back(entity);
+					OnEntityRegistered(entity);
 					m_NumberEntities++;
 				}
 			}
 			else {//if don't keep
 				if (it != m_EntityArray.end()) {//and does exist
 					m_EntityArray.erase(std::remove(m_EntityArray.begin(), m_EntityArray.end(), entity), m_EntityArray.end());
+					OnEntityUnregistered(entity);
 					m_NumberEntities--;
 				}
 			}
@@ -68,6 +87,7 @@ namespace gwcEngine
 
 		std::string m_name;
 		SystemID m_ID;
+		ECSManager* m_ECSManager;
 
 	protected:
 		void SetID(const SystemID& id) { m_ID = id; }
@@ -97,6 +117,15 @@ namespace gwcEngine
 		{
 			for (SystemID it = 0; it < m_NextID; it++) {
 				m_SystemArray[it]->ValidateEntity(entity);
+			}
+		}
+
+		Ref<ISystem> FindSystem(const std::string& sysName)
+		{
+			for (auto it : m_SystemArray) {
+				if (it->m_name == sysName) {
+					return it;
+				}
 			}
 		}
 

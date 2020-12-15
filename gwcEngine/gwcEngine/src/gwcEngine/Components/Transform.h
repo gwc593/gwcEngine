@@ -17,7 +17,7 @@ namespace gwcEngine
 			m_Scale = glm::vec3(1.0f);
 			m_TransformMat = glm::mat4(1.0f);
 		}
-
+		//todo - does this take into account relation to parent? i dont think it does.
 		glm::vec3 GetPosition() const 
 		{
 			return m_Position;
@@ -33,35 +33,56 @@ namespace gwcEngine
 			return m_Scale;
 		}
 
+		glm::mat4 GetTransformMatrix() { SetTansformMatrix(); return m_TransformMat; }
+		
 		void SetPosition(glm::vec3 pos) 
 		{ 
 			m_Position = pos;
+			m_OnChange.raiseEvent(*this);
 		}
 
 		void SetScale(glm::vec3 scale) 
 		{ 
 			m_Scale = scale;
+			m_OnChange.raiseEvent(*this);
 		}
 
 		void SetRotation(glm::quat rot) 
 		{ 
 			m_Rotation = rot; 
+			m_OnChange.raiseEvent(*this);
 		}
 		void SetRotation(glm::vec3 erot) 
 		{
 			m_Rotation = glm::quat(erot); 
+			m_OnChange.raiseEvent(*this);
 		}
-
-		glm::mat4 GetTransformMatrix() { SetTansformMatrix(); return m_TransformMat; }
 
 		void SetParent(const Transform& parent)
 		{
 			m_Parent = &parent;
+			m_OnChange.raiseEvent(*this);
 		}
 
 		void ClearParent()
 		{
 			m_Parent = nullptr;
+			m_OnChange.raiseEvent(*this);
+		}
+
+		void OnChangeSubscribe(Ref<EventCallback<const Transform&>> callback)
+		{
+			m_OnChange.subscribe(callback);
+		}
+
+		Ref<EventCallback<const Transform&>> OnChangeSubscribe(std::function<bool(const Transform&)> callback)
+		{
+			return m_OnChange.subscribe(callback);
+		}
+
+		void OnChangeUnsubscribe(Ref<EventCallback<const Transform&>> callback)
+		{
+			m_OnChange.unsubscribe(callback);
 		}
 		
 		
@@ -104,5 +125,7 @@ namespace gwcEngine
 		glm::vec3 m_Scale;
 		glm::mat4 m_TransformMat;
 		const Transform* m_Parent;
+
+		Event<const Transform&> m_OnChange;
 	};
 }

@@ -127,6 +127,7 @@ namespace gwcEngine
 			auto search = s_ComponentIDs.find(typeid(T).name());
 
 			if (search == s_ComponentIDs.end()) {
+				GE_CORE_WARN("{0}: is not a type managed or registered within the ECS manager, are you sure its being used?", typeid(T).name());
 				return NullComponentID;
 			}
 

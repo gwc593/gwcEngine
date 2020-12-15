@@ -4,7 +4,7 @@ namespace gwcEngine
 {
 	//Component Constraints
 	using ComponentID = uint32_t;
-	const ComponentID MAX_COMPONENTS = 32;
+	const ComponentID MAX_COMPONENTS = 128;
 	const ComponentID NullComponentID = MAX_COMPONENTS + 10;
 
 	//Entity constraints

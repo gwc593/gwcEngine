@@ -10,8 +10,7 @@ namespace gwcEngine
 	class RendererECS : public ISystem
 	{
 	public:
-		RendererECS(const std::string& name, ECSManager* manager)
-			:m_ECSManager(manager)
+		RendererECS(const std::string& name)
 		{
 			m_name = name;
 			RegisterRequiredComponents();
@@ -48,7 +47,7 @@ namespace gwcEngine
 
 
 	private:
-		ECSManager* m_ECSManager;
+		
 	};
 
 }

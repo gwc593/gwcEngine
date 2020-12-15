@@ -78,6 +78,14 @@ namespace gwcEngine
 			m_Entities.emplace(std::pair(entity->GetName(), entity));
 			return entity;
 		}
+		const std::vector<Ref<Entity>> GetEntities()const
+		{
+			std::vector<Ref<Entity>> ret;
+			for (auto it : m_Entities) {
+				ret.push_back(it.second);
+			}
+			return ret;
+		}
 
 	private:
 		static std::queue<EntityID> s_AvailableIDs;
