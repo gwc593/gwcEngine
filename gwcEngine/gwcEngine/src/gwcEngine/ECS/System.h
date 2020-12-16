@@ -13,7 +13,11 @@ namespace gwcEngine
 		virtual ~ISystem() = default;
 
 		ISystem();
-		
+
+		virtual void OnEarlyUpdate(const float& dT)
+		{
+
+		}
 
 		virtual void OnUpdate(const float& dT)
 		{
@@ -44,19 +48,19 @@ namespace gwcEngine
 			result = EntitySignature & m_Signature;
 
 			
-			auto it = std::find(m_EntityArray.begin(), m_EntityArray.end(), entity);
+			auto it = std::find(m_GameObjectArray.begin(), m_GameObjectArray.end(), entity);
 
 			if (result == m_Signature) {//if keep
 				
-				if (it == m_EntityArray.end()) {//and doesn't exist
-					m_EntityArray.push_back(entity);
+				if (it == m_GameObjectArray.end()) {//and doesn't exist
+					m_GameObjectArray.push_back(entity);
 					OnEntityRegistered(entity);
 					m_NumberEntities++;
 				}
 			}
 			else {//if don't keep
-				if (it != m_EntityArray.end()) {//and does exist
-					m_EntityArray.erase(std::remove(m_EntityArray.begin(), m_EntityArray.end(), entity), m_EntityArray.end());
+				if (it != m_GameObjectArray.end()) {//and does exist
+					m_GameObjectArray.erase(std::remove(m_GameObjectArray.begin(), m_GameObjectArray.end(), entity), m_GameObjectArray.end());
 					OnEntityUnregistered(entity);
 					m_NumberEntities--;
 				}
@@ -81,7 +85,7 @@ namespace gwcEngine
 	protected:
 
 		Signature m_Signature;
-		std::vector<Ref<Entity>> m_EntityArray;
+		std::vector<Ref<Entity>> m_GameObjectArray;
 		uint32_t m_NumberEntities = 0;
 		bool m_isActive = false;
 
@@ -105,6 +109,13 @@ namespace gwcEngine
 			m_NextID++;
 		}
 		SystemID NumberOfSystems()const { return m_NextID; }
+
+		void OnEarlyUpdate(const float& dT)
+		{
+			for (SystemID it = 0; it < NumberOfSystems(); it++) {
+				m_SystemArray[it]->OnEarlyUpdate(dT);
+			}
+		}
 
 		void OnUpdate(const float& dT)
 		{

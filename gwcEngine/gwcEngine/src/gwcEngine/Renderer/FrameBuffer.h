@@ -1,5 +1,6 @@
 #pragma once
 #include "gwcEngine/Core/core.h"
+
 namespace gwcEngine
 {
 	struct FrameBufferSpecification
@@ -29,6 +30,9 @@ namespace gwcEngine
 		virtual uint8_t GetDepthData(uint32_t x, uint32_t y) const = 0;
 
 		virtual uint32_t GetColourAttachmentRendererID() const = 0;
+
+		void Clear();
+
 		
 		//Todo requild frambuffer based on spec change.
 		//virtual FrameBufferSpecification& GetSpecification() = 0;

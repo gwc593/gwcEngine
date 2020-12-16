@@ -23,13 +23,14 @@ public:
 	{
 		auto m_ECS_Manager = gwcEngine::ECSManager::GetInstance();
 
-		//register Render System
-		gwcEngine::Ref<gwcEngine::RendererECS> rendSys = gwcEngine::CreateRef<gwcEngine::RendererECS>("3dRenderer");
-		m_ECS_Manager->RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(rendSys));
+		//Register CameraSystem
+		gwcEngine::Ref<gwcEngine::MeshRendererSystem> meshRenderSys = gwcEngine::CreateRef<gwcEngine::MeshRendererSystem>("MeshRendererSystem");
+		m_ECS_Manager->RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(meshRenderSys));
 
 		//Register CameraSystem
 		gwcEngine::Ref<gwcEngine::CameraSystem> camSys = gwcEngine::CreateRef<gwcEngine::CameraSystem>("CameraSystem");
 		m_ECS_Manager->RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(camSys));
+
 	}
 };
 

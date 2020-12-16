@@ -168,6 +168,10 @@ namespace gwcEngine
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
+	}
+
+	void WindowsWindow::SwapBuffers()
+	{
 		m_Context->SwapBuffers();
 	}
 

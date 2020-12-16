@@ -47,7 +47,7 @@ namespace gwcEngine
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ViewProjectionMatrix;
-		glm::vec4 m_ClearColour;
+		glm::vec4 m_ClearColour = { 0.65f,0.65f,0.65f,1.0f };
 
 	};
 

@@ -17,8 +17,8 @@ namespace gwcEngine
 		unsigned int Height;
 
 		WindowProps(const std::string& title = "gwcEngine",
-					unsigned int width = 1280,
-					unsigned int height = 720) :Title(title), Width(width), Height(height){}
+					unsigned int width = 1800,
+					unsigned int height = 900) :Title(title), Width(width), Height(height){}
 	};
 
 
@@ -49,6 +49,7 @@ namespace gwcEngine
 		inline Event<>& GetCursorExitEvent() { return m_CursorExit; }
 
 		Ref<OrthographicCamera> GetCamera() { return m_WindowCamera; }
+		virtual void SwapBuffers() = 0;
 
 	protected:
 		Event<int/*width*/, int/*height*/> m_windowResizeEvent;

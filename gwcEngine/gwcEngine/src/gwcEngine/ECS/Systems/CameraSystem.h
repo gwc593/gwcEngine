@@ -50,11 +50,14 @@ namespace gwcEngine
 			tr->OnChangeSubscribe(CB);
 		}
 
-		const std::vector<Ref<Entity>>& GetEntities()const { return m_EntityArray; }
+		const std::vector<Ref<Entity>>& GetEntities()const { return m_GameObjectArray; }
 
-		virtual void OnUpdate(const float& dT)
+		virtual void OnEarlyUpdate(const float& dT)
 		{
-
+			for (auto gameObject : m_GameObjectArray) {
+				gwcEngine::RenderCommand::SetClearColour((*gameObject->GetComponent<Camera>())->GetClearColour());
+				(*gameObject->GetComponent<Camera>())->GetFrameBuffer()->Clear();
+			}
 		}
 	};
  

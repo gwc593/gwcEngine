@@ -29,6 +29,7 @@ namespace gwcEngine {
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
+		virtual void SwapBuffers()override;
 	
 	private:
 

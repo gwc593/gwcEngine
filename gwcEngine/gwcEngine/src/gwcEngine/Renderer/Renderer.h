@@ -21,8 +21,8 @@ namespace gwcEngine
 		
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
-		static void Submit(const std::shared_ptr<VertexArray>& vertexArray, Material& material, const glm::mat4& transform = glm::mat4(1.0f));
+		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
+		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform = glm::mat4(1.0f));
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 

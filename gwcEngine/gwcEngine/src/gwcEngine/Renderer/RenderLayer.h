@@ -31,11 +31,11 @@ namespace gwcEngine
 		//activate all layers
 		void ActivateAll();
 
-		const std::bitset<MAX_RENDER_LAYERS>& Get() const { return m_ActiveLayers; }
+		const std::bitset<MAX_RENDER_LAYERS>& GetActiveLayers() const { return m_ActiveLayers; }
 
 
 
-	private:
+	protected:
 		static std::bitset<MAX_RENDER_LAYERS> s_Layers;
 		static std::unordered_map<std::string, uint16_t> s_NameMap;
 		static uint16_t s_NextID;

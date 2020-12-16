@@ -101,7 +101,7 @@ namespace gwcEngine
 			return ComponentManager::FindID<T>();
 		}
 
-		const Event<const GameObject&> GetOnECSUpdated() { return m_ComponentManager.GetOnECSUpdateEvent(); }
+		const Event<const GameObject&>& GetOnECSUpdated() { return m_ComponentManager.GetOnECSUpdateEvent(); }
 
 #pragma endregion
 
@@ -110,6 +110,11 @@ namespace gwcEngine
 		void RegisterSystem(Ref<ISystem>& system)
 		{
 			m_SystemManager.RegisterSystem(system);
+		}
+
+		void OnEarlyUpdate(const float& dT)
+		{
+			m_SystemManager.OnEarlyUpdate(dT);
 		}
 
 		void OnUpdate(const float& dT)

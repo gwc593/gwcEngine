@@ -58,6 +58,10 @@ namespace gwcEngine {
 				for (Layer* layer : m_LayerStack)
 					layer->OnUpdateBase();
 
+				//update ECS
+				ECSManager::GetInstance()->OnEarlyUpdate(Time::GetDeltaTime());
+				ECSManager::GetInstance()->OnUpdate(Time::GetDeltaTime());
+
 				//render panels to window
 				gwcEngine::RenderCommand::SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
 				gwcEngine::RenderCommand::Clear();
