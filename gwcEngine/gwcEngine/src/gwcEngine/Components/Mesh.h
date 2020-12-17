@@ -9,6 +9,12 @@ namespace gwcEngine
 	public:
 		Mesh();
 
+		Mesh(Mesh&& other)noexcept;
+		Mesh& Mesh::operator=(Mesh&& other) noexcept;
+
+		Mesh(const Mesh& other);
+		Mesh& Mesh::operator=(const Mesh& other);
+
 		Mesh(const std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<IndexBuffer>& ib);
 		Mesh(float* const& verts, std::size_t sizeV, BufferLayout layout, uint32_t* const& indicies, uint32_t sizeI, bool isDynamic = false);
 
@@ -22,12 +28,16 @@ namespace gwcEngine
 
 		void InitVertexArray();
 
+		//create primatives
+		static Mesh Quad();
+
 	private:
 		std::shared_ptr<VertexBuffer> m_VB;
 		std::shared_ptr<IndexBuffer> m_IB;
 		std::shared_ptr<VertexArray> m_VA;
 
 	private:
+		static Ref<Mesh> s_Quad;
 		//void InitVertexArray();
 	};
 

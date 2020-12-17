@@ -49,23 +49,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 #pragma endregion
 
-		#pragma region Quad data
-
-		float QuadVer[4 * (3+2+3)] = {
-			// -----Position-----// UV Text    //--Normal// 
-			 -0.25f,0.25f,0.0,     0.0f,0.0f,  0.0f,0.0f,0.0f,
-			-0.25f,-0.25f,0.0,     0.0f,0.0f,  0.0f,0.0f,0.0f,
-			 0.25f,-0.25f,0.0,     0.0f,0.0f,  0.0f,0.0f,0.0f,
-			 0.25f,0.25f,0.0,      0.0f,0.0f,  0.0f,0.0f,0.0f
-		};
-
-		uint32_t QuadInd[2 * 3]{
-			0,1,2,
-			3,0,2
-		};
-
-#pragma endregion
-
 	//Compile shaders for use
 		auto m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
 
@@ -88,13 +71,15 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//make a cube entity 
 		auto m_CubeEntity = m_ECS_Manager->CreateEntity("Cube");
-		auto cubeMesh = m_CubeEntity->AddComponent<gwcEngine::Mesh>();
+		auto cubeMesh = m_CubeEntity->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Quad());
 		auto cubeTransform = m_CubeEntity->AddComponent<gwcEngine::Transform>();
 		auto cubeMaterial = m_CubeEntity->AddComponent<gwcEngine::Material>();
 		auto meshRend = m_CubeEntity->AddComponent<gwcEngine::MeshRenderer>();
 
+		/*
 		cubeMesh->SetVertexBuffer(verticesCube, sizeof(verticesCube), layoutUnlitShader);
 		cubeMesh->SetIndexBuffer(indicesCube, sizeof(indicesCube) / sizeof(uint32_t));
+		*/
 		cubeMaterial->SetShader(m_UnlitColourShader);
 		meshRend->ActivateLayer("3DScene");
 

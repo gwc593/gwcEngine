@@ -18,37 +18,8 @@ namespace gwcEngine
 		m_AspectRatio = (float)m_Width / (float)m_Height;
 		
 		//create unit quad to render draw.
-#pragma region QuadMeshData
+		m_RenderPlane = Mesh::Quad();
 
-		gwcEngine::BufferLayout layout = {
-				{gwcEngine::ShaderDataType::Float3, "a_Position"},
-				{gwcEngine::ShaderDataType::Float2, "a_TexCoord"}
-		};
-
-		float left = -0.5f;
-		float right = 0.5f;
-		float bottom = -0.5f ;
-		float top = 0.5f;
-
-			float verticesQuad[4 * 5] = {
-			// ----------Position--------------// -- Texture coordinates----- 
-				right, top,    0.0f, 1.0f, 1.0f,
-				right, bottom, 0.0f, 1.0f, 0.0f,
-			    left,  bottom, 0.0f, 0.0f, 0.0f,
-			    left,  top,    0.0f, 0.0f, 1.0f
-			};
-
-		//f   t   v
-		uint32_t indicesQuad[1 * 2 * 3] = {
-			0,1,2,
-			0,2,3,
-		};
-
-		m_RenderPlane.SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layout);
-
-		//make mesh dynamic to allow for panel resizing isDynamic = true.
-		m_RenderPlane.SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), true);
-#pragma endregion
 
 		//setup callbacks
 		c_OnMainWindowSizeChange = CreateRef<EventCallback<int, int>>();
