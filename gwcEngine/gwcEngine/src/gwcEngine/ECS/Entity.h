@@ -33,7 +33,9 @@ namespace gwcEngine
 		}
 
 
-		static Ref<Entity> Find(const std::string name);
+		static Ref<Entity> Find(const std::string& name);
+
+		static Ref<Entity> Create(const std::string& name);
 
 		bool MatchesSignature(const Signature& signature);
 

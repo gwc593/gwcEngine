@@ -9,11 +9,13 @@
     <ClInclude Include="src\Layers\Env3D.h">
       <Filter>Layers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Layers\LeftSideBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Layers\Env3D.cpp">
       <Filter>Layers</Filter>
     </ClCompile>
     <ClCompile Include="src\sandbox.cpp" />
+    <ClCompile Include="src\Layers\LeftSideBar.cpp" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 #include"gwcEngine/core/EntryPoint.h"
 #include<glm/gtc/matrix_transform.hpp>
 #include "Layers/Env3D.h"
+#include "Layers/LeftSideBar.h"
 
 //client side implementation of gwcEngine instance
 class MainApp : public gwcEngine::Application
@@ -12,6 +13,7 @@ public:
 		//gwcEngine::RenderCommand::SetVsync(false);
 		RegisterSystems();
 		PushLayer(new Env3D());
+		PushLayer(new LeftSideBar());
 	}
 
 	~MainApp()

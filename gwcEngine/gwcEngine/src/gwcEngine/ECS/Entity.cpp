@@ -30,7 +30,7 @@ namespace gwcEngine
 		}
 	}
 
-	Ref<Entity> Entity::Find(const std::string name)
+	Ref<Entity> Entity::Find(const std::string& name)
 	{
 		return Application::Get()->m_ECSManager->FindEntity(name);;
 	}
@@ -45,6 +45,11 @@ namespace gwcEngine
 			return true;
 		}
 		return false;
+	}
+
+	Ref<Entity> Entity::Create(const std::string& name)
+	{
+		return ECSManager::GetInstance()->CreateEntity(name);
 	}
 }
 

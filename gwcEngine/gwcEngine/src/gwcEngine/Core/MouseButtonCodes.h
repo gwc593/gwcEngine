@@ -1,6 +1,7 @@
 #pragma once
 namespace gwcEngine
 {
+	
 	typedef enum class MouseCode : uint16_t
 	{
 		// From glfw3.h
@@ -17,7 +18,8 @@ namespace gwcEngine
 		ButtonLeft = Button0,
 		ButtonRight = Button1,
 		ButtonMiddle = Button2
-	} Mouse;
+	};
+	
 
 	inline std::ostream& operator<<(std::ostream& os, MouseCode mouseCode)
 	{
