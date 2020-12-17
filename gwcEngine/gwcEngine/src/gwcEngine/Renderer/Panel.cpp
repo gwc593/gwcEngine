@@ -32,10 +32,10 @@ namespace gwcEngine
 
 			float verticesQuad[4 * 5] = {
 			// ----------Position--------------// -- Texture coordinates----- 
-				right, top,    0.0f,      1.0f, 1.0f,
-				right, bottom, 0.0f,      1.0f, 0.0f,
-			    left,  bottom, 0.0f,      0.0f, 0.0f,
-			    left,  top,    0.0f,      0.0f, 1.0f
+				right, top,    0.0f, 1.0f, 1.0f,
+				right, bottom, 0.0f, 1.0f, 0.0f,
+			    left,  bottom, 0.0f, 0.0f, 0.0f,
+			    left,  top,    0.0f, 0.0f, 1.0f
 			};
 
 		//f   t   v
@@ -61,8 +61,12 @@ namespace gwcEngine
 		Input::GetMouseMovedEvent().subscribe(c_OnMouseMoved);
 
 		//setup panel shader
-		m_UnlitTextureShader = gwcEngine::Shader::Create("assets/Shaders/UnlitTexture.glsl");
+		m_UnlitTextureShader = gwcEngine::Shader::Create("assets/Shaders/PanelCapture.glsl");
 		m_DefaultShader = gwcEngine::Shader::Create("assets/Shaders/PanelBackground.glsl");
+
+		m_UnlitTextureShader->UploadUniformFloat("u_border_width", 0.001f);
+		m_DefaultShader->UploadUniformFloat("u_border_width", 0.001f);
+
 
 		m_RenderPlaneTransform.SetPosition(glm::vec3(0.0f,0.0f, 0.2f));
 		

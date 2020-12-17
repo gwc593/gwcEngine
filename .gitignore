@@ -352,3 +352,5 @@ bin-int
 /gwcEngine/*.sln
 /gwcEngine/gwcEngine/*.vcxproj
 /gwcEngine/gwcEngine/*.filters
+*.vcxproj
+sandbox.vcxproj.filters

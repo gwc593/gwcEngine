@@ -20,7 +20,7 @@ include "gwcEngine/vendor/GLFW"
 include "gwcEngine/vendor/Glad"
 
 project "gwcEngine"
-
+	characterset ("MBCS")
 	location"gwcEngine"
 	kind "StaticLib"
 	language "C++"

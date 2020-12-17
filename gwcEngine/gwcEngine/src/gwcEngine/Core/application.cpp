@@ -13,6 +13,8 @@ namespace gwcEngine {
 
 	Application::Application()
 	{
+		
+		auto FS = FileSystem::GetInstance();
 		m_Window = std::unique_ptr<Window>(Window::Create());	
 		Time::Init();
 
