@@ -14,7 +14,8 @@ void LeftSideBar::OnAttach()
 	auto layers = camera->AddComponent<gwcEngine::RenderLayer>();
 	layers->RegisterLayer("Left Side Bar");
 	layers->ActivateLayer("Left Side Bar");
-	panelCamera->SetClearColour({ 1,0,1,1.0 });
+	
+	panelCamera->SetClearColour(glm::vec4( 0.1,0.1,0.2,1.0 )*0.5f);
 
 	auto panelEnt = gwcEngine::Entity::Create("LSB_Panel");
 	auto panel = *panelEnt->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(400, 900));
