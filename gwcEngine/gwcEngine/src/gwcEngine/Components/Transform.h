@@ -35,26 +35,26 @@ namespace gwcEngine
 
 		glm::mat4 GetTransformMatrix() { SetTansformMatrix(); return m_TransformMat; }
 		
-		void SetPosition(glm::vec3 pos) 
+		void SetPosition(const glm::vec3& pos) 
 		{ 
 			m_Position = pos;
 			m_OnChange.raiseEvent(*this);
 		}
 
-		void SetScale(glm::vec3 scale) 
+		void SetScale(const glm::vec3& scale) 
 		{ 
 			m_Scale = scale;
 			m_OnChange.raiseEvent(*this);
 		}
 
-		void SetRotation(glm::quat rot) 
+		void SetRotation(const glm::quat& rot)
 		{ 
 			m_Rotation = rot; 
 			m_OnChange.raiseEvent(*this);
 		}
-		void SetRotation(glm::vec3 erot) 
+		void SetRotation(const glm::vec3& erot) 
 		{
-			m_Rotation = glm::quat(erot); 
+			m_Rotation = glm::quat(erot * glm::pi<float>() / 180.0f);
 			m_OnChange.raiseEvent(*this);
 		}
 
@@ -84,8 +84,7 @@ namespace gwcEngine
 		{
 			m_OnChange.unsubscribe(callback);
 		}
-		
-		
+
 	private:
 
 		glm::vec3 GetCompoundPosition() const
@@ -117,14 +116,17 @@ namespace gwcEngine
 
 		void SetTansformMatrix()
 		{
-			//m_TransformMat = glm::translate(glm::mat4(1.0f), GetCompoundPosition()) * glm::mat4(GetCompoundRotation()) * glm::scale(glm::mat4(1.0f), GetCompoundScale()) ;
 			m_TransformMat = glm::translate(glm::mat4(1.0f), GetCompoundPosition()) * glm::mat4(GetCompoundRotation()) * glm::scale(glm::mat4(1.0f), GetCompoundScale()) ;
 		}
+
+
 		glm::quat m_Rotation;
 		glm::vec3 m_Position;
 		glm::vec3 m_Scale;
 		glm::mat4 m_TransformMat;
 		const Transform* m_Parent;
+
+		
 
 		Event<const Transform&> m_OnChange;
 	};

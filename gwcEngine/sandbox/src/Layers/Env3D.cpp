@@ -12,47 +12,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnAttach()
 	{
-		//todo should be assets
-		#pragma region CubeMeshData
-		gwcEngine::BufferLayout layoutUnlitShader = {
-			{gwcEngine::ShaderDataType::Float3, "a_Position"},
-			{gwcEngine::ShaderDataType::Float2, "a_UV"},
-			{gwcEngine::ShaderDataType::Float3, "a_Norm"}
-															 };
-
-		float verticesCube[8 * (3+2+3)] = {
-			// -----Position-----// UV Text//--Normal// 
-				0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-			   -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-			   -0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-				0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-				0.5f, 0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-			   -0.5f, 0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-			   -0.5f,-0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-				0.5f,-0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
-		};
-
-		//f   t   v
-		uint32_t indicesCube[6 * 2 * 3] = {
-			0,1,2,
-			0,2,3,
-			4,1,0,
-			4,5,1,
-			4,5,6,
-			4,6,7,
-			1,5,6,
-			1,6,2,
-			0,3,7,
-			4,0,7,
-			7,6,2,
-			7,2,3 };
-
-#pragma endregion
-
 	//Compile shaders for use
+		// Todo - should be stored in a shader library 
 		auto m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
 
-		
 	// make camera entity
 		auto CameraEnt = m_ECS_Manager->CreateEntity("MainCamera");
 		auto CameraComp = *CameraEnt->AddComponent<gwcEngine::Camera>(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 10.0f));
@@ -64,22 +27,18 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 	//make panel entity
-		auto testPanel = m_ECS_Manager->CreateEntity("testPanel");
+		auto testPanel = m_ECS_Manager->CreateEntity("3D Panel");
 		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 750));
 		pan->SetCaptureCamera(CameraComp);
 
 
 	//make a cube entity 
 		auto m_CubeEntity = m_ECS_Manager->CreateEntity("Cube");
-		auto cubeMesh = m_CubeEntity->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Quad());
+		auto cubeMesh = m_CubeEntity->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
 		auto cubeTransform = m_CubeEntity->AddComponent<gwcEngine::Transform>();
 		auto cubeMaterial = m_CubeEntity->AddComponent<gwcEngine::Material>();
 		auto meshRend = m_CubeEntity->AddComponent<gwcEngine::MeshRenderer>();
 
-		/*
-		cubeMesh->SetVertexBuffer(verticesCube, sizeof(verticesCube), layoutUnlitShader);
-		cubeMesh->SetIndexBuffer(indicesCube, sizeof(indicesCube) / sizeof(uint32_t));
-		*/
 		cubeMaterial->SetShader(m_UnlitColourShader);
 		meshRend->ActivateLayer("3DScene");
 
@@ -96,10 +55,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		//Move and rotate cube
 		auto cubeTransform = m_ECS_Manager->GetComponent<gwcEngine::Transform>(gameObject);
-		auto xPos = cubeTransform->GetPosition();
-		xPos.x = (3.0f * r - 1.0f);
 		cubeTransform->SetPosition(glm::vec3(r - 0.5f, g - 0.5f, b - 0.5f) * 3.0f);
-		cubeTransform->SetRotation(glm::vec3(r, g, b) * 12.0f);
+		cubeTransform->SetRotation(glm::vec3(r, g, b) * 600.0f);
 	}
 
 	void Env3D::OnUpdate()
