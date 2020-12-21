@@ -12,7 +12,7 @@ namespace gwcEngine
 			memset(runtimeDir, '\0', MAX_PATH);
 
 			size_t len = sizeof(runtimeDir);
-			int bytes = GetModuleFileName(NULL, runtimeDir, len);
+			int bytes = GetModuleFileName(NULL, runtimeDir, (DWORD)len);
 
 			if (!bytes) {
 				GE_CORE_ASSERT(false, "Unable to get working directory");
@@ -41,6 +41,16 @@ namespace gwcEngine
 		}
 	
 		GE_CORE_ERROR("unable to create directory at: {0}", m_WorkingDirectory + address);
+		return false;
+	}
+
+	bool WindowsFileSystem::DelDir(const std::string& address)
+	{
+		if (RemoveDirectory((m_WorkingDirectory + address).c_str())) {
+			return true;
+		}
+
+		GE_CORE_ERROR("unable to remove directory at: {0}", m_WorkingDirectory + address);
 		return false;
 	}
 }

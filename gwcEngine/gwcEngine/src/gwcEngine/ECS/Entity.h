@@ -32,6 +32,10 @@ namespace gwcEngine
 			return ECSManager::GetInstance()->GetComponent<T>(shared_from_this());
 		}
 
+		void SetActive(const bool& state) { m_isActive = state; }
+
+		bool IsActive()const { return m_isActive; }
+
 
 		static Ref<Entity> Find(const std::string& name);
 
@@ -43,6 +47,7 @@ namespace gwcEngine
 		EntityID m_ID;
 		Signature m_Signature;
 		std::string m_Name;
+		bool m_isActive;
 
 
 	};
@@ -96,7 +101,7 @@ namespace gwcEngine
 		static bool m_init;
 
 	private:
-		static EntityID& GetNextID()
+		static EntityID GetNextID()
 		{
 			EntityID nextID = s_AvailableIDs.front();
 			EntityManager::s_AvailableIDs.pop();

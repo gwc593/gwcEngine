@@ -8,10 +8,10 @@ namespace gwcEngine
 	{
 	public:
 		Material():
-		m_Shader(nullptr){};
+		m_Shader(nullptr),m_IsModified(false){};
 
 		Material(Ref<Shader> shader) :
-			m_Shader(shader){m_Uniforms = shader->m_Uniforms;};
+			m_Shader(shader),m_IsModified(false){m_Uniforms = shader->m_Uniforms;};
 
 		void SetShader(const Ref<Shader>& shader);
 
@@ -33,6 +33,7 @@ namespace gwcEngine
 	private:
 		Ref<Shader> m_Shader;
 		std::vector<ShaderUniform*> m_Uniforms;
+		bool m_IsModified;
 	};
 
 

@@ -13,6 +13,7 @@ namespace gwcEngine
 	{
 		m_ID = EntityManager::GetNextID();
 		m_Name = name;
+		m_isActive = true;
 	}
 
 	Entity::~Entity()

@@ -7,7 +7,7 @@
 
 namespace gwcEngine
 {
-	static enum class Anchor
+	enum class Anchor
 	{
 		Center = 0,
 		TopLeft,
@@ -77,6 +77,9 @@ namespace gwcEngine
 		bool OnMainWindowSizeChangeHandler(int width, int height);
 
 		void DragPanel(float x, float y);
+
+		bool OnCaptResChange(uint32_t resx, uint32_t resy);
+		Ref<EventCallback<uint32_t, uint32_t>> m_OnCaptureResChangeCB;
 
 	private://Events;
 		Event<> e_OnCursorEnter;

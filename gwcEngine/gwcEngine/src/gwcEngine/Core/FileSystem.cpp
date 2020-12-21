@@ -35,5 +35,6 @@ namespace gwcEngine
 		}
 
 		GE_CORE_ASSERT(false, "Invalid Rendering API selected");
+		return nullptr;
 	}
 }

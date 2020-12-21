@@ -4,6 +4,7 @@
 #include "Layers/Env3D.h"
 #include "Layers/LeftSideBar.h"
 
+
 //client side implementation of gwcEngine instance
 class MainApp : public gwcEngine::Application
 {
@@ -25,7 +26,7 @@ public:
 	{
 		auto m_ECS_Manager = gwcEngine::ECSManager::GetInstance();
 
-		//Register CameraSystem
+		//Register MeshRendering System
 		gwcEngine::Ref<gwcEngine::MeshRendererSystem> meshRenderSys = gwcEngine::CreateRef<gwcEngine::MeshRendererSystem>("MeshRendererSystem");
 		m_ECS_Manager->RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(meshRenderSys));
 

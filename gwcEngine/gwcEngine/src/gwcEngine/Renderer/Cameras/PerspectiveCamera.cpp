@@ -53,6 +53,8 @@ namespace gwcEngine
 
 		if (m_FrameBuffer != nullptr)
 			m_FrameBuffer->Resize(resX, resY);
+
+		m_OnResChange.raiseEvent(m_ResX, m_ResY);
 	}
 
 

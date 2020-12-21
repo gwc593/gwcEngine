@@ -37,6 +37,7 @@ namespace gwcEngine
 			CalculateViewMatrix(); 
 		}
 
+		const Event<uint32_t, uint32_t>& GetOnResolutionChangeEvent()const { return m_OnResChange; }
 	protected:
 		uint32_t m_ResX, m_ResY;
 		float m_AspectRatio;
@@ -48,6 +49,7 @@ namespace gwcEngine
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ViewProjectionMatrix;
 		glm::vec4 m_ClearColour = { 0.65f,0.65f,0.65f,1.0f };
+		Event<uint32_t, uint32_t> m_OnResChange;
 
 	};
 

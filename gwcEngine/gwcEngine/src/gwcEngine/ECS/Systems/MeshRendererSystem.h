@@ -72,23 +72,27 @@ namespace gwcEngine
 			Ref<Camera> currentCamera;
 
 			for (auto camera : m_Cameras) {
-				currentCamera = camera->GetComponent<Camera>();
-				
-				(*currentCamera)->GetFrameBuffer()->Bind();
-				gwcEngine::Renderer::SetActiveCamera((*currentCamera));
-				
-				for (auto gameObject : m_GameObjectArray) {
+				if (camera->IsActive()) {
 
-					if (((gameObject->GetComponent<MeshRenderer>()->GetActiveLayers()) & (camera->GetComponent<RenderLayer>()->GetActiveLayers())).any()) {//if object is on a camera's layer
-						auto mesh = gameObject->GetComponent<gwcEngine::Mesh>();
-						auto transform = gameObject->GetComponent<gwcEngine::Transform>();
-						auto material = gameObject->GetComponent<gwcEngine::Material>();
+					currentCamera = camera->GetComponent<Camera>();
+					
+					(*currentCamera)->GetFrameBuffer()->Bind();
+					gwcEngine::Renderer::SetActiveCamera((*currentCamera));
+					
+					for (auto gameObject : m_GameObjectArray) {
+						if (gameObject->IsActive()) {
+							if (((gameObject->GetComponent<MeshRenderer>()->GetActiveLayers()) & (camera->GetComponent<RenderLayer>()->GetActiveLayers())).any()) {//if object is on a camera's layer
+								auto mesh = gameObject->GetComponent<gwcEngine::Mesh>();
+								auto transform = gameObject->GetComponent<gwcEngine::Transform>();
+								auto material = gameObject->GetComponent<gwcEngine::Material>();
 
-						Renderer::Submit(mesh->GetVertexArray(), material, transform->GetTransformMatrix());
+								Renderer::Submit(mesh->GetVertexArray(), material, transform->GetTransformMatrix());
+							}
+						}
 					}
-				}
 
-				(*currentCamera)->GetFrameBuffer()->Unbind();
+					(*currentCamera)->GetFrameBuffer()->Unbind();
+				}
 			}
 		}
 

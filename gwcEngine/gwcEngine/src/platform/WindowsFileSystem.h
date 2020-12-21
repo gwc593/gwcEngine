@@ -12,7 +12,7 @@ namespace gwcEngine
 		}
 
 		virtual bool MakeDir(const std::string& relPath) override;
-		virtual bool DelDir(const std::string& relPath) override { return false; };
+		virtual bool DelDir(const std::string& relPath) override;
 
 		virtual bool MakeFile(const std::string& relPath) override { return false; };
 		virtual bool DelFile(const std::string& relPath) override { return false; };
@@ -22,7 +22,7 @@ namespace gwcEngine
 
 		virtual const std::string& GetWorkingDirectory()
 		{
-			return GetRuntimePath() + std::string("temp\\");
+			return m_WorkingDirectory;
 		}
 
 	};

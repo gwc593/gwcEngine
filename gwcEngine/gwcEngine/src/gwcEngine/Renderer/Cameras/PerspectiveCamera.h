@@ -103,5 +103,6 @@ namespace gwcEngine
 		float m_FOV;
 		float m_NearClip;
 		float m_FarClip;
+		
 	};
 }

@@ -17,18 +17,19 @@ namespace gwcEngine
 			m_Scale = glm::vec3(1.0f);
 			m_TransformMat = glm::mat4(1.0f);
 		}
+
 		//todo - does this take into account relation to parent? i dont think it does.
-		glm::vec3 GetPosition() const 
+		const glm::vec3& GetPosition() const 
 		{
 			return m_Position;
 		}
 
-		glm::quat GetRotation() const
+		const glm::quat& GetRotation() const
 		{ 
 			return m_Rotation;
 		}
 
-		glm::vec3 GetScale() const
+		const glm::vec3& GetScale() const
 		{
 			return m_Scale;
 		}

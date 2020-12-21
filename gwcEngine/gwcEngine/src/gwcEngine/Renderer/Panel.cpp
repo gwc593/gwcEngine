@@ -13,6 +13,9 @@ namespace gwcEngine
 		if (capturingCamera == nullptr)
 			m_CapturingCamera = m_RenderingCamera;
 
+		m_OnCaptureResChangeCB.reset(new EventCallback<uint32_t, uint32_t>([this](uint32_t x, uint32_t y) { return this->OnCaptResChange(x, y);  }));
+		m_CapturingCamera->GetOnResolutionChangeEvent().subscribe(m_OnCaptureResChangeCB);
+
 		//get window and panel geometry
 
 		m_AspectRatio = (float)m_Width / (float)m_Height;
@@ -69,9 +72,26 @@ namespace gwcEngine
 
 	void Panel::SetSize(uint32_t width, uint32_t height)
 	{
+		currentPos = GetCenter(Anchor::TopLeft);
+		
 		m_Width = width;
 		m_Height = height;
-		m_AspectRatio = width / height;
+		m_AspectRatio = (float)width / (float)height;
+
+		float  WS = ((float)m_Width / (float)m_RenderingCamera->GetWidth()) * m_RenderingCamera->GetAspectRatio();
+		float HS = ((float)m_Height / (float)m_RenderingCamera->GetHeight());
+		m_MainTransform.SetScale(glm::vec3(WS, HS, 1.0f));
+		m_MainTransform.SetPosition(glm::vec3((0.0f, 0.0f, -0.2f)));
+
+		if (m_AspectRatio > m_CapturingCamera->GetAspectRatio()) {
+
+			m_RenderPlaneTransform.SetScale(glm::vec3(m_CapturingCamera->GetAspectRatio() / m_AspectRatio, 1.0f, 1.0f));
+		}
+		else {
+			m_RenderPlaneTransform.SetScale(glm::vec3(1.0f, m_AspectRatio / m_CapturingCamera->GetAspectRatio(), 1.0f));
+		}
+
+		SetPosition(std::get<0>(currentPos), std::get<1>(currentPos), Anchor::TopLeft);
 	}
 
 	void Panel::SetPosition(int x, int y, Anchor relativeTo)
@@ -89,8 +109,8 @@ namespace gwcEngine
 		}
 
 		m_Anchor = relativeTo;
-		m_Center = { x,y };
-		//m_Position = m_RenderingCamera->ScreenToWorld(x+xp, y+yp, Application::Get()->GetWindow());
+		m_Center = { x,y};
+
 		
 		auto temp = m_RenderingCamera->ScreenToWorld(x + xp, y + yp, Application::Get()->GetWindow());
 		m_MainTransform.SetPosition(glm::vec3(temp.x, temp.y, 0.02f));
@@ -130,7 +150,11 @@ namespace gwcEngine
 
 	void Panel::SetCaptureCamera(const Ref<CameraBase>& capturingCamera)
 	{
+
+		m_CapturingCamera->GetOnResolutionChangeEvent().unsubscribe(m_OnCaptureResChangeCB);
 		m_CapturingCamera = capturingCamera;
+		m_CapturingCamera->GetOnResolutionChangeEvent().subscribe(m_OnCaptureResChangeCB);
+
 		if (m_AspectRatio > m_CapturingCamera->GetAspectRatio()) {
 
 			m_RenderPlaneTransform.SetScale(glm::vec3(m_CapturingCamera->GetAspectRatio() / m_AspectRatio, 1.0f, 1.0f));
@@ -138,11 +162,13 @@ namespace gwcEngine
 		else {
 			m_RenderPlaneTransform.SetScale(glm::vec3(1.0f, m_AspectRatio / m_CapturingCamera->GetAspectRatio(), 1.0f));
 		}
+
+
 	}
 
 	glm::vec2 Panel::GetScreenToClipSpacePosition(float x, float y)
 	{
-		float panelx, panely, mx, my;
+		float mx, my;
 
 
 		float ac_ar = m_CapturingCamera->GetAspectRatio() / ((float)GetWidth() / (float)GetHeight());
@@ -166,7 +192,7 @@ namespace gwcEngine
 	{
 		auto mp = GetScreenToClipSpacePosition(x, y);
 		auto spec = m_CapturingCamera->GetFrameBuffer()->GetSpecification();
-		return m_CapturingCamera->GetFrameBuffer()->GetDepthData(spec.Width * 0.5f * (mp.x + 1.0f), spec.Height * 0.5f * (mp.y + 1.0f));
+		return m_CapturingCamera->GetFrameBuffer()->GetDepthData((uint32_t)(spec.Width * 0.5f * (mp.x + 1.0f)), (uint32_t)(spec.Height * 0.5f * (mp.y + 1.0f)));
 	}
 
 	bool Panel::OnMainWindowSizeChangeHandler(int width, int height)
@@ -184,7 +210,7 @@ namespace gwcEngine
 			m_RenderPlaneTransform.SetScale(glm::vec3(1.0f, m_AspectRatio / m_CapturingCamera->GetAspectRatio(), 1.0f));
 		}
 
-		SetPosition(std::get<0>(m_Center), std::get<1>(m_Center), m_Anchor);
+		SetPosition(std::get<0>(m_Center), std::get<1>(m_Center), Anchor::TopLeft);
 
 		return PROPAGATE_EVENT;
 	}
@@ -196,13 +222,13 @@ namespace gwcEngine
 		if (gwcEngine::Input::IsMouseButtonPressed(0) && std::fabs(mPos.x) <= 1.0f && std::fabs(mPos.y) <= 1.0f) {
 			if (!isHeld) {
 				isHeld = true;
-				xHeld = x;
-				yHeld = y;
+				xHeld = (int)x;
+				yHeld = (int)y;
 				currentPos = GetCenter(Anchor::TopLeft);
 			}
 
-			int diffx = x - xHeld;
-			int diffy = y - yHeld;
+			int diffx = (int)x - xHeld;
+			int diffy = (int)y - yHeld;
 
 			SetPosition(std::get<0>(currentPos) + diffx, std::get<1>(currentPos) + diffy, gwcEngine::Anchor::TopLeft);
 		}
@@ -229,5 +255,11 @@ namespace gwcEngine
 		m_CapturingCamera->GetFrameBuffer()->BindTexture();
 		
 		Renderer::Submit(m_RenderPlane.GetVertexArray(), m_UnlitTextureShader, m_RenderPlaneTransform.GetTransformMatrix());
+	}
+
+	bool Panel::OnCaptResChange(uint32_t x, uint32_t y)
+	{
+		SetSize(m_Width, m_Height);
+		return PROPAGATE_EVENT;
 	}
 }
