@@ -7,8 +7,8 @@ namespace gwcEngine
 {
 	std::vector<Ref<Panel>> Panel::s_Panels;
 
-	Panel::Panel(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
-		:m_Width(width), m_Height(height),m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera), m_Anchor(gwcEngine::Anchor::Center)
+	Panel::Panel(uint32_t width, uint32_t height, Ref<Transform> mainTrans, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
+		:m_Width(width), m_Height(height), m_MainTransform(mainTrans), m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera), m_Anchor(gwcEngine::Anchor::Center)
 	{
 		if (capturingCamera == nullptr)
 			m_CapturingCamera = m_RenderingCamera;
@@ -49,8 +49,8 @@ namespace gwcEngine
 
 		float  WS = ((float)m_Width / (float)m_RenderingCamera->GetWidth()) * m_RenderingCamera->GetAspectRatio();
 		float HS = ((float)m_Height / (float)m_RenderingCamera->GetHeight());
-		m_MainTransform.SetScale(glm::vec3(WS, HS, 1.0f));
-		m_MainTransform.SetPosition(glm::vec3((0.0f, 0.0f, -0.2f)));
+		m_MainTransform->SetScale(glm::vec3(WS, HS, 1.0f));
+		m_MainTransform->SetPosition(glm::vec3((0.0f, 0.0f, -0.2f)));
 
 		SetPosition(0, 0);
 
@@ -63,9 +63,9 @@ namespace gwcEngine
 		}
 	}
 
-	Ref<Panel> Panel::Create(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
+	Ref<Panel> Panel::Create(uint32_t width, uint32_t height, Ref<Transform> mainTrans, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
 	{
-		auto temp = CreateRef<Panel>(width, height, capturingCamera, renderingCamera);
+		auto temp = CreateRef<Panel>(width, height, mainTrans, capturingCamera, renderingCamera);
 		s_Panels.push_back(temp);
 		return temp;
 	}
@@ -80,8 +80,8 @@ namespace gwcEngine
 
 		float  WS = ((float)m_Width / (float)m_RenderingCamera->GetWidth()) * m_RenderingCamera->GetAspectRatio();
 		float HS = ((float)m_Height / (float)m_RenderingCamera->GetHeight());
-		m_MainTransform.SetScale(glm::vec3(WS, HS, 1.0f));
-		m_MainTransform.SetPosition(glm::vec3((0.0f, 0.0f, -0.2f)));
+		m_MainTransform->SetScale(glm::vec3(WS, HS, 1.0f));
+		m_MainTransform->SetPosition(glm::vec3((0.0f, 0.0f, -0.2f)));
 
 		if (m_AspectRatio > m_CapturingCamera->GetAspectRatio()) {
 
@@ -127,7 +127,7 @@ namespace gwcEngine
 
 		auto temp = m_RenderingCamera->ClipToWorld(uX, uY);
 
-		m_MainTransform.SetPosition(glm::vec3(temp.x, temp.y, 0.02f));
+		m_MainTransform->SetPosition(glm::vec3(temp.x, temp.y, 0.02f));
 	}
 
 	std::tuple<int32_t, int32_t> Panel::GetCenter(Anchor relativeTo)
@@ -213,7 +213,7 @@ namespace gwcEngine
 	{
 		float  WS = ((float)m_Width / (float)m_RenderingCamera->GetWidth()) * m_RenderingCamera->GetAspectRatio();
 		float HS = ((float)m_Height / (float)m_RenderingCamera->GetHeight());
-		m_MainTransform.SetScale(glm::vec3(WS, HS, 1.0f));
+		m_MainTransform->SetScale(glm::vec3(WS, HS, 1.0f));
 		//m_MainTransform.SetPosition(glm::vec3(m_Position.x, m_Position.y, 0.0f));
 
 		if (m_AspectRatio > m_CapturingCamera->GetAspectRatio()) {
@@ -263,7 +263,7 @@ namespace gwcEngine
 		RenderCommand::SetViewport(0, 0, m_RenderingCamera->GetWidth(), m_RenderingCamera->GetHeight());
 
 		//Draw panel clear colour
-		gwcEngine::Renderer::Submit(m_RenderPlane.GetVertexArray(), m_DefaultShader, m_MainTransform.GetTransformMatrix());
+		gwcEngine::Renderer::Submit(m_RenderPlane.GetVertexArray(), m_DefaultShader, m_MainTransform->GetTransformMatrix());
 
 		//Draw r
 		m_CapturingCamera->GetFrameBuffer()->BindTexture();

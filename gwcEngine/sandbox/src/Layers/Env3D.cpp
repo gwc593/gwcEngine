@@ -29,7 +29,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//make panel entity
 		auto testPanel = m_ECS_Manager->CreateEntity("3DPanel");
-		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 750));
+		auto panTran = testPanel->AddComponent<gwcEngine::Transform>();
+		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 750, panTran));
 		pan->SetCaptureCamera(CameraComp);
 
 

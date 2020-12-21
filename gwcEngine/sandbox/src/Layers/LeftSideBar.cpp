@@ -18,7 +18,8 @@ void LeftSideBar::OnAttach()
 	panelCamera->SetClearColour(glm::vec4( 0.1,0.1,0.2,1.0 )*0.5f);
 
 	auto panelEnt = gwcEngine::Entity::Create("LSB_Panel");
-	auto panel = *panelEnt->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(400, 900));
+	auto panTran = panelEnt->AddComponent<gwcEngine::Transform>();
+	auto panel = *panelEnt->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(400, 900, panTran));
 	panel->SetPosition(200, 450, gwcEngine::Anchor::TopLeft);
 	panel->SetCaptureCamera(panelCamera);
 

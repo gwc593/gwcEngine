@@ -9,136 +9,53 @@ namespace gwcEngine
 	class Transform
 	{
 	public:
-		Transform()
-		{
-			m_Parent = nullptr;
-			SetRotation({ 0.0f, 0.0f, 0.0f });
-			m_Position = glm::vec3(0.0f);
-			m_Scale = glm::vec3(1.0f);
-			m_TransformMat = glm::mat4(1.0f);
-
-			m_Forward = { 0,0,-1 };
-			m_Up = { 0,1,0 };
-			m_Right = { 1,0,0 };
-		}
+		Transform();
 
 		//todo - does this take into account relation to parent? i dont think it does.
-		const glm::vec3& GetPosition() const 
-		{
-			return m_Position;
-		}
+		const glm::vec3& GetPosition() const;
 
-		const glm::quat& GetRotation() const
-		{ 
-			return m_Rotation;
-		}
+		const glm::quat& GetRotation() const;
 
-		const glm::vec3& GetScale() const
-		{
-			return m_Scale;
-		}
+		const glm::vec3& GetScale() const;
 
-		glm::mat4 GetTransformMatrix() { UpdateTansformMatrix(); return m_TransformMat; }
+		glm::mat4 GetTransformMatrix();
 		
-		void SetPosition(const glm::vec3& pos) 
-		{ 
-			m_Position = pos;
-			m_OnChange.raiseEvent(*this);
-		}
+		void SetPosition(const glm::vec3& pos);
 
-		void SetScale(const glm::vec3& scale) 
-		{ 
-			m_Scale = scale;
-			m_OnChange.raiseEvent(*this);
-		}
+		void SetScale(const glm::vec3& scale);
 
-		void SetRotation(const glm::quat& rot)
-		{ 
-			m_Rotation = rot;
-			UpdateTansformMatrix();
-			m_OnChange.raiseEvent(*this);
-		}
+		void SetRotation(const glm::quat& rot);
 
-		void SetRotation(const glm::vec3& erot) 
-		{
-			m_Rotation = glm::quat(erot * glm::pi<float>() / 180.0f);
-			UpdateTansformMatrix();
-			m_OnChange.raiseEvent(*this);
-		}
+		void SetRotation(const glm::vec3& erot);
 
-		void SetParent(const Transform& parent)
-		{
-			m_Parent = &parent;
-			m_OnChange.raiseEvent(*this);
-		}
+		void SetParent(const Ref<Transform>& parent);
 
-		void ClearParent()
-		{
-			m_Parent = nullptr;
-			m_OnChange.raiseEvent(*this);
-		}
+		void ClearParent();
 
-		void OnChangeSubscribe(Ref<EventCallback<const Transform&>> callback)
-		{
-			m_OnChange.subscribe(callback);
-		}
+		void OnChangeSubscribe(Ref<EventCallback<const Transform&>> callback);
 
-		Ref<EventCallback<const Transform&>> OnChangeSubscribe(std::function<bool(const Transform&)> callback)
-		{
-			return m_OnChange.subscribe(callback);
-		}
+		Ref<EventCallback<const Transform&>> OnChangeSubscribe(std::function<bool(const Transform&)> callback);
 
-		void OnChangeUnsubscribe(Ref<EventCallback<const Transform&>> callback)
-		{
-			m_OnChange.unsubscribe(callback);
-		}
+		void OnChangeUnsubscribe(Ref<EventCallback<const Transform&>> callback);
 
-		const glm::vec3& Forward()const { return m_Forward; }
-		const glm::vec3& Up()const { return m_Up; }
-		const glm::vec3& Right()const { return m_Right; }
+		const glm::vec3& Forward()const;
+		const glm::vec3& Up()const;
+		const glm::vec3& Right()const;
 
-		void Translate(const glm::vec3& direction, float distance)
-		{
-			m_Position += direction * distance;
-		}
+		void Translate(const glm::vec3& direction, float distance);
 
 	private:
 
-		glm::vec3 GetCompoundPosition() const
-		{
-			if (m_Parent == nullptr)
-				return m_Position;
-			else {
-				return m_Position + m_Parent->GetPosition();
-			}
-		}
+		glm::vec3 GetCompoundPosition() const;
 
-		glm::quat GetCompoundRotation() const
-		{
-			if (m_Parent == nullptr)
-				return m_Rotation;
-			else {
-				return m_Rotation + m_Parent->GetRotation();
-			}
-		}
 
-		glm::vec3 GetCompoundScale() const
-		{
-			if (m_Parent == nullptr)
-				return m_Scale;
-			else {
-				return m_Scale * m_Parent->GetScale();
-			}
-		}
+		glm::quat GetCompoundRotation() const;
 
-		void UpdateTansformMatrix()
-		{
-			m_TransformMat = glm::translate(glm::mat4(1.0f), GetCompoundPosition()) * glm::mat4(GetCompoundRotation()) * glm::scale(glm::mat4(1.0f), GetCompoundScale()) ;
-			m_Forward = (glm::vec4(0, 0, -1, 1)* m_TransformMat);
-			m_Right = (glm::vec4(1, 0, 0, 1)* m_TransformMat);
-			m_Up = (glm::vec4(0, 1, 0, 1)* m_TransformMat);
-		}
+		glm::vec3 GetCompoundScale() const;
 
+		void UpdateTansformMatrix();
+
+	private:
 
 		glm::quat m_Rotation;
 		glm::vec3 m_Position;
@@ -148,10 +65,7 @@ namespace gwcEngine
 		glm::vec3 m_Forward;
 		glm::vec3 m_Right;
 		glm::vec3 m_Up;
-		const Transform* m_Parent;
-
-		
-
+		Ref<Transform> m_Parent;
 		Event<const Transform&> m_OnChange;
 	};
 }

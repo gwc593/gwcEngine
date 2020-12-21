@@ -58,7 +58,6 @@ namespace gwcEngine
 
 		auto ray = camera->ClipToWorld(clipX, clipY);
 		ray.z = -1.0;
-		GE_CORE_TRACE("Top Level Ray = ({0},{1},{2})", ray.x,ray.y,ray.z);
 		return ray;
 	}
 

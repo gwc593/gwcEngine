@@ -19,9 +19,9 @@ namespace gwcEngine
 	class Panel
 	{
 	public:
-		Panel(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = std::dynamic_pointer_cast<gwcEngine::CameraBase>(Application::Get()->GetWindow().GetCamera()));
+		Panel(uint32_t width, uint32_t height, Ref<Transform> mainTrans , Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = std::dynamic_pointer_cast<gwcEngine::CameraBase>(Application::Get()->GetWindow().GetCamera()));
 
-		static Ref<Panel> Create(uint32_t width, uint32_t height, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = std::dynamic_pointer_cast<gwcEngine::CameraBase>(Application::Get()->GetWindow().GetCamera()));
+		static Ref<Panel> Create(uint32_t width, uint32_t height, Ref<Transform> mainTrans, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = std::dynamic_pointer_cast<gwcEngine::CameraBase>(Application::Get()->GetWindow().GetCamera()));
 
 		void SetSize(uint32_t width, uint32_t height);
 		void SetPosition(int x, int y, Anchor relativeTo = Anchor::Center);
@@ -50,7 +50,7 @@ namespace gwcEngine
 
 		uint32_t m_Width;
 		uint32_t m_Height;
-		std::tuple<int32_t,int32_t> m_Center; 
+		std::tuple<int32_t,int32_t> m_Center;
 		float m_AspectRatio;
 
 		Ref<Shader> m_UnlitTextureShader;
@@ -60,7 +60,7 @@ namespace gwcEngine
 		Ref<CameraBase> m_RenderingCamera;
 		Ref<CameraBase> m_CapturingCamera;
 
-		Transform m_MainTransform;
+		Ref<Transform> m_MainTransform;
 		Transform m_RenderPlaneTransform;
 		Anchor m_Anchor;
 
