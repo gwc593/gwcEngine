@@ -11,9 +11,5 @@ public:
 		
 	void AnimateEntity(gwcEngine::GameObject gameObject, float offset = 0.0f);
 
-private:
-	
-	gwcEngine::ECSManager* m_ECS_Manager;
-
 };
 

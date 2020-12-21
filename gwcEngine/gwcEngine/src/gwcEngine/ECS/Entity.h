@@ -67,6 +67,7 @@ namespace gwcEngine
 			auto search = m_Entities.find(name);
 
 			if (search == m_Entities.end()) {
+				GE_CORE_WARN("Entity \"{0}\" was not found.", name);
 				return nullptr;
 			}
 

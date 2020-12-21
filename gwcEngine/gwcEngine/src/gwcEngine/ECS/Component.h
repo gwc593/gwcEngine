@@ -199,7 +199,7 @@ namespace gwcEngine
 			auto compArr = m_ArrayOfComponentArrays.find(typeid(T).name());
 
 			if (compArr == m_ArrayOfComponentArrays.end()) {
-				GE_CORE_WARN("{0} does not have component {1}", entity->GetName(), typeid(T).name());
+				GE_CORE_WARN("Entity \"{0}\" does not have component \" {1} \"", entity->GetName(), typeid(T).name());
 				return nullptr;
 			}
 

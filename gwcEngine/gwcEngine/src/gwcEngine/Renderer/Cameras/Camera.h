@@ -38,6 +38,8 @@ namespace gwcEngine
 			CalculateViewMatrix(); 
 		}
 
+		const Ref<Transform> GetTransform() const { return m_Transform; }
+
 		const Event<uint32_t, uint32_t>& GetOnResolutionChangeEvent()const { return m_OnResChange; }
 	protected:
 		uint32_t m_ResX, m_ResY;

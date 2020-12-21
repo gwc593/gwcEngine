@@ -7,7 +7,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	Env3D::Env3D()
 		:Layer("3DEnv")
 	{
-		m_ECS_Manager = gwcEngine::ECSManager::GetInstance();
+	
 	}
 
 	void Env3D::OnAttach()
@@ -18,8 +18,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
 
 	// make camera entity
-		auto CameraEnt = m_ECS_Manager->CreateEntity("MainCamera");
-		auto CameraComp = *CameraEnt->AddComponent<gwcEngine::Camera>(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 10.0f));
+		auto CameraEnt = gwcEngine::Entity::Create("MainCamera");
+		auto CameraComp = CameraEnt->AddComponent<gwcEngine::Camera>(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 10.0f));
 		auto CameraTransform = CameraEnt->AddComponent<gwcEngine::Transform>();
 		CameraTransform->SetPosition({ 0,0,3 });
 		auto RenderLayer = CameraEnt->AddComponent<gwcEngine::RenderLayer>();
@@ -28,14 +28,14 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 	//make panel entity
-		auto testPanel = m_ECS_Manager->CreateEntity("3DPanel");
+		auto testPanel = gwcEngine::Entity::Create("3DPanel");
 		auto panTran = testPanel->AddComponent<gwcEngine::Transform>();
 		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 750, panTran));
-		pan->SetCaptureCamera(CameraComp);
+		pan->SetCaptureCamera(*CameraComp);
 
 
 	//make a cube entity 
-		auto m_CubeEntity = m_ECS_Manager->CreateEntity("Cube");
+		auto m_CubeEntity = gwcEngine::Entity::Create("Cube");
 		auto cubeMesh = m_CubeEntity->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
 		auto cubeTransform = m_CubeEntity->AddComponent<gwcEngine::Transform>();
 		auto cubeMaterial = m_CubeEntity->AddComponent<gwcEngine::Material>();
@@ -44,6 +44,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		cubeMaterial->SetShader(m_UnlitColourShader);
 		meshRend->ActivateLayer("3DScene");
 
+		auto ray = gwcEngine::Ray(CameraComp, 0.5f, 0.5f);
 	}
 
 	void Env3D::AnimateEntity(gwcEngine::GameObject gameObject, float offset)
@@ -56,7 +57,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		gameObject->GetComponent<gwcEngine::Material>()->SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 
 		//Move and rotate cube
-		auto cubeTransform = m_ECS_Manager->GetComponent<gwcEngine::Transform>(gameObject);
+		auto cubeTransform = gameObject->GetComponent<gwcEngine::Transform>();
 		cubeTransform->SetPosition(glm::vec3(r - 0.5f, g - 0.5f, b - 0.5f) * 3.0f);
 		cubeTransform->SetRotation(glm::vec3(r, g, b) * 600.0f);
 	}
