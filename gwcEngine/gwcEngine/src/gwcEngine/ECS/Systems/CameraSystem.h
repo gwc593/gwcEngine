@@ -1,7 +1,7 @@
 #pragma once
 #include"gwcEngine/ECS/System.h"
 #include "gwcEngine/ECS/ECS.h"
-#include "gwcEngine/Components/Transform.h"
+#include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Renderer/Cameras/Camera.h"
 
 

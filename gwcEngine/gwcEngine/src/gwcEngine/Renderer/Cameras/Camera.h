@@ -2,7 +2,7 @@
 #include "glm/glm.hpp"
 #include "gwcEngine/Core/Window.h"
 #include "gwcEngine/Renderer/FrameBuffer.h"
-#include "gwcEngine/Components/Transform.h"
+#include "gwcEngine/Components/Physics/Transform.h"
 namespace gwcEngine
 {
 	class Renderer;

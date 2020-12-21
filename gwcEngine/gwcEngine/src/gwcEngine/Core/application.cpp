@@ -2,8 +2,8 @@
 #include "Application.h"
 
 #include"gwcEngine/Renderer/Renderer.h"
-#include"gwcEngine/Renderer/Panel.h"
-#include"gwcEngine/Components/Cursor.h"
+#include"gwcEngine/Components/System/Panel.h"
+#include"gwcEngine/Components/System/Cursor.h"
 //#include"Input.h"
 
 #include<GLFW/glfw3.h>
