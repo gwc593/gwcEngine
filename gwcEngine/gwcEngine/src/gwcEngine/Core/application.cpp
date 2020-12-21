@@ -3,6 +3,7 @@
 
 #include"gwcEngine/Renderer/Renderer.h"
 #include"gwcEngine/Renderer/Panel.h"
+#include"gwcEngine/Components/Cursor.h"
 //#include"Input.h"
 
 #include<GLFW/glfw3.h>
@@ -13,21 +14,32 @@ namespace gwcEngine {
 
 	Application::Application()
 	{
+		//init Application singleton
+		s_Instance = this;
 		
+		//init file system
 		auto FS = FileSystem::GetInstance();
+		
+		//init window
 		m_Window = std::unique_ptr<Window>(Window::Create());	
+		
+		//init time engine
 		Time::Init();
 
-		s_Instance = this;
-		m_Window->SetAppReference(s_Instance);
-
+		//init ECS manager
 		m_ECSManager = ECSManager::GetInstance();
+
+		//init window
+		m_Window->SetAppReference(s_Instance);
 
 		Ref<EventCallback<>> windCloseCallback{ new EventCallback<>(BIND_EVENT_FN(Application::OnWindowClose)) };
 		s_Instance->GetWindow().GetWindowCloseEvent().subscribe(windCloseCallback);
 
 		Ref<EventCallback<int,int>> windResizeCallback{ new EventCallback<int,int>(BIND_EVENT_FN(Application::OnWindowResize)) };
 		s_Instance->GetWindow().GetWindowResizeEvent().subscribe(windResizeCallback);
+
+		//init Cursor
+		Cursor::GetInstance();
 
 	}
 

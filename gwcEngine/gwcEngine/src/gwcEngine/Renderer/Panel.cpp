@@ -111,8 +111,22 @@ namespace gwcEngine
 		m_Anchor = relativeTo;
 		m_Center = { x,y};
 
-		
-		auto temp = m_RenderingCamera->ScreenToWorld(x + xp, y + yp, Application::Get()->GetWindow());
+		//generate clip space position
+		auto& window = Application::Get()->GetWindow();
+		float mX, mY, cx, cy, uX, uY;
+
+		mX = (2.0f) / (float(window.GetWidth()));
+		mY = (-2.0f) / (float(window.GetHeight()));
+
+		cx = 1.0f - (mX * float(window.GetWidth()));
+		cy = 1.0f + (mY * float(window.GetHeight()));
+
+
+		uX = (mX * (float)(x + xp)) + cx;
+		uY = (mY * (float)(y + yp)) - cy;
+
+		auto temp = m_RenderingCamera->ClipToWorld(uX, uY);
+
 		m_MainTransform.SetPosition(glm::vec3(temp.x, temp.y, 0.02f));
 	}
 

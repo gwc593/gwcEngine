@@ -37,8 +37,10 @@
 #include "gwcEngine/ECS/Systems/MeshRendererSystem.h"
 
 //Components
+#include "gwcEngine/Components/Cursor.h"
 #include"gwcEngine/Components/Mesh.h"
 #include"gwcEngine/Components/Transform.h"
 #include"gwcEngine/Renderer/Panel.h"
+
 
 

@@ -12,6 +12,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnAttach()
 	{
+
 	//Compile shaders for use
 		// Todo - should be stored in a shader library 
 		auto m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
@@ -62,24 +63,4 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	void Env3D::OnUpdate()
 	{
 		AnimateEntity(gwcEngine::Entity::Find("Cube"));
-
-		static uint32_t x = gwcEngine::Application::Get()->GetWindow().GetWidth();
-		static uint32_t y = gwcEngine::Application::Get()->GetWindow().GetHeight();
-
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::KPAdd)) {
-		    
-			x += 10;
-			y += 10;
-			auto pan = *(gwcEngine::Entity::Find("MainCamera")->GetComponent<gwcEngine::Camera>());
-			pan->SetResolution(x, y);
-		}
-
-		if (gwcEngine::Input::IsKeyPressed((int)gwcEngine::KeyCode::KPSubtract)) {
-
-			x -= 10;
-			y -= 10;
-			auto pan = *(gwcEngine::Entity::Find("MainCamera")->GetComponent<gwcEngine::Camera>());
-			pan->SetResolution(x, y);
-		}
 	}

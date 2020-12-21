@@ -51,21 +51,8 @@ namespace gwcEngine
 		inline const glm::vec3& GetPostion() const override { return m_Transform->GetPosition(); }
 		inline glm::quat GetRotation() const;
 
-		glm::vec3 ScreenToWorld(int32_t x, int32_t y, const Window& window) override
+		glm::vec3 ClipToWorld(float uX, float uY) override
 		{
-			//GE_CORE_ASSERT(false, "need to get depth pixel, assume zero for now");
-
-			float mX, mY, cx, cy, uX, uY;
-
-			mX = (2.0f) / (float(window.GetWidth()));
-			mY = (-2.0f) / (float(window.GetHeight()));
-
-			cx = 1.0f - (mX * float(window.GetWidth()));
-			cy = 1.0f + (mY * float(window.GetHeight()));
-
-
-			uX = (mX * (float)x) + cx;
-			uY = (mY * (float)y) - cy;
 
 			glm::mat4 vp = GetViewProjectionMatrix();
 			auto vpi = glm::inverse(vp);

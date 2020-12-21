@@ -60,19 +60,8 @@ namespace gwcEngine
 		return PROPAGATE_EVENT;
 	}
 
-	glm::vec3 OrthographicCamera::ScreenToWorld(int32_t x, int32_t y, const Window& window) 
+	glm::vec3 OrthographicCamera::ClipToWorld(float  uX, float  uY)
 	{
-		float mX, mY, cx, cy,uX, uY;
-
-		mX = ( 2.0f) / (float(window.GetWidth()));
-		mY = ( -2.0f) / (float(window.GetHeight()));
-
-		cx = 1.0f - (mX * float(window.GetWidth()));
-		cy = 1.0f + (mY * float(window.GetHeight()));
-
-
-		uX = (mX * (float)x) + cx;
-		uY = (mY * (float)y) - cy;
 
 		glm::mat4 vp = GetViewProjectionMatrix();
 		auto vpi = glm::inverse(vp);
