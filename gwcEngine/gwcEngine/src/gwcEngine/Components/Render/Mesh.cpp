@@ -224,4 +224,35 @@ namespace gwcEngine
 
 		return *s_Cube;
 	}
+
+	Ref<Mesh> Mesh::s_Line = nullptr;
+
+	Mesh Mesh::Line()
+	{
+		if (s_Line == nullptr) {
+
+			s_Line = CreateRef<Mesh>();
+
+			gwcEngine::BufferLayout layout = {
+			{gwcEngine::ShaderDataType::Float3, "a_Position"}
+			};
+
+			float verticesQuad[3 * 2] = {
+				// ----Position---------// -- Text Cord-|---- Normals -----| 
+				0.0f, 0.0f, 0.0f,
+				1.0f,1.0f,1.0f
+
+			};
+
+			//f   t   v
+			uint32_t indicesQuad[3] = {
+				0,1
+			};
+
+			s_Line->SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layout);
+			s_Line->SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), true);
+		}
+
+		return *s_Line;
+	}
 }

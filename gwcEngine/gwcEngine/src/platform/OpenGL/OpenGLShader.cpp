@@ -11,6 +11,7 @@ namespace gwcEngine
 		if (type == "vertex") return GL_VERTEX_SHADER;
 		if (type == "fragment") return GL_FRAGMENT_SHADER;
 		if (type == "pixel") return GL_FRAGMENT_SHADER;
+		if (type == "geometry") return GL_GEOMETRY_SHADER;
 
 		GE_CORE_ASSERT(false, "Unsupported shader type...");
 		return GL_ZERO;
@@ -65,7 +66,7 @@ namespace gwcEngine
 			GE_CORE_ASSERT(eol != std::string::npos, "Syntax Error");
 			size_t begin = pos + typeTokenLength + 1;
 			std::string type = shaderSource.substr(begin, eol - begin);
-			GE_CORE_ASSERT(type == "vertex" || type == "fragment" || type == "pixel", "Unsupported shader type specified, it has not been compiled...");
+			GE_CORE_ASSERT(type == "vertex" || type == "fragment" || type == "pixel" || type == "geometry", "Unsupported shader type specified, it has not been compiled...");
 
 			size_t nextLinePos = shaderSource.find_first_not_of("\r\n", eol);
 			pos = shaderSource.find(typeToken, nextLinePos);

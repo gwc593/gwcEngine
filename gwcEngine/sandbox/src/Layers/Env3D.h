@@ -10,6 +10,7 @@ public:
 	void OnAttach() override;
 		
 	void AnimateEntity(gwcEngine::GameObject gameObject, float offset = 0.0f);
-
+	
+	gwcEngine::Ref<gwcEngine::Shader> m_LineShader;
 };
 

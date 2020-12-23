@@ -7,7 +7,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	Env3D::Env3D()
 		:Layer("3DEnv")
 	{
-	
+		m_LineShader = gwcEngine::Shader::Create("assets/Shaders/LineShader.glsl");
 	}
 
 	void Env3D::OnAttach()
@@ -25,6 +25,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto RenderLayer = CameraEnt->AddComponent<gwcEngine::RenderLayer>();
 		RenderLayer->RegisterLayer("3DScene");
 		RenderLayer->ActivateLayer("3DScene");
+		RenderLayer->RegisterLayer("Debug");
+		RenderLayer->ActivateLayer("Debug");
 
 
 	//make panel entity
@@ -40,7 +42,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto cubeTransform = m_CubeEntity->AddComponent<gwcEngine::Transform>();
 		auto cubeMaterial = m_CubeEntity->AddComponent<gwcEngine::Material>();
 		auto meshRend = m_CubeEntity->AddComponent<gwcEngine::MeshRenderer>();
-
 		cubeMaterial->SetShader(m_UnlitColourShader);
 		meshRend->ActivateLayer("3DScene");
 
@@ -65,4 +66,5 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	void Env3D::OnUpdate()
 	{
 		AnimateEntity(gwcEngine::Entity::Find("Cube"));
+		
 	}

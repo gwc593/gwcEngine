@@ -68,6 +68,7 @@ namespace gwcEngine {
 			if (!m_Minimised) {
 				Time::BeginFrame();
 
+
 				//update layers
 				for (Layer* layer : m_LayerStack)
 					layer->OnUpdateBase();
@@ -76,9 +77,11 @@ namespace gwcEngine {
 				ECSManager::GetInstance()->OnEarlyUpdate(Time::GetDeltaTime());
 				ECSManager::GetInstance()->OnUpdate(Time::GetDeltaTime());
 
-				//render panels to window
+				gwcEngine::Mesh::Cube();
+
 				gwcEngine::RenderCommand::SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
-				gwcEngine::RenderCommand::Clear();
+				gwcEngine::RenderCommand::Clear();				
+
 				for (auto panel : Panel::s_Panels)
 					panel->flush();
 				gwcEngine::Renderer::EndScene();

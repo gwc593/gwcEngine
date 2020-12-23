@@ -31,6 +31,7 @@ namespace gwcEngine
 		//create primatives
 		static Mesh Quad();
 		static Mesh Cube();
+		static Mesh Line();
 
 	private:
 		std::shared_ptr<VertexBuffer> m_VB;
@@ -40,6 +41,7 @@ namespace gwcEngine
 	private:
 		static Ref<Mesh> s_Quad;
 		static Ref<Mesh> s_Cube;
+		static Ref<Mesh> s_Line;
 		//void InitVertexArray();
 	};
 
