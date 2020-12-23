@@ -23,7 +23,7 @@ namespace gwcEngine
 
 		virtual void UploadUniformFloat(const std::string& name, const float& Float) = 0;
 
-		virtual void UploadUniformVec2(const std::string& name, const glm::vec3& vec3) = 0;
+		virtual void UploadUniformVec2(const std::string& name, const glm::vec2& vec3) = 0;
 		virtual void UploadUniformVec3(const std::string& name, const glm::vec3& vec3) = 0;
 		virtual void UploadUniformVec4(const std::string& name, const glm::vec4& vec4) = 0;
 

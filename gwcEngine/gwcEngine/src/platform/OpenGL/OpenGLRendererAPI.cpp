@@ -14,9 +14,14 @@ namespace gwcEngine
 		glClearColor(colour.r, colour.g, colour.b, colour.a);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+	void OpenGLRendererAPI::DrawTrisIndexed(const std::shared_ptr<VertexArray>& vertexArray)
 	{
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+	}	
+	
+	void OpenGLRendererAPI::DrawLinesIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+	{
+		glDrawElements(GL_LINE_STRIP, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
 	void OpenGLRendererAPI::SetVSync(bool state)

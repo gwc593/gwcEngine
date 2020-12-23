@@ -239,8 +239,8 @@ namespace gwcEngine
 
 			float verticesQuad[3 * 2] = {
 				// ----Position---------// -- Text Cord-|---- Normals -----| 
-				0.0f, 0.0f, 0.0f,
-				1.0f,1.0f,1.0f
+				00.0f, 0.0f, 0.0f,
+				100.0f,100.0f,-100.0f
 
 			};
 

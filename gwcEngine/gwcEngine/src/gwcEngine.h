@@ -35,6 +35,7 @@
 //ECS - systems
 #include "gwcEngine/ECS/Systems/CameraSystem.h"
 #include "gwcEngine/ECS/Systems/MeshRendererSystem.h"
+#include "gwcEngine/ECS/Systems/LineRenderingSystem.h"
 
 //Components
 #include "gwcEngine/Components/System/Cursor.h"
@@ -42,6 +43,8 @@
 #include "gwcEngine/Components/Render/Mesh.h"
 #include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Components/Physics/Ray.h"
+#include "gwcEngine/Components/Render/MeshRenderer.h"
+#include "gwcEngine/Components/Render/LineRenderer.h"
 
 
 

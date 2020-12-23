@@ -26,6 +26,10 @@ public:
 	{
 		auto m_ECS_Manager = gwcEngine::ECSManager::GetInstance();
 
+		//Register LineRendering System
+		gwcEngine::Ref<gwcEngine::LineRenderingSystem> lineRenderSys = gwcEngine::CreateRef<gwcEngine::LineRenderingSystem>("LineRenderingSystem");
+		m_ECS_Manager->RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(lineRenderSys));
+
 		//Register MeshRendering System
 		gwcEngine::Ref<gwcEngine::MeshRendererSystem> meshRenderSys = gwcEngine::CreateRef<gwcEngine::MeshRendererSystem>("MeshRendererSystem");
 		m_ECS_Manager->RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(meshRenderSys));

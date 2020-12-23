@@ -20,9 +20,14 @@ namespace gwcEngine
 			s_RendererAPI->SetViewport(x, y, width, height);
 		}
 
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+		inline static void DrawTrisIndexed(const std::shared_ptr<VertexArray>& vertexArray)
 		{
-			s_RendererAPI->DrawIndexed(vertexArray);
+			s_RendererAPI->DrawTrisIndexed(vertexArray);
+		}
+
+		inline static void DrawLinesIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+		{
+			s_RendererAPI->DrawLinesIndexed(vertexArray);
 		}
 
 		inline static void SetVsync(bool state)

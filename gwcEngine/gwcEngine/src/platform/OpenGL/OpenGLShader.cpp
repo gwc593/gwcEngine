@@ -231,7 +231,7 @@ namespace gwcEngine
 		glUniform1f(location, Float);
 	}
 
-	void OpenGLShader::UploadUniformVec2(const std::string& name, const glm::vec3& vec2)
+	void OpenGLShader::UploadUniformVec2(const std::string& name, const glm::vec2& vec2)
 	{
 		glUseProgram(m_Renderer_ID);
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());

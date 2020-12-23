@@ -23,7 +23,8 @@ namespace gwcEngine
 		//todo - vect4 implimentation?
 		virtual void SetClearColour(const glm::vec4& colour) = 0;
 
-		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
+		virtual void DrawTrisIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
+		virtual void DrawLinesIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 
 		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
 

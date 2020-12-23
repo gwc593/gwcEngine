@@ -8,6 +8,14 @@
 namespace gwcEngine
 {
 	class CameraBase;
+
+	enum class RendType
+	{
+		none = 0,
+		lines = 1,
+		triangles = 2
+	};
+
 	class Renderer
 	{
 
@@ -21,8 +29,8 @@ namespace gwcEngine
 		
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
-		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform = glm::mat4(1.0f));
+		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f), RendType rType = RendType::triangles);
+		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform = glm::mat4(1.0f), RendType rType = RendType::triangles);
 
 
 

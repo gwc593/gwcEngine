@@ -33,6 +33,8 @@ namespace gwcEngine
 
 		const std::bitset<MAX_RENDER_LAYERS>& GetActiveLayers() const { return m_ActiveLayers; }
 
+		bool IsVisible()const { return m_IsVisible; }
+
 
 
 	protected:
@@ -40,6 +42,7 @@ namespace gwcEngine
 		static std::unordered_map<std::string, uint16_t> s_NameMap;
 		static uint16_t s_NextID;
 
+		bool m_IsVisible = true;
 		std::bitset<MAX_RENDER_LAYERS> m_ActiveLayers;
 	};
 }

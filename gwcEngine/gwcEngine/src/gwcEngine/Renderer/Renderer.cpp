@@ -33,7 +33,7 @@ namespace gwcEngine
 		RenderCommand::SetViewport(0, 0, width, height);
 	}
 
-	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const glm::mat4& transform)
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const glm::mat4& transform, RendType rType)
 	{
 		shader->Bind();
 		//Todo - should only update the view matrix to the shader once per frame, currently its being uploaded once per draw.
@@ -44,10 +44,24 @@ namespace gwcEngine
 
 
 		vertexArray->Bind();
-		RenderCommand::DrawIndexed(vertexArray);
+		switch (rType) {
+		case gwcEngine::RendType::none:
+			GE_CORE_ASSERT(false, "No Render type selected");
+			break;
+		case gwcEngine::RendType::lines:
+			RenderCommand::DrawLinesIndexed(vertexArray);
+			break;
+		case gwcEngine::RendType::triangles:
+			RenderCommand::DrawTrisIndexed(vertexArray);
+			break;
+		default:
+			GE_CORE_ASSERT(false, "Unsupported Render type selected");
+			break;
+		}
+		
 	}
 
-	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform)
+	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform, RendType rType)
 	{
 		const Ref<Shader>& shader = material->GetShader();
 		shader->Bind();
@@ -57,8 +71,22 @@ namespace gwcEngine
 		//upload entities transform
 		shader->UploadUniformMat4("u_Transform", transform);
 
+		vertexArray->Bind();
 
 		vertexArray->Bind();
-		RenderCommand::DrawIndexed(vertexArray);
+		switch (rType) {
+		case gwcEngine::RendType::none:
+			GE_CORE_ASSERT(false, "No Render type selected");
+			break;
+		case gwcEngine::RendType::lines:
+			RenderCommand::DrawLinesIndexed(vertexArray);
+			break;
+		case gwcEngine::RendType::triangles:
+			RenderCommand::DrawTrisIndexed(vertexArray);
+			break;
+		default:
+			GE_CORE_ASSERT(false, "Unsupported Render type selected");
+			break;
+		}
 	}
 }

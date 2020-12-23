@@ -7,7 +7,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	Env3D::Env3D()
 		:Layer("3DEnv")
 	{
-		m_LineShader = gwcEngine::Shader::Create("assets/Shaders/LineShader.glsl");
+
 	}
 
 	void Env3D::OnAttach()
@@ -45,7 +45,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		cubeMaterial->SetShader(m_UnlitColourShader);
 		meshRend->ActivateLayer("3DScene");
 
-		auto ray = gwcEngine::Ray(CameraComp, 0.5f, 0.5f);
+	//make line entity
+		auto lineEnt = gwcEngine::Entity::Create("Line");
+		lineEnt->AddComponent<gwcEngine::Transform>();
+		lineEnt->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Line());
+		auto lineRenderer = lineEnt->AddComponent<gwcEngine::LineRenderer>();
+		lineRenderer->ActivateLayer("Debug");
 	}
 
 	void Env3D::AnimateEntity(gwcEngine::GameObject gameObject, float offset)
