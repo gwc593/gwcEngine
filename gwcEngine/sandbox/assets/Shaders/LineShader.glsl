@@ -7,7 +7,7 @@ layout (triangle_strip, max_vertices = 4) out;  // always (for now) producing 2 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Transform;
 uniform vec2    u_viewportInvSize;
-uniform float   u_thickness = 3;
+uniform float   u_thickness = 15;
 
 void main()
 {

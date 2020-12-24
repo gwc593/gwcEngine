@@ -71,7 +71,7 @@ namespace gwcEngine
 								auto material = gameObject->GetComponent<gwcEngine::Material>();
 
 								m_LineShader->UploadUniformVec2("u_viewportInvSize", { 1.0f / ((float)(*currentCamera)->GetWidth()),1.0f / ((float)(*currentCamera)->GetHeight()) });
-								m_LineShader->UploadUniformVec4("u_color", { 0.474, 0.203, 0.576,1.0 });
+								m_LineShader->UploadUniformVec4("u_color", { 1.0, 0, 0,1.0 });
 
 								Renderer::Submit(mesh->GetVertexArray(), m_LineShader, transform->GetTransformMatrix(), RendType::lines);
 							}

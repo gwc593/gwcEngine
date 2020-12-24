@@ -125,7 +125,12 @@ namespace gwcEngine
 
 	void Transform::UpdateTansformMatrix()
 	{
-		m_TransformMat = glm::translate(glm::mat4(1.0f), GetCompoundPosition()) * glm::mat4(GetCompoundRotation()) * glm::scale(glm::mat4(1.0f), GetCompoundScale());
+		//order                                            3                       2                          1
+		//scale, then rotate, then translate
+		m_TransformMat = glm::translate(glm::mat4(1.0f), m_Position) * glm::mat4(m_Rotation) * glm::scale(glm::mat4(1.0f), m_Scale);
+		if (m_Parent != nullptr)
+			m_TransformMat = m_Parent->GetTransformMatrix()* m_TransformMat;
+
 		m_Forward = glm::normalize(glm::vec4(0, 0, -1, 1) * glm::mat4(GetCompoundRotation()));
 		m_Right = glm::normalize(glm::vec4(1, 0, 0, 1) * glm::mat4(GetCompoundRotation()));
 		m_Up = glm::normalize(glm::vec4(0, 1, 0, 1) * glm::mat4(GetCompoundRotation()));

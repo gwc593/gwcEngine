@@ -47,10 +47,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//make line entity
 		auto lineEnt = gwcEngine::Entity::Create("Line");
-		lineEnt->AddComponent<gwcEngine::Transform>();
+		auto tr = lineEnt->AddComponent<gwcEngine::Transform>();
 		lineEnt->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Line());
 		auto lineRenderer = lineEnt->AddComponent<gwcEngine::LineRenderer>();
 		lineRenderer->ActivateLayer("Debug");
+
+		tr->SetParent(cubeTransform);
 	}
 
 	void Env3D::AnimateEntity(gwcEngine::GameObject gameObject, float offset)
@@ -70,6 +72,24 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnUpdate()
 	{
-		AnimateEntity(gwcEngine::Entity::Find("Cube"));
+		//AnimateEntity(gwcEngine::Entity::Find("Cube"));
+
+		static bool isDone = false;
+		static bool isLocked = false;
+		static float angle = 0.0f;
+		static float timeMoved = 0.0f;
 		
+		if (gwcEngine::Input::IsKeyPressed(gwcEngine::KeyCode::Space) && !isLocked) {
+			angle += 45.0f/4.0f;
+			gwcEngine::Entity::Find("Cube")->GetComponent<gwcEngine::Transform>()->SetRotation({ 0,angle,0 });
+			timeMoved = 0;
+			isLocked = true;
+		}
+
+		if (timeMoved >= 0.05f) {
+			isLocked = false;
+		}
+
+		timeMoved += gwcEngine::Time::GetDeltaTime();
+
 	}
