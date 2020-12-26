@@ -2,7 +2,7 @@
 #include"WindowsWindow.h"
 
 #include"platform/OpenGL/OpenGLContext.h"
-#include"gwcEngine/Renderer/Cameras/OrthographicCamera.h"
+#include"gwcEngine/Components/Cameras/OrthographicCamera.h"
 
 namespace gwcEngine 
 {

@@ -24,18 +24,6 @@
 #include "gwcEngine/Renderer/Shader/Buffer.h"
 #include "gwcEngine/Renderer/Shader/Shader.h"
 #include "gwcEngine/Renderer/Shader/VertexArray.h"
-#include "gwcEngine/Renderer/Cameras/OrthographicCamera.h"
-#include "gwcEngine/Renderer/Cameras/PerspectiveCamera.h"
-
-//Events System
-#include "gwcEngine/Events/Event.h"
-
-//ECS - Management
-#include "gwcEngine/ECS/ECS.h"
-//ECS - systems
-#include "gwcEngine/ECS/Systems/CameraSystem.h"
-#include "gwcEngine/ECS/Systems/MeshRendererSystem.h"
-#include "gwcEngine/ECS/Systems/LineRenderingSystem.h"
 
 //Components
 #include "gwcEngine/Components/System/Cursor.h"
@@ -46,5 +34,18 @@
 #include "gwcEngine/Components/Render/MeshRenderer.h"
 #include "gwcEngine/Components/Render/LineRenderer.h"
 
+#include "gwcEngine/Components/Cameras/Camera.h"
+#include "gwcEngine/Components/Cameras/OrthographicCamera.h"
+#include "gwcEngine/Components/Cameras/PerspectiveCamera.h"
+
+//Events System
+#include "gwcEngine/Events/Event.h"
+
+//ECS - Management
+#include "gwcEngine/ECS/ECS.h"
+//ECS - systems
+#include "gwcEngine/ECS/Systems/CameraSystem.h"
+#include "gwcEngine/ECS/Systems/MeshRendererSystem.h"
+#include "gwcEngine/ECS/Systems/LineRenderingSystem.h"
 
 

@@ -71,15 +71,15 @@ namespace gwcEngine
 		data.y = uY;
 		data.z = 1.0f;
 		data.w = 1.0f;
-		
+
 		auto temp = data * vpi;
-		
+
 		temp.w = 1.0f / temp.w;
 		temp.x *= temp.w;
 		temp.y *= temp.w;
 		temp.z *= temp.w;
 
-		glm::vec3 ret{temp.x,temp.y,temp.z};
+		glm::vec3 ret{ temp.x,temp.y,temp.z };
 		return ret;
 	}
 }

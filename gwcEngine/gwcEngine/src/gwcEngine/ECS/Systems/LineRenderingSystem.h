@@ -6,7 +6,7 @@
 #include "gwcEngine/Components/Render/LineRenderer.h"
 #include "gwcEngine/Components/Physics/Ray.h"
 
-#include "gwcEngine/Renderer/Cameras/Camera.h"
+#include "gwcEngine/Components/Cameras/Camera.h"
 #include "gwcEngine/Renderer/Renderer.h"
 #include <set>
 namespace gwcEngine

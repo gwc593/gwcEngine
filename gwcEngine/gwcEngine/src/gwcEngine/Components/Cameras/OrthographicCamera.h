@@ -1,6 +1,6 @@
 #pragma once
 #include<glm/glm.hpp>
-#include "gwcEngine/Renderer/Cameras/Camera.h"
+#include "gwcEngine/Components/Cameras/Camera.h"
 
 namespace gwcEngine
 {

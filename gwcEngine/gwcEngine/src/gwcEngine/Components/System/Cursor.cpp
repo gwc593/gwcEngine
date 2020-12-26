@@ -2,7 +2,7 @@
 #include "Cursor.h"
 #include "gwcEngine/Core/Input.h"
 #include "gwcEngine/Core/application.h"
-#include "gwcEngine/Renderer/Cameras/OrthographicCamera.h"
+#include "gwcEngine/Components/Cameras/OrthographicCamera.h"
 namespace gwcEngine 
 {
 

@@ -3,7 +3,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "gwcEngine/Events/Event.h"
-#include "gwcEngine/Renderer/Cameras/Camera.h"
+#include "gwcEngine/Components/Cameras/Camera.h"
 namespace gwcEngine
 {
 
@@ -60,7 +60,7 @@ namespace gwcEngine
 			glm::vec4 data;
 			data.x = uX;
 			data.y = uY;
-			data.z = 0.0f;
+			data.z = 1.0f;
 			data.w = 1.0f;
 
 			auto temp = data * vpi;
@@ -68,9 +68,9 @@ namespace gwcEngine
 			temp.w = 1.0f / temp.w;
 			temp.x *= temp.w;
 			temp.y *= temp.w;
+			temp.z *= temp.w;
 
-
-			glm::vec3 ret{ temp.x,temp.y,1.0f };
+			glm::vec3 ret{ temp.x,temp.y,temp.z };
 			return ret;
 		}
 

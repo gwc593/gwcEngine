@@ -1,7 +1,7 @@
 #include"gepch.h"
 #include"Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
-#include "Cameras/Camera.h"
+#include "gwcEngine/Components/Cameras/Camera.h"
 namespace gwcEngine
 {
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
