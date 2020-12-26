@@ -26,8 +26,13 @@ namespace gwcEngine
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_ColourAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_ColourAttachment);
-		//   todo                     GL_RGBA32F support (HDR)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specification.Width, m_Specification.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+		//   todo   make an option
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specification.Width, m_Specification.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, m_Specification.Width, m_Specification.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+		
+		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -37,9 +42,11 @@ namespace gwcEngine
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthBufferAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_DepthBufferAttachment);
 
-		
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height, 0, 
+		//todo higher precision depth buffer.
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH32F_STENCIL8, m_Specification.Width, m_Specification.Height, 0, 
 			GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+
+
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthBufferAttachment, 0);
 
 		GE_CORE_ASSERT((glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE), "Frame buffer not complete");

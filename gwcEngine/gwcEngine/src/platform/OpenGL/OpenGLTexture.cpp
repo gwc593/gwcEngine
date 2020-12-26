@@ -27,7 +27,8 @@ namespace gwcEngine
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 		//todo - need to HDR and A
 		//todo make channels exposed/automatic
-		glTextureStorage2D(m_RendererID, 1, GL_RGBA8, m_Width, m_Height);
+		//glTextureStorage2D(m_RendererID, 1, GL_RGBA8, m_Width, m_Height);
+		glTextureStorage2D(m_RendererID, 1, GL_RGBA16F, m_Width, m_Height);
 
 		//handle texture scaling 
 		//todo make scaling choice dynamic (expose it to the API)

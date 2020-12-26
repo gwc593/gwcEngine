@@ -4,6 +4,8 @@
 #include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Components/Render/Mesh.h"
 #include "gwcEngine/Components/Render/LineRenderer.h"
+#include "gwcEngine/Components/Physics/Ray.h"
+
 #include "gwcEngine/Renderer/Cameras/Camera.h"
 #include "gwcEngine/Renderer/Renderer.h"
 #include <set>
@@ -24,6 +26,8 @@ namespace gwcEngine
 			auto& ecsEvent = ECS->GetOnECSUpdated();
 			ecsEvent.subscribe(m_ECS_UpdatedCallback);
 
+
+			//todo, base camera class should hold a register of all entities which contain a camera, that way multiple systems dont need to!
 			m_CameraObjSig[ECS->FindComponentID<Camera>()] = true;
 			m_CameraObjSig[ECS->FindComponentID<Transform>()] = true;
 			m_CameraObjSig[ECS->FindComponentID<RenderLayer>()] = true;
@@ -37,6 +41,8 @@ namespace gwcEngine
 			m_ECSManager->RegisterCompType<gwcEngine::Transform>();
 			m_ECSManager->RegisterCompType<gwcEngine::Mesh>();
 			m_ECSManager->RegisterCompType<gwcEngine::LineRenderer>();
+			m_ECSManager->RegisterCompType<gwcEngine::Ray>();
+			
 			m_ECSManager->RegisterCompType<gwcEngine::Camera>();
 			m_ECSManager->RegisterCompType<gwcEngine::RenderLayer>();
 
@@ -47,6 +53,7 @@ namespace gwcEngine
 			m_Signature[m_ECSManager->FindComponentID<gwcEngine::Transform>()] = true;
 			m_Signature[m_ECSManager->FindComponentID<gwcEngine::Mesh>()] = true;
 			m_Signature[m_ECSManager->FindComponentID<gwcEngine::LineRenderer>()] = true;
+			//m_Signature[m_ECSManager->FindComponentID<gwcEngine::Ray>()] = true;
 
 		}
 
