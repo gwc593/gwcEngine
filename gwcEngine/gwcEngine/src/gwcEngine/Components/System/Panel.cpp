@@ -125,7 +125,7 @@ namespace gwcEngine
 		uX = (mX * (float)(x + xp)) + cx;
 		uY = (mY * (float)(y + yp)) - cy;
 
-		auto temp = m_RenderingCamera->ClipToWorld(uX, uY);
+		auto temp = m_RenderingCamera->ClipToWorldDirection(uX, uY);
 
 		m_MainTransform->SetPosition(glm::vec3(temp.x, temp.y, 0.02f));
 	}

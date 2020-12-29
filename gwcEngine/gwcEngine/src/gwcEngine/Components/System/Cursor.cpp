@@ -56,7 +56,7 @@ namespace gwcEngine
 		clipX = (mX * (float)(std::get<0>(s_Instance->m_Position))) + cx;
 		clipY = (mY * (float)(std::get<1>(s_Instance->m_Position))) - cy;
 
-		auto ray = camera->ClipToWorld(clipX, clipY);
+		auto ray = camera->ClipToWorldDirection(clipX, clipY);
 		ray.z = -1.0;
 		return ray;
 	}

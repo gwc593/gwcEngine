@@ -11,7 +11,7 @@ namespace gwcEngine
 
 		void CalculateViewMatrix();
 
-		glm::vec3 ClipToWorld(float  uX, float  uY);
+		glm::vec3 ClipToWorldDirection(float  uX, float  uY);
 
 
 		void SetTransformRef(Ref<Transform> transform)

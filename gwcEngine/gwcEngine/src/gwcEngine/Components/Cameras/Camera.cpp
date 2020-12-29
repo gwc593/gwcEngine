@@ -23,16 +23,16 @@ namespace gwcEngine
 	
 	}
 
-	glm::vec3 CameraBase::ClipToWorld(float  uX, float  uY)
+	glm::vec3 CameraBase::ClipToWorldDirection(float  uX, float  uY)
 	{
 		CalculateViewMatrix();
 		if(m_Transform != nullptr)
-			return  glm::toMat4(m_Transform->GetRotation()) * glm::inverse(m_ProjectionMatrix) * glm::vec4(uX, uY, 1.0f, 1.0f);
+			return  glm::toMat4(m_Transform->GetRotation()) * glm::inverse(m_ProjectionMatrix) * glm::vec4(uX, uY, 1.0f, 1.0f);//this works!
 		return glm::inverse(m_ProjectionMatrix) * glm::vec4(uX, uY, 1.0f, 1.0f);
 	}
 
 	Ray CameraBase::GenerateRay(float clipX, float clipY)
 	{
-		return Ray(m_Transform->GetPosition(), glm::normalize(ClipToWorld(clipX, clipY)));
+		return Ray(m_Transform->GetPosition(), glm::normalize(ClipToWorldDirection(clipX, clipY)));
 	}
 }
