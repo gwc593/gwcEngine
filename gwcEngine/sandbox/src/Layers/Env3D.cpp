@@ -21,8 +21,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto CameraEnt = gwcEngine::Entity::Create("MainCamera");
 		auto CameraComp = CameraEnt->AddComponent<gwcEngine::Camera>(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 10.0f));
 		auto CameraTransform = CameraEnt->AddComponent<gwcEngine::Transform>();
-		CameraTransform->SetPosition({ 2,-1,3 });
-		CameraTransform->SetRotation({ 30,-40,45.0f });
+		CameraTransform->SetPosition({ 0,0,3.0f });
 		auto RenderLayer = CameraEnt->AddComponent<gwcEngine::RenderLayer>();
 		RenderLayer->RegisterLayer("3DScene");
 		RenderLayer->ActivateLayer("3DScene");
@@ -33,7 +32,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	//make panel entity
 		auto testPanel = gwcEngine::Entity::Create("3DPanel");
 		auto panTran = testPanel->AddComponent<gwcEngine::Transform>();
-		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 750, panTran));
+		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 1000, panTran));
 		pan->SetCaptureCamera(*CameraComp);
 
 
@@ -65,8 +64,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		//Move and rotate cube
 		auto cubeTransform = gameObject->GetComponent<gwcEngine::Transform>();
-		//cubeTransform->SetPosition(glm::vec3(r - 0.5f, g - 0.5f, b - 0.5f) * 3.0f);
-		//cubeTransform->SetRotation(glm::vec3(r, g, b) * 600.0f);
+		cubeTransform->SetPosition(glm::vec3(r - 0.5f, g - 0.5f, b - 0.5f) * 3.0f);
+		cubeTransform->SetRotation(glm::vec3(r, g, b) * 600.0f);
 	}
 
 	void Env3D::OnUpdate()
@@ -88,13 +87,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		if (gwcEngine::Input::IsKeyPressed(gwcEngine::KeyCode::LeftControl)) {
 			//panel ray poistion
+			//TODO - NOW ray should be owned by the cursor, panel or camera, or system?
 			auto mousePos = gwcEngine::Input::GetMousePosition();
 			auto ray = panel->GetWorldRay(mousePos.first, mousePos.second);
 			lineTr->SetPosition(ray.GetOrigin());
-			lineTr->SetScale(glm::normalize(ray.GetDirection())*2000.0f);
+			lineTr->SetScale(glm::normalize(ray.GetDirection())*20000000.0f);
 
-			//GE_TRACE("Ray: pos = ({0},{1},{2}), direction = ({3},{4},{5})", ray.GetOrigin().x, ray.GetOrigin().y, ray.GetOrigin().z, ray.GetDirection().x, ray.GetDirection().y, ray.GetDirection().z);
-			//scale line by ray direction
 		}
 
 	}
