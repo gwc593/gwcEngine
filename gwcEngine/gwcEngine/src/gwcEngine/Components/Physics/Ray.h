@@ -1,6 +1,5 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "gwcEngine/Components/Cameras/Camera.h"
 namespace gwcEngine
 {
 	class Ray
@@ -9,8 +8,6 @@ namespace gwcEngine
 		Ray() = default;
 		
 		Ray(const glm::vec3& o, const glm::vec3& d) :m_Origin(o), m_Direction(d) {};
-
-		Ray(const Ref<Camera>& camera, float clipX, float clipY);
 
 		~Ray() = default;
 	

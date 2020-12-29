@@ -4,7 +4,7 @@
 #include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Components/Cameras/Camera.h"
 #include "gwcEngine/Renderer/Shader/Shader.h"
-
+#include "gwcEngine/Components/Physics/Ray.h"
 namespace gwcEngine
 {
 	enum class Anchor
@@ -33,7 +33,6 @@ namespace gwcEngine
 		/// @return vec2 of clip space position of the 'capture' shown within the panel
 		glm::vec2 GetScreenToClipSpacePosition(float x, float y);
 
-
 		uint8_t GetDepth(float x, float y);
 
 		void flush();
@@ -45,6 +44,9 @@ namespace gwcEngine
 		void SetCaptureCamera(const Ref<CameraBase>& camera);
 		
 		bool OnMouseMovedHandler(float x, float y);
+
+		Ray GetWorldRay(float x, float y);
+
 		static std::vector<gwcEngine::Ref<Panel>> s_Panels;
 	private://data
 

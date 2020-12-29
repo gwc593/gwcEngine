@@ -3,6 +3,7 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include "Layers/Env3D.h"
 #include "Layers/LeftSideBar.h"
+#include "Layers/DebugCam.h"
 
 
 //client side implementation of gwcEngine instance
@@ -15,6 +16,7 @@ public:
 		RegisterSystems();
 		PushLayer(new Env3D());
 		PushLayer(new LeftSideBar());
+		PushLayer(new DebugCam());
 	}
 
 	~MainApp()

@@ -180,6 +180,8 @@ namespace gwcEngine
 
 	}
 
+
+	//todo this doesnt work
 	glm::vec2 Panel::GetScreenToClipSpacePosition(float x, float y)
 	{
 		float mx, my;
@@ -200,6 +202,8 @@ namespace gwcEngine
 		float cy = -my * std::get<1>(GetCenter(Anchor::TopLeft));
 
 		return { mx * x + cx,my * y + cy };
+
+
 	}
 
 	uint8_t Panel::GetDepth(float x, float y)
@@ -255,6 +259,12 @@ namespace gwcEngine
 	{
 		DragPanel(x, y);
 		return PROPAGATE_EVENT;
+	}
+
+	Ray Panel::GetWorldRay(float x, float y)
+	{
+		auto clipPos = GetScreenToClipSpacePosition(x, y);
+		return m_CapturingCamera->GenerateRay(clipPos.x, clipPos.y);
 	}
 
 	void Panel::flush()

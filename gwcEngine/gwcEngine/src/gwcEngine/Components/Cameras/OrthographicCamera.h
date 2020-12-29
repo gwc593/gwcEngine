@@ -12,21 +12,9 @@ namespace gwcEngine
 		
 		inline void SetResolution(uint32_t resX, uint32_t resY) override; 
 
-		inline glm::mat4 GetProjectMatrix() override{			return m_ProjectionMatrix; }
-		inline glm::mat4 GetViewtMatrix() override{				return m_ViewMatrix; }
-		inline glm::mat4 GetViewProjectionMatrix() override {	return m_ViewProjectionMatrix; }
-
-		inline void SetPosition(const glm::vec3& position) override{	m_Position = position; CalculateViewMatrix();}
-		inline void SetRotation(const float rotation){m_Rotation = rotation; CalculateViewMatrix();}
-
-		inline const glm::vec3& GetPostion() const override { return m_Position; }
-		inline float GetRotation() const { return m_Rotation; }
-
 		inline const float GetAspectRatio()const override { return m_AspectRatio; }
 
 		bool OnScreenResize(int width, int height);
-
-		glm::vec3 ClipToWorld(float  uX, float  uY) override;
 
 		Ref<FrameBuffer> GetFrameBuffer() const override { return m_FrameBuffer; }
 
@@ -38,10 +26,6 @@ namespace gwcEngine
 	private:
 
 		void SetAspectRatio(float aspectRatio);
-	private:
 
-		glm::vec3 m_Position;
-		float m_Rotation;
-		
 	};
 }

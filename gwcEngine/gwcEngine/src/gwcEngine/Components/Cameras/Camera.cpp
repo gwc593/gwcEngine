@@ -2,6 +2,7 @@
 #include"Camera.h"
 #include"gwcEngine/Renderer/Renderer.h"
 
+
 namespace gwcEngine 
 {
 	void CameraBase::CalculateViewMatrix()
@@ -9,11 +10,9 @@ namespace gwcEngine
 	
 		glm::mat4 transform;
 		if (m_Transform != nullptr)
-			transform = glm::translate(glm::mat4(1.0f), m_Transform->GetPosition()) * glm::toMat4(m_Transform->GetRotation());
+			m_ViewMatrix = glm::inverse(m_Transform->GetTransformMatrix());
 		else
-			transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f)) * glm::toMat4(glm::quat(glm::vec3(0.0f)));
-	
-		m_ViewMatrix = glm::inverse(transform);
+			m_ViewMatrix = glm::inverse(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f)) * glm::toMat4(glm::quat(glm::vec3(0.0f))));
 	
 		if (Renderer::GetAPI() == RendererAPI::API::DirectX) {
 			m_ViewProjectionMatrix = m_ViewMatrix * m_ProjectionMatrix;
@@ -24,5 +23,16 @@ namespace gwcEngine
 	
 	}
 
+	glm::vec3 CameraBase::ClipToWorld(float  uX, float  uY)
+	{
+		CalculateViewMatrix();
+		if(m_Transform != nullptr)
+			return  glm::toMat4(m_Transform->GetRotation()) * glm::inverse(m_ProjectionMatrix) * glm::vec4(uX, uY, 1.0f, 1.0f);
+		return glm::inverse(m_ProjectionMatrix) * glm::vec4(uX, uY, 1.0f, 1.0f);
+	}
 
+	Ray CameraBase::GenerateRay(float clipX, float clipY)
+	{
+		return Ray(m_Transform->GetPosition(), glm::normalize(ClipToWorld(clipX, clipY)));
+	}
 }
