@@ -237,7 +237,7 @@ namespace gwcEngine
 	{
 		auto mPos = GetScreenToClipSpacePosition(x, y);
 
-		if (gwcEngine::Input::IsMouseButtonPressed(0) && std::fabs(mPos.x) <= 1.0f && std::fabs(mPos.y) <= 1.0f) {
+		if (gwcEngine::Input::IsMouseButtonPressed(MouseCode::Button0) && std::fabs(mPos.x) <= 1.0f && std::fabs(mPos.y) <= 1.0f) {
 			if (!isHeld) {
 				isHeld = true;
 				xHeld = (int)x;

@@ -105,7 +105,7 @@ namespace gwcEngine
 									case GLFW_REPEAT:
 									{
 										//TODO GWC - extract repeat count from GLFW
-										Input::GetKeyPressedEvent().raiseEvent(key);
+										//Input::GetKeyPressedEvent().raiseEvent(key);
 										break;
 									}
 	

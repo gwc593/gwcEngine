@@ -1,12 +1,17 @@
 #include "gepch.h"
 #include "WindowsInput.h"
-
 #include"gwcEngine/Core/application.h"
 #include<GLFW/glfw3.h>
 
 namespace gwcEngine 
 {
+	//Todo - this should be OS compile dependent
 	Input* Input::s_Instance = new WindowsInput();
+
+	WindowsInput::WindowsInput()
+	{
+
+	}
 
 	bool WindowsInput::IsKeyPressedImpl(KeyCode keycode)
 	{
@@ -14,14 +19,15 @@ namespace gwcEngine
 
 		auto state = glfwGetKey(window, (int)keycode);
 
+		
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(int button)
+	bool WindowsInput::IsMouseButtonPressedImpl(MouseCode button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get()->GetWindow().GetNativeWindow());
 
-		auto state = glfwGetMouseButton(window, button);
+		auto state = glfwGetMouseButton(window, (int)button);
 		return state == GLFW_PRESS;
 	}
 

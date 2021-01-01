@@ -15,7 +15,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	//Compile shaders for use
 		// Todo - should be stored in a shader library 
-		auto m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/UnlitColour.glsl");
+		auto m_UnlitColourShader = gwcEngine::Shader::Create("assets/Shaders/NormalVisualisation.glsl");
 
 	// make camera entity
 		auto CameraEnt = gwcEngine::Entity::Create("MainCamera");
@@ -60,7 +60,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		float r = 0.5f * (glm::sin(1.6f * glm::cos(1.0f * t) + 45.0f) + 1.0f);
 		float g = 0.5f * (glm::sin(0.333f * 1.3f * glm::cos(1.8f * t)) + 1.0f);
 		float b = 0.5f * (glm::sin(2.2f * glm::cos(1.4 * t)) + 1.0f);
-		gameObject->GetComponent<gwcEngine::Material>()->SetValue("u_Colour", glm::vec4(r, g, b, 1.0f));
 
 		//Move and rotate cube
 		auto cubeTransform = gameObject->GetComponent<gwcEngine::Transform>();
