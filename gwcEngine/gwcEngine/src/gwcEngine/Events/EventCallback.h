@@ -24,6 +24,19 @@ namespace gwcEngine
 			m_ID = IEventCallback::GetNextID();
 		}
 
+
+		EventCallback(EventCallback&& other) noexcept
+		{
+			m_ID = other.m_ID;
+			m_Callback = other.m_Callback;
+		}
+
+		EventCallback(const EventCallback& other)
+		{
+			m_ID = other.m_ID;
+			m_Callback = other.m_Callback;
+		}
+
 		void SetCallback(std::function<bool(T...)> callbackFunction)
 		{
 			m_Callback = callbackFunction;
@@ -35,7 +48,10 @@ namespace gwcEngine
 			m_Callback = callbackFunction;
 		}
 
-		virtual ~EventCallback() = default;
+		~EventCallback() 
+		{
+
+		};
 
 		uint32_t GetID() { return m_ID; }
 		std::function<bool(T...)>& GetFunction() { return m_Callback; }

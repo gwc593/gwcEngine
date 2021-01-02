@@ -4,6 +4,7 @@
 #include"gwcEngine/Renderer/Renderer.h"
 #include"gwcEngine/Components/System/Panel.h"
 #include"gwcEngine/Components/System/Cursor.h"
+#include "gwcEngine/Core/Input.h"
 //#include"Input.h"
 
 #include<GLFW/glfw3.h>
@@ -86,7 +87,7 @@ namespace gwcEngine {
 					panel->flush();
 				gwcEngine::Renderer::EndScene();
 			}
-
+			Input::EndTimeStep();
 			m_Window->OnUpdate();
 		}
 	}

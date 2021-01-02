@@ -26,7 +26,7 @@ namespace gwcEngine
 	class Window
 	{
 	public:
-		virtual ~Window(){}
+		virtual ~Window() { }
 		
 		virtual void OnUpdate() = 0;
 
