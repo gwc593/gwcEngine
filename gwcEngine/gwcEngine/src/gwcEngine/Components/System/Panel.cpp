@@ -70,6 +70,14 @@ namespace gwcEngine
 		return temp;
 	}
 
+	Panel::~Panel()
+	{
+		for (auto it = s_Panels.begin(); it != s_Panels.end(); it++) {
+			if (this == &(**it))
+				it = s_Panels.erase(it);
+		}
+	}
+
 	void Panel::SetSize(uint32_t width, uint32_t height)
 	{
 		currentPos = GetCenter(Anchor::TopLeft);

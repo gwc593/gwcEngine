@@ -43,9 +43,11 @@
 
 //ECS - Management
 #include "gwcEngine/ECS/ECS.h"
+
 //ECS - systems
 #include "gwcEngine/ECS/Systems/CameraSystem.h"
 #include "gwcEngine/ECS/Systems/MeshRendererSystem.h"
 #include "gwcEngine/ECS/Systems/LineRenderingSystem.h"
+#include "gwcEngine/ECS/Systems/LifeTimeSystem.h"
 
 

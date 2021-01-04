@@ -33,6 +33,7 @@ namespace gwcEngine
 		void DestroyEntity(Ref<Entity>& entity)
 		{
 			m_ComponentManager.RemoveAllComponents(entity);
+			m_SystemManager.OnEntityCompositionModified(entity);
 			m_EntityManager.DestroyEntity(entity);
 		}
 

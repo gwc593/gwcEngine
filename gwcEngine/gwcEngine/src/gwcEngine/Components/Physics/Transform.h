@@ -10,6 +10,8 @@ namespace gwcEngine
 	{
 	public:
 		Transform();
+		~Transform() = default;
+		
 
 		//todo - does this take into account relation to parent? i dont think it does.
 		const glm::vec3& GetPosition() const;

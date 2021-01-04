@@ -20,7 +20,7 @@ namespace gwcEngine
 	{
 	public:
 		Panel(uint32_t width, uint32_t height, Ref<Transform> mainTrans , Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = std::dynamic_pointer_cast<gwcEngine::CameraBase>(Application::Get()->GetWindow().GetCamera()));
-
+		~Panel();
 		static Ref<Panel> Create(uint32_t width, uint32_t height, Ref<Transform> mainTrans, Ref<CameraBase> capturingCamera = nullptr, Ref<CameraBase> renderingCamera = std::dynamic_pointer_cast<gwcEngine::CameraBase>(Application::Get()->GetWindow().GetCamera()));
 
 		void SetSize(uint32_t width, uint32_t height);

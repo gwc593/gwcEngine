@@ -76,6 +76,10 @@ namespace gwcEngine
 			auto indexLast = m_Size - 1;
 			auto lastEntity = m_ArrToEnt[indexLast];
 
+			//TODO need to call destructor of double pointer components like panels and cameras used for polymorphism
+			auto x = m_CompArray[indexrmoved]->GetComponent();
+			x->~T();
+
 			//set component of removed entity element equal to the last valid component in the array
 			m_CompArray[indexrmoved] = m_CompArray[indexLast];
 			
@@ -217,7 +221,7 @@ namespace gwcEngine
 				sig[ComponentManager::FindID(arr.first)] = false;
 				entity->SetSignature(sig);
 			}
-
+	
 			m_OnECSUpdate.raiseEvent(entity);
 		}
 

@@ -12,7 +12,7 @@ class MainApp : public gwcEngine::Application
 public:
 	MainApp()
 	{
-		gwcEngine::RenderCommand::SetVsync(false);
+		gwcEngine::RenderCommand::SetVsync(true);
 		RegisterSystems();
 		PushLayer(new Env3D());
 		PushLayer(new LeftSideBar());
@@ -27,6 +27,11 @@ public:
 	void RegisterSystems()
 	{
 		auto m_ECS_Manager = gwcEngine::ECSManager::GetInstance();
+
+		//register LifeTime System
+		//TODO make macro
+		gwcEngine::Ref<gwcEngine::LifeTimeSystem> lifeTSystem = gwcEngine::CreateRef<gwcEngine::LifeTimeSystem>("LifeTimeSystem");
+		m_ECS_Manager->RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(lifeTSystem));
 
 		//Register LineRendering System
 		gwcEngine::Ref<gwcEngine::LineRenderingSystem> lineRenderSys = gwcEngine::CreateRef<gwcEngine::LineRenderingSystem>("LineRenderingSystem");

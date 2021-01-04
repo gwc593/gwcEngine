@@ -99,8 +99,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::Enter)) {
 			if (ent != nullptr)
-				gwcEngine::Entity::Destroy(ent);
+				gwcEngine::Entity::Find("3DPanel")->AddComponent<gwcEngine::LifeTime>(3);
 		}
 
-		GE_TRACE("FPS = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());
 	}
