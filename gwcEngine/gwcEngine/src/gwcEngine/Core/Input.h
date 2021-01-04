@@ -38,10 +38,13 @@ namespace gwcEngine
 
 		inline static void EndTimeStep() 
 		{
-			m_keyDown.clear();  
-			m_keyUp.clear();
-			m_MouseDown.clear();
-			m_MouseUp.clear();
+			if (s_Dirty) {
+				s_keysDown.clear();  
+				s_keysUp.clear();
+				s_MouseBsDown.clear();
+				s_MouseBsUp.clear();
+				s_Dirty = false;
+			}
 		}
 
 	protected:
@@ -69,11 +72,11 @@ namespace gwcEngine
 		static Event<float,float> m_MouseMovedEvent;
 		static Event<float, float> m_MouseScrolledEvent;
 
-		bool m_Dirty = true;
-		static std::vector<KeyCode> m_keyDown;
-		static std::vector<KeyCode> m_keyUp;
-		static std::vector<MouseCode> m_MouseDown;
-		static std::vector<MouseCode> m_MouseUp;
+		static bool s_Dirty;
+		static std::vector<KeyCode> s_keysDown;
+		static std::vector<KeyCode> s_keysUp;
+		static std::vector<MouseCode> s_MouseBsDown;
+		static std::vector<MouseCode> s_MouseBsUp;
 
 
 	};

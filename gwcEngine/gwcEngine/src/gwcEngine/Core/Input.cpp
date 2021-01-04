@@ -5,10 +5,11 @@
 namespace gwcEngine
 {
 
-	std::vector<KeyCode>   Input::m_keyDown;
-	std::vector<KeyCode>   Input::m_keyUp;
-	std::vector<MouseCode> Input::m_MouseDown;
-	std::vector<MouseCode> Input::m_MouseUp;
+	bool Input::s_Dirty = true;
+	std::vector<KeyCode>   Input::s_keysDown;
+	std::vector<KeyCode>   Input::s_keysUp;
+	std::vector<MouseCode> Input::s_MouseBsDown;
+	std::vector<MouseCode> Input::s_MouseBsUp;
 
 	Input::Input()
 	{

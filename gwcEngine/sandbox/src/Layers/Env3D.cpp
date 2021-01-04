@@ -94,20 +94,5 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		}
 
- 		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::Space)) {
-			GE_TRACE("Space pressed");
-		}
-
-		if (gwcEngine::Input::KeyUp(gwcEngine::KeyCode::Space)) {
-			GE_TRACE("Space release");
-		}
-
-		if (gwcEngine::Input::MouseButtonDown(gwcEngine::MouseCode::Button0)) {
-			GE_TRACE("mouse clicked");
-		}
-
-		if (gwcEngine::Input::MouseButtonUp(gwcEngine::MouseCode::Button0)) {
-			GE_TRACE("mouse released");
-		}
-
+		GE_TRACE("FPS = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());
 	}

@@ -16,12 +16,11 @@ namespace gwcEngine
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
-		virtual void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
-		virtual const BufferLayout& GetLayout() const override {return m_Layout;}
+		virtual void SetLayout(const BufferLayout& layout) override {  m_VertexBufferData.Layout = layout; }
+		virtual const BufferLayout& GetLayout() const override {return m_VertexBufferData.Layout;}
 
 	private:
 		uint32_t m_RendererID;
-		BufferLayout m_Layout;
 	};
 
 	////////////////////////////////////

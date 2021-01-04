@@ -5,7 +5,8 @@ workspace "gwcEngine"
 	{
 		"Debug",
 		"Release",
-		"Dist"
+		"Dist",
+		"Profiling"
 	}
 
 outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
@@ -86,6 +87,13 @@ project "gwcEngine"
 		defines "GE_DIST"
 		runtime "Release"
 		optimize "on"
+		
+	filter "configurations:Profiling"
+		runtime "Debug"
+		symbols "on"
+		defines{"GE_PROFILING"}
+		optimize "on"
+
 
 
 project "sandbox"
@@ -143,4 +151,10 @@ project "sandbox"
 	filter "configurations:Dist"
 		defines "GE_DIST"
 		runtime "Release"
+		optimize "on"
+		
+	filter "configurations:Profiling"
+		runtime "Debug"
+		symbols "on"
+		defines{"GE_PROFILING"}
 		optimize "on"

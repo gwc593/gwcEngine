@@ -19,7 +19,7 @@ namespace gwcEngine
 
 		virtual bool KeyDownImpl(KeyCode keyCode) override 
 		{ 
-			for (auto KC : m_keyDown) {
+			for (auto KC : s_keysDown) {
 				if (KC == keyCode)
 					return true;
 			}
@@ -28,7 +28,7 @@ namespace gwcEngine
 
 		virtual bool KeyUpImpl(KeyCode keyCode) override
 		{
-			for (auto KC : m_keyUp) {
+			for (auto KC : s_keysUp) {
 				if (KC == keyCode)
 					return true;
 			}
@@ -37,7 +37,7 @@ namespace gwcEngine
 
 		virtual bool MouseButtonDownImpl(MouseCode button) override
 		{
-			for (auto KC : m_MouseDown) {
+			for (auto KC : s_MouseBsDown) {
 				if (KC == button)
 					return true;
 			}
@@ -46,7 +46,7 @@ namespace gwcEngine
 
 		virtual bool MouseButtonUpImpl(MouseCode button) override
 		{
-			for (auto KC : m_MouseUp) {
+			for (auto KC : s_MouseBsUp) {
 				if (KC == button)
 					return true;
 			}
@@ -57,25 +57,29 @@ namespace gwcEngine
 
 		bool HandleKeyDown(KeyCode keycode)
 		{
-			Input::m_keyDown.push_back(keycode);
+			Input::s_keysDown.push_back(keycode);
+			Input::s_Dirty = true;
 			return PROPAGATE_EVENT;
 		}
 
 		bool HandleKeyUp(KeyCode keycode)
 		{
-			Input::m_keyUp.push_back(keycode);
+			Input::s_keysUp.push_back(keycode);
+			Input::s_Dirty = true;
 			return PROPAGATE_EVENT;
 		}
 
 		bool HandleMBDown(MouseCode button)
 		{
-			Input::m_MouseDown.push_back(button);
+			Input::s_MouseBsDown.push_back(button);
+			Input::s_Dirty = true;
 			return PROPAGATE_EVENT;
 		}
 
 		bool HandleMBUp(MouseCode button)
 		{
-			Input::m_MouseUp.push_back(button);
+			Input::s_MouseBsUp.push_back(button);
+			Input::s_Dirty = true;
 			return PROPAGATE_EVENT;
 		}
 

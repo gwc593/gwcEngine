@@ -10,6 +10,7 @@ namespace gwcEngine
 {
 	VertexBuffer* VertexBuffer::Create(float* verticies, uint32_t size)
 	{
+
 		switch (Renderer::GetAPI()) 
 		{
 		case RendererAPI::API::None:
@@ -23,6 +24,15 @@ namespace gwcEngine
 
 		GE_CORE_ASSERT(false, "Invalid Renderer API...");
 		return nullptr;
+	}
+
+	void VertexBuffer::StoreVertexData(float* verticies, uint32_t size)
+	{
+		m_VertexBufferData.Size = size;
+
+		for (uint32_t i = 0; i < size; ++i) {
+			m_VertexBufferData.Vertecies.push_back(verticies[i]);
+		}
 	}
 
 
