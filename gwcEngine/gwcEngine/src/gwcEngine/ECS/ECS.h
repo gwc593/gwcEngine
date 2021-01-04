@@ -114,11 +114,13 @@ namespace gwcEngine
 
 		void OnEarlyUpdate(const float& dT)
 		{
+			PROFILE_FUNCTION();
 			m_SystemManager.OnEarlyUpdate(dT);
 		}
 
 		void OnUpdate(const float& dT)
 		{
+			PROFILE_FUNCTION();
 			m_SystemManager.OnUpdate(dT);
 		}
 

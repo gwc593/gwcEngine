@@ -54,6 +54,7 @@ namespace gwcEngine
 
 		virtual void OnEarlyUpdate(const float& dT)
 		{
+			PROFILE_FUNCTION();
 			for (auto gameObject : m_GameObjectArray) {
 				gwcEngine::RenderCommand::SetClearColour((*gameObject->GetComponent<Camera>())->GetClearColour());
 				(*gameObject->GetComponent<Camera>())->GetFrameBuffer()->Clear();

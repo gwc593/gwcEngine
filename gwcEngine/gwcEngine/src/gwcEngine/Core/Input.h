@@ -38,6 +38,7 @@ namespace gwcEngine
 
 		inline static void EndTimeStep() 
 		{
+			PROFILE_FUNCTION();
 			if (s_Dirty) {
 				s_keysDown.clear();  
 				s_keysUp.clear();

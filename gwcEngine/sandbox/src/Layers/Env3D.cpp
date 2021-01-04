@@ -91,7 +91,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			auto ray = panel->GetWorldRay(mousePos.first, mousePos.second);
 			lineTr->SetPosition(ray.GetOrigin());
 			lineTr->SetScale(glm::normalize(ray.GetDirection())*20000000.0f);
-
+		
 		}
 
 		GE_TRACE("FPS = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());

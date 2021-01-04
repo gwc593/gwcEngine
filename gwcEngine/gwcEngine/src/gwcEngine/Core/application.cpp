@@ -66,6 +66,14 @@ namespace gwcEngine {
 
 		while (m_Running) 
 		{
+			#if GE_PROFILING
+			static bool ProfState = true;
+			if (Input::KeyDown(KeyCode::F6)) {
+				ProfState = !ProfState;
+				::Instrumentor::Get().Enable(ProfState);
+			}
+			#endif
+
 			if (!m_Minimised) {
 				Time::BeginFrame();
 
@@ -78,7 +86,7 @@ namespace gwcEngine {
 				ECSManager::GetInstance()->OnEarlyUpdate(Time::GetDeltaTime());
 				ECSManager::GetInstance()->OnUpdate(Time::GetDeltaTime());
 
-				gwcEngine::Mesh::Cube();
+				//gwcEngine::Mesh::Cube();
 
 				gwcEngine::RenderCommand::SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
 				gwcEngine::RenderCommand::Clear();				

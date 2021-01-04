@@ -269,6 +269,7 @@ namespace gwcEngine
 
 	void Panel::flush()
 	{
+		PROFILE_FUNCTION();
 		Renderer::SetActiveCamera(m_RenderingCamera);
 		RenderCommand::SetViewport(0, 0, m_RenderingCamera->GetWidth(), m_RenderingCamera->GetHeight());
 

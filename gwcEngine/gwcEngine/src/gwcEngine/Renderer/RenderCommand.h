@@ -7,11 +7,13 @@ namespace gwcEngine
 	public:
 		inline static void Clear()
 		{
+			PROFILE_FUNCTION();
 			s_RendererAPI->Clear();
 		};
 
 		inline static void SetClearColour(const glm::vec4& colour) 
 		{
+			PROFILE_FUNCTION();
 			s_RendererAPI->SetClearColour(colour);
 		}
 

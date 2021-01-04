@@ -17,7 +17,7 @@ namespace gwcEngine
 	void Layer::OnUpdateBase()
 	{
 		//Base behaviour
-
+		PROFILE_FUNCTION();
 		OnUpdate();
 
 	}

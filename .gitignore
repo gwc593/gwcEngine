@@ -354,3 +354,4 @@ bin-int
 /gwcEngine/gwcEngine/*.filters
 *.vcxproj
 sandbox.vcxproj.filters
+analysis

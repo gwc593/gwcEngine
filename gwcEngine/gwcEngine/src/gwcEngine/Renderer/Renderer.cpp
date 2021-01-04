@@ -25,6 +25,7 @@ namespace gwcEngine
 
 	void Renderer::EndScene()
 	{
+		PROFILE_FUNCTION();
 		Application::Get()->GetWindow().SwapBuffers();
 	}
 

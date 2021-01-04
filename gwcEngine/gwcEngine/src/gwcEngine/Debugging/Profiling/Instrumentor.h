@@ -20,6 +20,8 @@ private:
     std::ofstream m_OutputStream;
     int m_ProfileCount;
     std::mutex m_resBlock;
+    bool m_Enabled = true;
+
 public:
     Instrumentor()
         : m_CurrentSession(nullptr), m_ProfileCount(0)
@@ -33,6 +35,8 @@ public:
         m_CurrentSession = new InstrumentationSession{ name };
     }
 
+    void Enable(bool state) { m_Enabled = state; }
+
     void EndSession()
     {
         WriteFooter();
@@ -44,24 +48,26 @@ public:
 
     void WriteProfile(const ProfileResult& result)
     {
-        std::lock_guard<std::mutex> lock(m_resBlock);
-        if (m_ProfileCount++ > 0)
-            m_OutputStream << "," << std::endl;
+        if (m_Enabled) {
+            std::lock_guard<std::mutex> lock(m_resBlock);
+            if (m_ProfileCount++ > 0)
+                m_OutputStream << "," << std::endl;
 
-        std::string name = result.Name;
-        std::replace(name.begin(), name.end(), '"', '\'');
+            std::string name = result.Name;
+            std::replace(name.begin(), name.end(), '"', '\'');
 
-        m_OutputStream << "{" << std::endl;
-        m_OutputStream << "    \"cat\":\"function\"," << std::endl;
-        m_OutputStream << "    \"dur\":" << (result.End - result.Start) << ',' << std::endl;
-        m_OutputStream << "    \"name\":\"" << name << "\"," << std::endl;
-        m_OutputStream << "    \"ph\":\"X\"," << std::endl;
-        m_OutputStream << "    \"pid\":0," << std::endl;
-        m_OutputStream << "    \"tid\":" << result.ThreadID << "," << std::endl;
-        m_OutputStream << "    \"ts\":" << result.Start << std::endl;
-        m_OutputStream << "}";
+            m_OutputStream << "{" << std::endl;
+            m_OutputStream << "    \"cat\":\"function\"," << std::endl;
+            m_OutputStream << "    \"dur\":" << (result.End - result.Start) << ',' << std::endl;
+            m_OutputStream << "    \"name\":\"" << name << "\"," << std::endl;
+            m_OutputStream << "    \"ph\":\"X\"," << std::endl;
+            m_OutputStream << "    \"pid\":0," << std::endl;
+            m_OutputStream << "    \"tid\":" << result.ThreadID << "," << std::endl;
+            m_OutputStream << "    \"ts\":" << result.Start << std::endl;
+            m_OutputStream << "}";
 
-        m_OutputStream.flush();
+            m_OutputStream.flush();
+        }
     }
 
     void WriteHeader()

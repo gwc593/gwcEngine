@@ -188,6 +188,7 @@ namespace gwcEngine
 
 	void OpenGLShader::ParseUniforms()
 	{
+		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
 		int count = 0;
 		int nameLen = -1;
@@ -219,6 +220,7 @@ namespace gwcEngine
 
 	void OpenGLShader::UploadUniformInt(const std::string& name, const int& Int)
 	{
+		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
 		glUniform1i(location, Int);
@@ -226,6 +228,7 @@ namespace gwcEngine
 
 	void OpenGLShader::UploadUniformFloat(const std::string& name, const float& Float)
 	{
+		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
 		glUniform1f(location, Float);
@@ -233,28 +236,32 @@ namespace gwcEngine
 
 	void OpenGLShader::UploadUniformVec2(const std::string& name, const glm::vec2& vec2)
 	{
+		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
-		glUniform2f(location, vec2.x, vec2.y);
+		glUniform2fv(location, 1, glm::value_ptr(vec2));
 	}
 
 	void OpenGLShader::UploadUniformVec3(const std::string& name, const glm::vec3& vec3)
 	{
+		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
-		glUniform3f(location, vec3.x, vec3.y, vec3.z);
+		glUniform3fv(location, 1,glm::value_ptr(vec3));
 	}
 
 	void OpenGLShader::UploadUniformVec4(const std::string& name, const glm::vec4& vec4)
 	{
+		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
-		glUniform4f(location, vec4.r, vec4.g, vec4.b, vec4.a);
+		glUniform4fv(location, 1, glm::value_ptr(vec4));
 	}
 
 
 	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
 	{
+		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
@@ -262,6 +269,7 @@ namespace gwcEngine
 
 	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
 	{
+		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
 		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));

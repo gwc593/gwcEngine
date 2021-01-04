@@ -69,6 +69,7 @@ namespace gwcEngine
 
 		virtual void OnUpdate(const float& dT)
 		{
+			PROFILE_FUNCTION();
 			Ref<Camera> currentCamera;
 
 			for (auto camera : m_Cameras) {

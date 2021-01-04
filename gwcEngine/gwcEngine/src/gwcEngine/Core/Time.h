@@ -5,7 +5,11 @@ namespace gwcEngine
 	class Time
 	{
 	public:
-		inline static void BeginFrame() { return s_Time->BeginFrameImpl(); }
+		inline static void BeginFrame() 
+		{
+			PROFILE_FUNCTION();
+			return s_Time->BeginFrameImpl(); 
+		}
 		inline static void EndFrame() { return s_Time->EndFrameImpl(); }
 		inline static float GetDeltaTime() { return s_Time->GetDeltaTimeImpl(); }
 		inline static float GetTime() { return s_Time->GetTimeImpl(); }
