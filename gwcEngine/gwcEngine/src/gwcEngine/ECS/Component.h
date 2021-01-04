@@ -42,7 +42,7 @@ namespace gwcEngine
 	class IComponentArray
 	{
 	public:
-		virtual void RemoveEntity(const Ref<Entity>& entity) = 0;
+		virtual void RemoveEntity(const Ref<Entity>& entity, bool warn = true) = 0;
 	private:
 
 	};
@@ -60,12 +60,16 @@ namespace gwcEngine
 			return m_CompArray[m_EntToArr[entity]];
 		}
 
-		virtual void RemoveEntity(const Ref<Entity>& entity) override
+		virtual void RemoveEntity(const Ref<Entity>& entity, bool warn = true) override
 		{
 			//keep array packed
 			auto search = m_EntToArr.find(entity);
-			if (search == m_EntToArr.end()) {
+			if (search == m_EntToArr.end()&&warn) {
 				GE_CORE_WARN("Entity: {0} does not have a {1}, it can therefore not be removed", entity->GetName(), typeid(T).name());
+				return;
+			}
+
+			if (search == m_EntToArr.end() && !warn) {
 				return;
 			}
 			auto indexrmoved = m_EntToArr[entity];
@@ -134,6 +138,18 @@ namespace gwcEngine
 			return search->second;
 		}
 
+		static ComponentID FindID(const std::string& name)
+		{
+			auto search = s_ComponentIDs.find(name);
+
+			if (search == s_ComponentIDs.end()) {
+				GE_CORE_WARN("{0}: is not a type managed or registered within the ECS manager, are you sure its being used?", name);
+				return NullComponentID;
+			}
+
+			return search->second;
+		}
+
 		template<typename T>
 		static ComponentID RegisterCompType()
 		{
@@ -187,8 +203,20 @@ namespace gwcEngine
 
 			std::dynamic_pointer_cast<ComponentArray<T>>(search->second)->RemoveEntity(entity);
 			Signature sig = entity->GetSignature();
-			sig[ComponentManager::FindID(typeid(T).name())] = false;
+			sig[ComponentManager::FindID<T>()] = false;
 			entity->SetSignature(sig);
+
+			m_OnECSUpdate.raiseEvent(entity);
+		}
+
+		void RemoveAllComponents(Ref<Entity> entity) noexcept
+		{
+			for (auto arr : m_ArrayOfComponentArrays) {
+				(arr.second)->RemoveEntity(entity,false);
+				Signature sig = entity->GetSignature();
+				sig[ComponentManager::FindID(arr.first)] = false;
+				entity->SetSignature(sig);
+			}
 
 			m_OnECSUpdate.raiseEvent(entity);
 		}

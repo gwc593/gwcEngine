@@ -52,6 +52,11 @@ namespace gwcEngine
 	{
 		return ECSManager::GetInstance()->CreateEntity(name);
 	}
+
+	void Entity::Destroy(Ref<Entity>& ent)
+	{
+		ECSManager::GetInstance()->DestroyEntity(ent);
+	}
 }
 
 

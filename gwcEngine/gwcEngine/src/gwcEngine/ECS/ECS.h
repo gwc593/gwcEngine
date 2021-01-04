@@ -30,8 +30,9 @@ namespace gwcEngine
 			return m_EntityManager.FindEntity(name);
 		}
 
-		void DestroyEntity(Entity& entity)
+		void DestroyEntity(Ref<Entity>& entity)
 		{
+			m_ComponentManager.RemoveAllComponents(entity);
 			m_EntityManager.DestroyEntity(entity);
 		}
 

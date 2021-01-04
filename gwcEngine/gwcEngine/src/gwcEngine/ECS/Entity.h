@@ -25,6 +25,12 @@ namespace gwcEngine
 			return ECSManager::GetInstance()->AddComponent<T>(shared_from_this(),std::forward<TArgs>(mArgs)...);
 		}
 
+		template<typename T>
+		void RemoveComponent() noexcept
+		{
+			ECSManager::GetInstance()->RemoveComponent<T>(shared_from_this());
+		}
+
 
 		template<typename T>
 		Ref<T> GetComponent()
@@ -40,6 +46,9 @@ namespace gwcEngine
 		static Ref<Entity> Find(const std::string& name);
 
 		static Ref<Entity> Create(const std::string& name);
+
+		static void Destroy(Entity& ent);
+		static void Destroy(Ref<Entity>& ent);
 
 		bool MatchesSignature(const Signature& signature);
 
@@ -74,10 +83,10 @@ namespace gwcEngine
 			return (search->second);
 		}
 
-		void DestroyEntity(Entity& entity)
+		void DestroyEntity(Ref<Entity>& entity)
 		{
-			m_Entities.erase( entity.GetName());
-			EntityManager::s_AvailableIDs.push(entity.GetID());
+			m_Entities.erase( entity->GetName());
+			EntityManager::s_AvailableIDs.push(entity->GetID());
 		}
 
 		Ref<Entity> CreateEntity(const std::string& name)

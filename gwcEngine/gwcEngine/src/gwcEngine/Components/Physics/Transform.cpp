@@ -16,7 +16,6 @@ namespace gwcEngine
 		m_Right = { 1,0,0 };
 	}
 
-	//todo - does this take into account relation to parent? i dont think it does.
 	const glm::vec3& Transform::GetPosition() const
 	{
 		return m_Position;

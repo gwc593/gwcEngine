@@ -69,7 +69,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnUpdate()
 	{
-		AnimateEntity(gwcEngine::Entity::Find("Cube"));
+		auto ent = gwcEngine::Entity::Find("Cube");
+
+		if(ent!= nullptr)
+			AnimateEntity(ent);
 
 		static gwcEngine::Ref<gwcEngine::Transform> lineTr = nullptr;
 
@@ -92,6 +95,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			lineTr->SetPosition(ray.GetOrigin());
 			lineTr->SetScale(glm::normalize(ray.GetDirection())*20000000.0f);
 		
+		}
+
+		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::Enter)) {
+			if (ent != nullptr)
+				gwcEngine::Entity::Destroy(ent);
 		}
 
 		GE_TRACE("FPS = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());

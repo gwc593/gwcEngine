@@ -181,7 +181,6 @@ namespace gwcEngine
 	}
 
 
-	//todo this doesnt work
 	glm::vec2 Panel::GetScreenToClipSpacePosition(float x, float y)
 	{
 		float mx, my;
