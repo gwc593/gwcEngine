@@ -150,12 +150,15 @@ namespace gwcEngine
 			auto lastEntity = m_ArrToEnt[indexLast];
 
 			//TODO need to call destructor of double pointer components like panels and cameras used for polymorphism
-			auto x = m_CompArray[indexrmoved]->GetComponent();
-			(*x)->~T();
+			//auto x = m_CompArray[indexrmoved]->GetComponent().reset();
+			//m_CompArray[indexrmoved]->GetComponent().reset();
+			//m_CompArray[indexrmoved].reset();
+			////(*x)->~T();
+
 
 			//set component of removed entity element equal to the last valid component in the array
 			m_CompArray[indexrmoved] = m_CompArray[indexLast];
-
+			
 			//set the entity at the removed element equal to the last entity now that its data has been moved to the empty element
 			m_ArrToEnt[indexrmoved] = lastEntity;
 

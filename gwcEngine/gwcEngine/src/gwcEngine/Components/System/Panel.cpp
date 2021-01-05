@@ -5,7 +5,7 @@
 #include "gwcEngine/Renderer/Renderer.h"
 namespace gwcEngine
 {
-	std::vector<Ref<Panel>> Panel::s_Panels;
+	std::vector<std::weak_ptr<Panel>> Panel::s_Panels;
 
 	Panel::Panel(uint32_t width, uint32_t height, Ref<Transform> mainTrans, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
 		:m_Width(width), m_Height(height), m_MainTransform(mainTrans), m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera), m_Anchor(gwcEngine::Anchor::Center)
@@ -65,15 +65,24 @@ namespace gwcEngine
 
 	Ref<Panel> Panel::Create(uint32_t width, uint32_t height, Ref<Transform> mainTrans, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
 	{
-		auto temp = CreateRef<Panel>(width, height, mainTrans, capturingCamera, renderingCamera);
-		s_Panels.push_back(temp);
-		return temp;
+
+		//return CreateRef<Panel>(width, height, mainTrans, capturingCamera, renderingCamera);
+		Ref<Panel> ret = CreateRef<Panel>(width, height, mainTrans, capturingCamera, renderingCamera);
+		s_Panels.push_back(ret);
+		return ret;
 	}
 
 	Panel::~Panel()
 	{
+		//unsubscribe callbacks
+		m_CapturingCamera->GetOnResolutionChangeEvent().unsubscribe(m_OnCaptureResChangeCB);
+		Application::Get()->GetWindow().GetWindowResizeEvent().unsubscribe(c_OnMainWindowSizeChange);
+		Input::GetMouseMovedEvent().unsubscribe(c_OnMouseMoved);
+
+		//remove self from panels register
 		for (auto it = s_Panels.begin(); it != s_Panels.end(); it++) {
-			if (this == &(**it))
+			auto pnl = (*it).lock();
+			if (this == &(*pnl))
 				it = s_Panels.erase(it);
 		}
 	}

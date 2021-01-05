@@ -91,8 +91,11 @@ namespace gwcEngine {
 				gwcEngine::RenderCommand::SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
 				gwcEngine::RenderCommand::Clear();				
 
-				for (auto panel : Panel::s_Panels)
-					panel->flush();
+				for (auto panel : Panel::s_Panels) {
+					auto pnl = panel.lock();
+					if(pnl!= nullptr)
+						pnl->flush();
+				}
 				gwcEngine::Renderer::EndScene();
 			}
 			Input::EndTimeStep();

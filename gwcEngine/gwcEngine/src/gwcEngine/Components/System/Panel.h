@@ -47,7 +47,7 @@ namespace gwcEngine
 
 		Ray GetWorldRay(float x, float y);
 
-		static std::vector<gwcEngine::Ref<Panel>> s_Panels;
+		static std::vector<std::weak_ptr<Panel>> s_Panels;
 	private://data
 
 		uint32_t m_Width;

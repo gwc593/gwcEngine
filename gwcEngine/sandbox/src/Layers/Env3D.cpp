@@ -30,6 +30,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 	//make panel entity
+	
 		auto testPanel = gwcEngine::Entity::Create("3DPanel");
 		auto panTran = testPanel->AddComponent<gwcEngine::Transform>();
 		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 1000, panTran));
@@ -80,16 +81,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			lineTr = gwcEngine::Entity::Find("Line")->GetComponent<gwcEngine::Transform>();
 		}
 
-		static gwcEngine::Ref<gwcEngine::Panel> panel = nullptr;
-
-		if (panel == nullptr) {
-			panel = *(gwcEngine::Entity::Find("3DPanel")->GetComponent<gwcEngine::Ref<gwcEngine::Panel>>());
-		}
-
-
 		if (gwcEngine::Input::IsKeyPressed(gwcEngine::KeyCode::LeftControl)) {
+
 			//panel ray poistion
 			//TODO - NOW ray should be owned by the cursor, panel or camera, or system?
+			auto panel = *(gwcEngine::Entity::Find("3DPanel")->GetComponent<gwcEngine::Ref<gwcEngine::Panel>>());
 			auto mousePos = gwcEngine::Input::GetMousePosition();
 			auto ray = panel->GetWorldRay(mousePos.first, mousePos.second);
 			lineTr->SetPosition(ray.GetOrigin());
@@ -97,9 +93,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		
 		}
 
+
 		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::Enter)) {
 			if (ent != nullptr)
-				gwcEngine::Entity::Find("3DPanel")->AddComponent<gwcEngine::LifeTime>(3);
+				gwcEngine::Entity::Find("3DPanel")->RemoveComponent<gwcEngine::Ref<gwcEngine::Panel>>();
+				//gwcEngine::Entity::Find("3DPanel")->AddComponent<gwcEngine::LifeTime>(3);
 		}
 
 	}
