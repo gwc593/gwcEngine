@@ -119,6 +119,80 @@ namespace gwcEngine
 
 	};
 
+
+
+	template<typename T>
+	class ComponentArray<Ref<T>> : public IComponentArray
+	{
+	public:
+		ComponentArray() = default;
+
+		//method that returns a component assigned to an entity
+		Ref<Component<Ref<T>>>& GetComponent(const Ref<Entity>& entity)
+		{
+			return m_CompArray[m_EntToArr[entity]];
+		}
+
+		virtual void RemoveEntity(const Ref<Entity>& entity, bool warn = true) override
+		{
+			//keep array packed
+			auto search = m_EntToArr.find(entity);
+			if (search == m_EntToArr.end() && warn) {
+				GE_CORE_WARN("Entity: {0} does not have a {1}, it can therefore not be removed", entity->GetName(), typeid(T).name());
+				return;
+			}
+
+			if (search == m_EntToArr.end() && !warn) {
+				return;
+			}
+			auto indexrmoved = m_EntToArr[entity];
+			auto indexLast = m_Size - 1;
+			auto lastEntity = m_ArrToEnt[indexLast];
+
+			//TODO need to call destructor of double pointer components like panels and cameras used for polymorphism
+			auto x = m_CompArray[indexrmoved]->GetComponent();
+			(*x)->~T();
+
+			//set component of removed entity element equal to the last valid component in the array
+			m_CompArray[indexrmoved] = m_CompArray[indexLast];
+
+			//set the entity at the removed element equal to the last entity now that its data has been moved to the empty element
+			m_ArrToEnt[indexrmoved] = lastEntity;
+
+			//set the element associated to the moved entity equal to its new position
+			m_EntToArr.erase(entity);
+			m_EntToArr[lastEntity] = indexrmoved;
+
+			m_ArrToEnt.erase(indexLast);
+
+			m_Size--;
+		}
+
+		//Method to add Entity and component to array
+		void AddEntity(const Ref<Entity>& ent, const Ref<Component<Ref<T>>>& component)
+		{
+			auto search = m_EntToArr.find(ent);
+			if (search != m_EntToArr.end()) {
+				GE_CORE_WARN("Entity: {0} already has a {1}", ent->GetName(), typeid(Ref<T>).name());
+				return;
+			}
+			m_CompArray[m_Size] = component;
+			m_EntToArr[ent] = m_Size;
+			m_ArrToEnt[m_Size] = ent;
+			m_Size++;
+		}
+
+	private:
+		std::array<Ref<Component<Ref<T>>>, MAX_ENTITIES> m_CompArray{};
+
+		std::unordered_map<Ref<Entity>, uint32_t > m_EntToArr{};
+		std::unordered_map<uint32_t, Ref<Entity>> m_ArrToEnt{};
+
+		uint32_t m_Size = 0;
+
+	};
+
+
 	//Component Manager
 	class ComponentManager
 	{
@@ -239,6 +313,7 @@ namespace gwcEngine
 
 			return comptContainer->GetComponent();
 		}
+
 
 		const Event<const GameObject&>& GetOnECSUpdateEvent()const { return m_OnECSUpdate; }
 
