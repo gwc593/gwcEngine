@@ -27,6 +27,8 @@ namespace gwcEngine
 		virtual const std::string& GetRuntimePath() = 0;
 		virtual const std::string& GetWorkingDirectory() = 0;
 		
+		virtual std::string ReadToString(const std::string& relPath) = 0;
+
 		void SetWorkingDirectory(const std::string& address)
 		{
 			m_WorkingDirectory = address;

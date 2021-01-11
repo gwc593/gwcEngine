@@ -20,36 +20,13 @@ namespace gwcEngine
 
 	OpenGLShader::OpenGLShader(const std::string& shaderPath)
 	{
-		std::string shaderSource = ReadFile(shaderPath);
+		std::string shaderSource = FileSystem::GetInstance()->ReadToString(shaderPath);
 
 		auto shaderElements = PreProcess(shaderSource);
 
 		Compile(shaderElements);
 
 		ParseUniforms();
-	}
-
-	std::string OpenGLShader::ReadFile(const std::string& shaderPath)
-	{
-		std::string result;
-
-		std::ifstream in(shaderPath, std::ios::in, std::ios::binary);
-
-		if (in) {
-			//get size of shader def file
-			in.seekg(0, std::ios::end);
-			result.resize(in.tellg());
-
-			//go back to start of file
-			in.seekg(0, std::ios::beg);
-			in.read(&result[0], result.size());
-			in.close();
-		}
-		else {
-			GE_CORE_ERROR("could not open file '{0}'", shaderPath);
-		}
-
-		return result;
 	}
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& shaderSource)

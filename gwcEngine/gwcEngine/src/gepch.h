@@ -2,6 +2,7 @@
 #include"gwcEngine/Core/core.h"
 #include"gwcEngine/Core/Log.h"
 #include"gwcEngine/Events/Event.h"
+#include "gwcEngine/Core/FileSystem.h"
 
 #include<iostream>
 #include<stdio.h>

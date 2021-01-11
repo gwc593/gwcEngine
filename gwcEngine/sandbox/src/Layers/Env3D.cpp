@@ -96,5 +96,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 				GE_TRACE("MouseOver Simons Ball at {0}",gwcEngine::Time::GetTime());
 		}
 
+		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::M)) {
+			gwcEngine::MeshLoader::LoadMesh("assets/Models/sphere.dae", gwcEngine::MeshFormat::DAE);
+		}
 		
 	}

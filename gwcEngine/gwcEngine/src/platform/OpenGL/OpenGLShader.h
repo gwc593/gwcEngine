@@ -29,7 +29,6 @@ namespace gwcEngine
 		virtual void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) override;
 	
 	private:
-		std::string ReadFile(const std::string& shaderPath);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& shaderSource);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderElements);
 	private:

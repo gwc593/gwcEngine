@@ -19,6 +19,7 @@ namespace gwcEngine
 
 		virtual const std::string& GetRuntimePath() override;
 
+		std::string ReadToString(const std::string& relPath) override;
 
 		virtual const std::string& GetWorkingDirectory()
 		{

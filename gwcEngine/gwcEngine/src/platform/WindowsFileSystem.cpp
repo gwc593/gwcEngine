@@ -53,4 +53,27 @@ namespace gwcEngine
 		GE_CORE_ERROR("unable to remove directory at: {0}", m_WorkingDirectory + address);
 		return false;
 	}
+
+	std::string WindowsFileSystem::ReadToString(const std::string& relPath)
+	{
+		std::string result;
+
+		std::ifstream in(relPath, std::ios::in, std::ios::binary);
+
+		if (in) {
+			//get size of shader def file
+			in.seekg(0, std::ios::end);
+			result.resize(in.tellg());
+
+			//go back to start of file
+			in.seekg(0, std::ios::beg);
+			in.read(&result[0], result.size());
+			in.close();
+		}
+		else {
+			GE_CORE_ERROR("could not open file '{0}'", relPath);
+		}
+
+		return result;
+	}
 }

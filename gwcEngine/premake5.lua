@@ -16,9 +16,11 @@ IncludeDir["GLFW"] = "gwcEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "gwcEngine/vendor/Glad/include"
 IncludeDir["glm"] = "gwcEngine/vendor/glm"
 IncludeDir["stb_image"] = "gwcEngine/vendor/stb_image"
+IncludeDir["tinyxml"] = "gwcEngine/vendor/tinyxml"
 
 include "gwcEngine/vendor/GLFW"
 include "gwcEngine/vendor/Glad"
+include "gwcEngine/vendor/tinyxml"
 
 project "gwcEngine"
 	characterset ("MBCS")
@@ -41,13 +43,14 @@ project "gwcEngine"
 		"%{prj.name}/vendor/stb_image/**.hpp",
 		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
 	includedirs
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
+		"%{prj.name}/vendor/tinyxml",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
@@ -58,7 +61,8 @@ project "gwcEngine"
 	{
 		"GLFW",
 		"Glad",
-		"opengl32.lib"
+		"opengl32.lib",
+		"tinyxml"
 	}
 
 	filter "system:windows"
@@ -69,7 +73,8 @@ project "gwcEngine"
 		"GLEW_STATIC",
 		"GE_PLATFORM_WINDOWS",
 		"GE_BUILD_DLL",
-		"GLFW_INCLUDE_NONE"
+		"GLFW_INCLUDE_NONE",
+		"TIXML_USE_STL"
 	}
 
 
@@ -119,6 +124,7 @@ project "sandbox"
 	includedirs
 	{
 		"gwcEngine/vendor/spdlog/include",
+		"gwcEngine/vendor/tinyxml",
 		"gwcEngine/src",
 		"%{IncludeDir.glm}"
 	}
@@ -135,6 +141,7 @@ project "sandbox"
 	{
 		"GLEW_STATIC",
 		"GE_PLATFORM_WINDOWS",
+		"TIXML_USE_STL"
 	}
 
 

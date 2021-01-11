@@ -1,4 +1,5 @@
 #pragma once
+#include"tinyxml.h"
 #include "gwcEngine/Components/Render/Mesh.h"
 namespace gwcEngine
 {
@@ -11,6 +12,7 @@ namespace gwcEngine
 
 	class MeshLoader
 	{
+	public:
 		static Mesh LoadMesh(const std::string& path, MeshFormat format=MeshFormat::None);
 	};
 }
