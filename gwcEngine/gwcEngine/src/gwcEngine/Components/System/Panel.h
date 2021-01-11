@@ -46,6 +46,7 @@ namespace gwcEngine
 		bool OnMouseMovedHandler(float x, float y);
 
 		Ray GetWorldRay(float x, float y);
+		Ray GetWorldRay(std::pair<float, float> pos) { return GetWorldRay(pos.first, pos.second); };
 
 		static std::vector<std::weak_ptr<Panel>> s_Panels;
 	private://data

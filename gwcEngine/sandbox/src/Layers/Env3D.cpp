@@ -43,6 +43,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto cubeTransform = m_CubeEntity->AddComponent<gwcEngine::Transform>();
 		auto cubeMaterial = m_CubeEntity->AddComponent<gwcEngine::Material>();
 		auto meshRend = m_CubeEntity->AddComponent<gwcEngine::MeshRenderer>();
+		m_CubeEntity->AddComponent<gwcEngine::Sphere>(glm::vec3(0),0.5f);
 		cubeMaterial->SetShader(m_UnlitColourShader);
 		meshRend->ActivateLayer("3DScene");
 
@@ -72,8 +73,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	{
 		auto ent = gwcEngine::Entity::Find("Cube");
 
-		if(ent!= nullptr)
-			AnimateEntity(ent);
+		//if(ent!= nullptr)
+			//AnimateEntity(ent);
 
 		static gwcEngine::Ref<gwcEngine::Transform> lineTr = nullptr;
 
@@ -81,23 +82,19 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			lineTr = gwcEngine::Entity::Find("Line")->GetComponent<gwcEngine::Transform>();
 		}
 
-		if (gwcEngine::Input::IsKeyPressed(gwcEngine::KeyCode::LeftControl)) {
+		if (gwcEngine::Input::IsMouseButtonPressed(gwcEngine::MouseCode::Button1)) {
 
 			//panel ray poistion
 			//TODO - NOW ray should be owned by the cursor, panel or camera, or system?
+			//     - Ray should be owned by panel, created on mouse over and destroyed on mouse exit.
 			auto panel = *(gwcEngine::Entity::Find("3DPanel")->GetComponent<gwcEngine::Ref<gwcEngine::Panel>>());
-			auto mousePos = gwcEngine::Input::GetMousePosition();
-			auto ray = panel->GetWorldRay(mousePos.first, mousePos.second);
+			auto ray = panel->GetWorldRay(gwcEngine::Input::GetMousePosition());
 			lineTr->SetPosition(ray.GetOrigin());
 			lineTr->SetScale(glm::normalize(ray.GetDirection())*20000000.0f);
+
+			if (gwcEngine::Entity::Find("Cube")->GetComponent<gwcEngine::Sphere>()->Intersect(ray))
+				GE_TRACE("MouseOver Simons Ball at {0}",gwcEngine::Time::GetTime());
+		}
+
 		
-		}
-
-
-		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::Enter)) {
-			if (ent != nullptr)
-				gwcEngine::Entity::Find("3DPanel")->RemoveComponent<gwcEngine::Ref<gwcEngine::Panel>>();
-				//gwcEngine::Entity::Find("3DPanel")->AddComponent<gwcEngine::LifeTime>(3);
-		}
-
 	}

@@ -28,9 +28,15 @@
 //Components
 #include "gwcEngine/Components/System/Cursor.h"
 #include "gwcEngine/Components/System/Panel.h"
-#include "gwcEngine/Components/Render/Mesh.h"
+
 #include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Components/Physics/Ray.h"
+#include "gwcEngine/Components/Physics/Sphere.h"
+#include "gwcEngine/Components/Physics/LifeTime.h"
+#include "gwcEngine/Components/Physics/Collider.h"
+
+
+#include "gwcEngine/Components/Render/Mesh.h"
 #include "gwcEngine/Components/Render/MeshRenderer.h"
 #include "gwcEngine/Components/Render/LineRenderer.h"
 
@@ -46,8 +52,9 @@
 
 //ECS - systems
 #include "gwcEngine/ECS/Systems/CameraSystem.h"
-#include "gwcEngine/ECS/Systems/MeshRendererSystem.h"
+#include "gwcEngine/ECS/Systems/MeshRenderingSystem.h"
 #include "gwcEngine/ECS/Systems/LineRenderingSystem.h"
 #include "gwcEngine/ECS/Systems/LifeTimeSystem.h"
+#include "gwcEngine/ECS/Systems/MouseInteractionsSystem.h"
 
 

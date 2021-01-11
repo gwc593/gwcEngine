@@ -277,6 +277,8 @@ namespace gwcEngine
 		return PROPAGATE_EVENT;
 	}
 
+
+
 	Ray Panel::GetWorldRay(float x, float y)
 	{
 		auto clipPos = GetScreenToClipSpacePosition(x, y);

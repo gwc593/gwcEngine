@@ -1,6 +1,10 @@
 #pragma once
 #include "ECSTypes.h"
 #include "Entity.h"
+
+#define LoadModule(name,tagName)  gwcEngine::ECSManager::GetInstance()->RegisterSystem(std::dynamic_pointer_cast<gwcEngine::ISystem>(gwcEngine::CreateRef<gwcEngine::name>(tagName)));
+
+
 namespace gwcEngine
 {
 	class ECSManager;

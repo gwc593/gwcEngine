@@ -33,6 +33,6 @@ namespace gwcEngine
 
 	Ray CameraBase::GenerateRay(float clipX, float clipY)
 	{
-		return Ray(m_Transform->GetPosition(), glm::normalize(ClipToWorldDirection(clipX, clipY)));
+		return Ray(m_Transform->GetPosition(), glm::normalize(ClipToWorldDirection(clipX, clipY)),1000.0f);
 	}
 }
