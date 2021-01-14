@@ -4,6 +4,8 @@
 namespace gwcEngine
 {
 	
+	Ref<Shader> Material::s_DefaultShader = nullptr;
+
 	void Material::SetShader(const Ref<Shader>& shader)
 	{
 		m_Shader = shader;

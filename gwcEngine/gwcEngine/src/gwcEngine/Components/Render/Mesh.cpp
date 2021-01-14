@@ -128,7 +128,7 @@ namespace gwcEngine
 			};
 
 			s_Quad->SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layout);
-			s_Quad->SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), true);
+			s_Quad->SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), false);
 		}
 
 		return *s_Quad;
@@ -219,7 +219,7 @@ namespace gwcEngine
 			};
 
 			s_Cube->SetVertexBuffer(vertices, sizeof(vertices), layout);
-			s_Cube->SetIndexBuffer(indices, sizeof(indices) / sizeof(uint32_t), true);
+			s_Cube->SetIndexBuffer(indices, sizeof(indices) / sizeof(uint32_t), false);
 		}
 
 		return *s_Cube;
@@ -250,7 +250,7 @@ namespace gwcEngine
 			};
 
 			s_Line->SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layout);
-			s_Line->SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), true);
+			s_Line->SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), false);
 		}
 
 		return *s_Line;

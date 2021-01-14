@@ -52,6 +52,7 @@ namespace gwcEngine
 
 		bool MatchesSignature(const Signature& signature);
 
+		static Ref<Entity> NullEntity;
 	private:
 		EntityID m_ID;
 		Signature m_Signature;

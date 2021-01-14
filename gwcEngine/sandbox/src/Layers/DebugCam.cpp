@@ -8,14 +8,14 @@ void DebugCam::OnAttach()
 	auto CameraEnt = gwcEngine::Entity::Create("DebugCamera");
 	auto CameraComp = CameraEnt->AddComponent<gwcEngine::Camera>(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 10.0f));
 	auto CameraTransform = CameraEnt->AddComponent<gwcEngine::Transform>();
-	CameraTransform->SetPosition({ 0,0,6 });
+	CameraTransform->SetPosition({ 4,0,2 });
 	auto RenderLayer = CameraEnt->AddComponent<gwcEngine::RenderLayer>();
-	RenderLayer->RegisterLayer("3DScene");
-	RenderLayer->ActivateLayer("3DScene");
+	RenderLayer->RegisterLayer("Default");
+	RenderLayer->ActivateLayer("Default");
 	RenderLayer->RegisterLayer("Debug");
 	RenderLayer->ActivateLayer("Debug");
 
-	CameraTransform->SetRotation({ 0.0f, 0.0f, 0.0F });
+	CameraTransform->SetRotation({ 0.0f, 110, 0.0F });
 
 
 	//make panel entity

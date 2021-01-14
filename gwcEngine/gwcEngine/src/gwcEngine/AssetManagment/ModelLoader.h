@@ -3,16 +3,16 @@
 #include "gwcEngine/Components/Render/Mesh.h"
 namespace gwcEngine
 {
-	enum class MeshFormat
+	enum class ModelFormat
 	{
 		None = 0,
 		OJB,
 		DAE
 	};
 
-	class MeshLoader
+	class ModelLoader
 	{
 	public:
-		static Mesh LoadMesh(const std::string& path, MeshFormat format=MeshFormat::None);
+		static Ref<Entity> LoadModel(const std::string& path, ModelFormat format= ModelFormat::None);
 	};
 }

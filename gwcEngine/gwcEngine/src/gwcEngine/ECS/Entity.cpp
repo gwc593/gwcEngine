@@ -21,6 +21,8 @@ namespace gwcEngine
 
 	}
 
+	Ref<Entity> Entity::NullEntity = nullptr;
+
 	void EntityManager::Init()
 	{
 		if (!m_init) {
