@@ -108,27 +108,22 @@ namespace gwcEngine
 			{gwcEngine::ShaderDataType::Float3, "a_Normal"}
 			};
 
-			float left = -0.5f;
-			float right = 0.5f;
-			float bottom = -0.5f;
-			float top = 0.5f;
-
-			float verticesQuad[4 * 8] = {
-				// ----Position---------// -- Text Cord-|---- Normals -----| 
-					right, top,    0.0f,    1.0f, 1.0f,    0.0f, 0.0f,1.0f,
-					right, bottom, 0.0f,    1.0f, 0.0f,    0.0f, 0.0f,1.0f,
-					left,  bottom, 0.0f,    0.0f, 0.0f,    0.0f, 0.0f,1.0f,
-					left,  top,    0.0f,    0.0f, 1.0f,    0.0f, 0.0f,1.0f
+			float verticesQuad[32] = {
+				// ----Position-----// -- Text Cord-|---- Normals -----| 
+				 0.5f,  0.5f,  0.0f,    1.0f, 1.0f,    0.0f, 0.0f, 1.0f,
+				 0.5f, -0.5f,  0.0f,    1.0f, 0.0f,    0.0f, 0.0f, 1.0f,
+				-0.5f, -0.5f,  0.0f,    0.0f, 0.0f,    0.0f, 0.0f, 1.0f,
+				-0.5f,  0.5f,  0.0f,    0.0f, 1.0f,    0.0f, 0.0f, 1.0f
 			};
 
 			//f   t   v
-			uint32_t indicesQuad[1 * 2 * 3] = {
-				0,1,2,
-				0,2,3,
+			uint32_t indicesQuad[6] = {
+				0,3,2,
+				0,2,1
 			};
 
 			s_Quad->SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layout);
-			s_Quad->SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), false);
+			s_Quad->SetIndexBuffer(indicesQuad, 6, false);
 		}
 
 		return *s_Quad;
@@ -149,7 +144,7 @@ namespace gwcEngine
 			};
 
 
-			float vertices[3*12*8] = {
+			float vertices[3*8*12] = {
 				// ------------Position---------// -- Text Cord--------|-------- Normals ------------| 
 
 			   -0.500000f,  0.500000f,  0.500000f, 0.625000f, 0.000000f, -1.0000f, 0.0000f, 0.0000f,
@@ -214,7 +209,7 @@ namespace gwcEngine
 				24,25,26,
 				27,28,29,
 				30,31,32,
-				33,34,35,
+				33,34,35
 
 			};
 
@@ -237,20 +232,19 @@ namespace gwcEngine
 			{gwcEngine::ShaderDataType::Float3, "a_Position"}
 			};
 
-			float verticesQuad[3 * 2] = {
+			float vertices[3 * 2] = {
 				// ----Position---------// -- Text Cord-|---- Normals -----| 
 				0.0f, 0.0f, 0.0f,
 				1.0f, 1.0f, 1.0f
-
 			};
 
 			//f   t   v
-			uint32_t indicesQuad[3] = {
+			uint32_t indices[2] = {
 				0,1
 			};
 
-			s_Line->SetVertexBuffer(verticesQuad, sizeof(verticesQuad), layout);
-			s_Line->SetIndexBuffer(indicesQuad, sizeof(indicesQuad) / sizeof(uint32_t), false);
+			s_Line->SetVertexBuffer(vertices, sizeof(vertices), layout);
+			s_Line->SetIndexBuffer(indices, sizeof(indices) / sizeof(uint32_t), false);
 		}
 
 		return *s_Line;

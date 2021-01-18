@@ -36,28 +36,18 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 1000, panTran));
 		pan->SetCaptureCamera(*CameraComp);
 
-	//Make Monkey entity
-		gwcEngine::ModelLoader::LoadModel("assets/Models/Suzane.dae", gwcEngine::ModelFormat::DAE);
-		auto sphere = gwcEngine::Entity::Find("Suzanne");
-
-	//make a cube entity 
-		gwcEngine::ModelLoader::LoadModel("assets/Models/Cube.dae", gwcEngine::ModelFormat::DAE);
-		auto m_CubeEntity = gwcEngine::Entity::Find("Cube");
-
-	//make Sphere Entity
-		gwcEngine::ModelLoader::LoadModel("assets/Models/Sphere.dae", gwcEngine::ModelFormat::DAE);
-		auto m_sphere = gwcEngine::Entity::Find("Sphere");
-
-	//make Cone Entity
-		gwcEngine::ModelLoader::LoadModel("assets/Models/Cone.dae", gwcEngine::ModelFormat::DAE);
-		auto cone = gwcEngine::Entity::Find("Cone");
-
 	//make line entity
 		auto lineEnt = gwcEngine::Entity::Create("Line");
 		auto tr = lineEnt->AddComponent<gwcEngine::Transform>();
 		lineEnt->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Line());
 		auto lineRenderer = lineEnt->AddComponent<gwcEngine::LineRenderer>();
 		lineRenderer->ActivateLayer("Debug");
+
+
+
+
+		
+
 	}
 
 	void Env3D::AnimateEntity(gwcEngine::GameObject gameObject, float offset)
@@ -76,23 +66,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnUpdate()
 	{
-		auto sus = gwcEngine::Entity::Find("Suzanne");
-		auto cube = gwcEngine::Entity::Find("Cube");
-		auto cone = gwcEngine::Entity::Find("Cone");
-		auto Sphere = gwcEngine::Entity::Find("Sphere");
 
+		auto hex = gwcEngine::Entity::Find("Icon");
 
-		if(sus != nullptr)
-			AnimateEntity(sus);
-
-		if (cube != nullptr)
-			AnimateEntity(cube,1000);
-
-		if (cone != nullptr)
-			AnimateEntity(cone,2000);
-
-		if (Sphere != nullptr)
-			AnimateEntity(Sphere,3000);
+		if (hex != nullptr)
+			AnimateEntity(hex,3000);
 
 		static gwcEngine::Ref<gwcEngine::Transform> lineTr = nullptr;
 
@@ -109,7 +87,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			auto ray = panel->GetWorldRay(gwcEngine::Input::GetMousePosition());
 			lineTr->SetPosition(ray.GetOrigin());
 			lineTr->SetScale(glm::normalize(ray.GetDirection())*20000000.0f);
+		}
 
+		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::M)) {
+			GE_TRACE("Spawning Icon");
+			gwcEngine::ModelLoader::LoadModel("assets/Models/Icon.dae", gwcEngine::ModelFormat::DAE);
 		}
 		
 	}

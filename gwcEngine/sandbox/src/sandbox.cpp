@@ -12,10 +12,10 @@ class MainApp : public gwcEngine::Application
 public:
 	MainApp()
 	{
-		gwcEngine::RenderCommand::SetVsync(true);
+		//gwcEngine::RenderCommand::SetVsync(true);
 		RegisterSystems();
 		PushLayer(new Env3D());
-		PushLayer(new LeftSideBar());
+		//PushLayer(new LeftSideBar());
 		PushLayer(new DebugCam());
 	}
 

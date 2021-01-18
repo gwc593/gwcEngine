@@ -74,7 +74,6 @@ namespace gwcEngine
 
 		vertexArray->Bind();
 
-		vertexArray->Bind();
 		switch (rType) {
 		case gwcEngine::RendType::none:
 			GE_CORE_ASSERT(false, "No Render type selected");
@@ -89,5 +88,6 @@ namespace gwcEngine
 			GE_CORE_ASSERT(false, "Unsupported Render type selected");
 			break;
 		}
+
 	}
 }

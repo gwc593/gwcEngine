@@ -5,6 +5,7 @@
 #include"gwcEngine/Components/System/Panel.h"
 #include"gwcEngine/Components/System/Cursor.h"
 #include "gwcEngine/Core/Input.h"
+
 //#include"Input.h"
 
 #include<GLFW/glfw3.h>
@@ -60,6 +61,7 @@ namespace gwcEngine {
 		m_LayerStack.PushOverlay(overlay);
 	}
 
+
 	void Application::Run()
 	{
 		RenderCommand::SetClearColour(glm::vec4(0.15,0.15,0.15,1));
@@ -88,15 +90,16 @@ namespace gwcEngine {
 
 				//gwcEngine::Mesh::Cube();
 
-				gwcEngine::RenderCommand::SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
-				gwcEngine::RenderCommand::Clear();				
+				RenderCommand::SetClearColour({ 0.1f,0.1f,0.1f,1.0f });
+				RenderCommand::Clear();				
 
+				//test();//flushing fucks the quads.
 				for (auto panel : Panel::s_Panels) {
 					auto pnl = panel.lock();
 					if(pnl!= nullptr)
 						pnl->flush();
 				}
-				gwcEngine::Renderer::EndScene();
+				Renderer::EndScene();
 			}
 			Input::EndTimeStep();
 			m_Window->OnUpdate();

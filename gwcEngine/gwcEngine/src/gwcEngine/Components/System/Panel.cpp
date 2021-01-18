@@ -3,9 +3,20 @@
 #include "gwcEngine/Core/application.h"
 #include "gwcEngine/Core/Input.h"
 #include "gwcEngine/Renderer/Renderer.h"
+#include"gwcEngine/AssetManagment/ModelLoader.h"
+
 namespace gwcEngine
 {
 	std::vector<std::weak_ptr<Panel>> Panel::s_Panels;
+
+	void test()
+	{
+		static bool done = false;
+		if (!done) {
+			done = true;
+			gwcEngine::ModelLoader::LoadModel("assets/Models/Icon.dae", gwcEngine::ModelFormat::DAE);
+		}
+	}
 
 	Panel::Panel(uint32_t width, uint32_t height, Ref<Transform> mainTrans, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
 		:m_Width(width), m_Height(height), m_MainTransform(mainTrans), m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera), m_Anchor(gwcEngine::Anchor::Center)
@@ -292,11 +303,10 @@ namespace gwcEngine
 		RenderCommand::SetViewport(0, 0, m_RenderingCamera->GetWidth(), m_RenderingCamera->GetHeight());
 
 		//Draw panel clear colour
-		gwcEngine::Renderer::Submit(m_RenderPlane.GetVertexArray(), m_DefaultShader, m_MainTransform->GetTransformMatrix());
+		Renderer::Submit(m_RenderPlane.GetVertexArray(), m_DefaultShader, m_MainTransform->GetTransformMatrix()); //this line fucks the quads
 
-		//Draw r
+		//Draw active screen
 		m_CapturingCamera->GetFrameBuffer()->BindTexture();
-		
 		Renderer::Submit(m_RenderPlane.GetVertexArray(), m_UnlitTextureShader, m_RenderPlaneTransform.GetTransformMatrix());
 	}
 
