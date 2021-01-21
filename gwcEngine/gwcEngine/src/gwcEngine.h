@@ -40,9 +40,9 @@
 #include "gwcEngine/Components/Physics/Collider.h"
 
 
-#include "gwcEngine/Components/Render/Mesh.h"
-#include "gwcEngine/Components/Render/MeshRenderer.h"
-#include "gwcEngine/Components/Render/LineRenderer.h"
+#include "gwcEngine/Components/Renderable/Mesh.h"
+#include "gwcEngine/Components/Renderable/MeshRenderer.h"
+#include "gwcEngine/Components/Renderable/LineRenderer.h"
 
 #include "gwcEngine/Components/Cameras/Camera.h"
 #include "gwcEngine/Components/Cameras/OrthographicCamera.h"

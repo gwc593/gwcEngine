@@ -1,7 +1,7 @@
 #include"gepch.h"
 #include "ModelLoader.h"
 #include "gwcEngine/Components/Physics/Transform.h"
-#include "gwcEngine/Components/Render/MeshRenderer.h"
+#include "gwcEngine/Components/Renderable/MeshRenderer.h"
 #include "gwcEngine/Renderer/Material.h"
 
 
@@ -261,9 +261,9 @@ namespace gwcEngine
 		for (auto it = colData.begin(); it != colData.end(); ++it) {
 			Ref<Mesh> mesh = CreateRef<Mesh>();
 			gwcEngine::BufferLayout layout = {
-				{gwcEngine::ShaderDataType::Float3, "a_Position"},
-				{gwcEngine::ShaderDataType::Float2, "a_TexCoord"},
-				{gwcEngine::ShaderDataType::Float3, "a_Normal"}
+				{gwcEngine::ShaderDataType::Vec3, "a_Position"},
+				{gwcEngine::ShaderDataType::Vec2, "a_TexCoord"},
+				{gwcEngine::ShaderDataType::Vec3, "a_Normal"}
 			};
 
 			uint32_t totalVertElements =  3 * it->Triangles * (layout.GetStride() / sizeof(float));

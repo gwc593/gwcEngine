@@ -13,7 +13,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	void Env3D::OnAttach()
 	{
 
-	// make camera entity
+		// make camera entity
 		auto CameraEnt = gwcEngine::Entity::Create("MainCamera");
 		auto CameraComp = CameraEnt->AddComponent<gwcEngine::Camera>(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 10.0f));
 		auto CameraTransform = CameraEnt->AddComponent<gwcEngine::Transform>();
@@ -30,13 +30,13 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		RenderLayer->ActivateLayer("Default");
 
 
-	//make panel entity
+		//make panel entity
 		auto testPanel = gwcEngine::Entity::Create("3DPanel");
 		auto panTran = testPanel->AddComponent<gwcEngine::Transform>();
 		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 1000, panTran));
 		pan->SetCaptureCamera(*CameraComp);
 
-	//make line entity
+		//make line entity
 		auto lineEnt = gwcEngine::Entity::Create("Line");
 		auto tr = lineEnt->AddComponent<gwcEngine::Transform>();
 		lineEnt->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Line());
@@ -44,9 +44,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		lineRenderer->ActivateLayer("Debug");
 
 
-
-
-		
+		gwcEngine::ModelLoader::LoadModel("assets/Models/Icon.dae", gwcEngine::ModelFormat::DAE);
 
 	}
 
@@ -70,7 +68,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto hex = gwcEngine::Entity::Find("Icon");
 
 		if (hex != nullptr)
-			AnimateEntity(hex,3000);
+			hex->GetComponent<gwcEngine::Transform>()->SetRotation({ 0,gwcEngine::Time::GetTime() * 120.0f,0 });
+			//AnimateEntity(hex,3000);
 
 		static gwcEngine::Ref<gwcEngine::Transform> lineTr = nullptr;
 
@@ -89,9 +88,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			lineTr->SetScale(glm::normalize(ray.GetDirection())*20000000.0f);
 		}
 
-		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::M)) {
-			GE_TRACE("Spawning Icon");
-			gwcEngine::ModelLoader::LoadModel("assets/Models/Icon.dae", gwcEngine::ModelFormat::DAE);
+		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::S)) {
+			gwcEngine::Entity::Find("Icon")->AddComponent<gwcEngine::LifeTime>(5);
 		}
+
 		
 	}

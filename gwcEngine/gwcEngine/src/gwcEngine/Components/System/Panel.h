@@ -1,6 +1,6 @@
 #pragma once
 #include "gwcEngine/Renderer/FrameBuffer.h"
-#include "gwcEngine/Components/Render/Mesh.h"
+#include "gwcEngine/Components/Renderable/Mesh.h"
 #include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Components/Cameras/Camera.h"
 #include "gwcEngine/Renderer/Shader/Shader.h"

@@ -2,8 +2,8 @@
 #include"gwcEngine/ECS/System.h"
 #include "gwcEngine/ECS/ECS.h"
 #include "gwcEngine/Components/Physics/Transform.h"
-#include "gwcEngine/Components/Render/Mesh.h"
-#include "gwcEngine/Components/Render/LineRenderer.h"
+#include "gwcEngine/Components/Renderable/Mesh.h"
+#include "gwcEngine/Components/Renderable/LineRenderer.h"
 #include "gwcEngine/Components/Physics/Ray.h"
 
 #include "gwcEngine/Components/Cameras/Camera.h"

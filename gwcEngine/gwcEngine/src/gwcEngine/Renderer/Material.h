@@ -11,7 +11,7 @@ namespace gwcEngine
 		m_IsModified(false)
 		{
 			if (s_DefaultShader == nullptr)
-				s_DefaultShader = Shader::Create("assets/Shaders/NormalVisualisation.glsl");
+				s_DefaultShader = Shader::Create("assets/Shaders/DefaultLitShader2.glsl");
 			m_Shader = s_DefaultShader;
 			m_Uniforms = s_DefaultShader->m_Uniforms;
 		};

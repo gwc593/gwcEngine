@@ -18,7 +18,7 @@ namespace gwcEngine
 		}
 
 		glm::vec4 GetValue() { return m_value; }
-		void SetValue(const glm::vec4& value) { m_value = value; m_shader->UploadUniformVec4(m_name, m_value); }
+		virtual void SetValue(const glm::vec4& value) override { m_value = value; m_shader->UploadUniformVec4(m_name, m_value); }
 
 	private:
 		glm::vec4 m_value;

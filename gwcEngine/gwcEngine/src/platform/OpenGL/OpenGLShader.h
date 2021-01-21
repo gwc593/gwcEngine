@@ -28,6 +28,8 @@ namespace gwcEngine
 		virtual void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) override;
 		virtual void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) override;
 	
+		virtual void UploadTexture2D(const std::string& name, const Ref<Texture2D>& texture) override;
+
 	private:
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& shaderSource);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderElements);

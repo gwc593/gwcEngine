@@ -3,6 +3,7 @@
 #include<glm/glm.hpp>
 #include"gwcEngine/Renderer/Shader/Buffer.h"
 #include"ShaderUniform.h"
+#include"gwcEngine/Renderer/Texture.h"
 namespace gwcEngine
 {
 	class ShaderUniform;
@@ -29,6 +30,8 @@ namespace gwcEngine
 
 		virtual void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) = 0;
 		virtual void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) = 0;
+
+		virtual void UploadTexture2D(const std::string& name, const Ref<Texture2D>& texture) = 0;
 
 		static Ref<Shader> Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 		static Ref<Shader> Create(const std::string& shaderPath);

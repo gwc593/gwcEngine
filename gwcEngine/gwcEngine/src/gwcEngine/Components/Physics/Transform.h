@@ -10,6 +10,9 @@ namespace gwcEngine
 	{
 	public:
 		Transform();
+		Transform(const Transform& other);
+		Transform(Transform&& other);
+
 		~Transform() = default;
 		
 
@@ -32,6 +35,8 @@ namespace gwcEngine
 
 		void SetParent(const Ref<Transform>& parent);
 
+		void SetTransform(const glm::mat4& transform);
+
 		void ClearParent();
 
 		void OnChangeSubscribe(Ref<EventCallback<const Transform&>> callback);
@@ -48,6 +53,7 @@ namespace gwcEngine
 
 	private:
 
+		void Decompose();
 		glm::vec3 GetCompoundPosition() const;
 
 
@@ -63,7 +69,8 @@ namespace gwcEngine
 		glm::vec3 m_Position;
 		glm::vec3 m_Scale;
 		glm::mat4 m_TransformMat;
-		
+		glm::vec3 m_Scew;
+		glm::vec4 m_Perspective;
 		glm::vec3 m_Forward;
 		glm::vec3 m_Right;
 		glm::vec3 m_Up;

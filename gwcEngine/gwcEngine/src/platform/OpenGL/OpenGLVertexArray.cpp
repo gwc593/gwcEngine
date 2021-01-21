@@ -9,10 +9,10 @@ namespace gwcEngine
 	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
 	{
 		switch (type) {
-		case ShaderDataType::Float1: return GL_FLOAT;
-		case ShaderDataType::Float2: return GL_FLOAT;
-		case ShaderDataType::Float3: return GL_FLOAT;
-		case ShaderDataType::Float4: return GL_FLOAT;
+		case ShaderDataType::Float: return GL_FLOAT;
+		case ShaderDataType::Vec2: return GL_FLOAT;
+		case ShaderDataType::Vec3: return GL_FLOAT;
+		case ShaderDataType::Vec4: return GL_FLOAT;
 		case ShaderDataType::Mat3:   return GL_FLOAT_MAT3; //should this just be GL_FLOAT
 		case ShaderDataType::Mat4:   return GL_FLOAT_MAT4; ////should this just be GL_FLOAT
 		case ShaderDataType::Int:    return GL_INT;

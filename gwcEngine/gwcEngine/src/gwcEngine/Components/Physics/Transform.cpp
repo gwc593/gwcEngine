@@ -1,5 +1,6 @@
 #include"gepch.h"
 #include"Transform.h"
+#include <glm/gtx/matrix_decompose.hpp>
 
 namespace gwcEngine
 {
@@ -14,6 +15,23 @@ namespace gwcEngine
 		m_Forward = { 0,0,-1 };
 		m_Up = { 0,1,0 };
 		m_Right = { 1,0,0 };
+		Decompose();
+	}
+
+	Transform::Transform(const Transform& other)
+	{
+		m_TransformMat = other.m_TransformMat;
+		m_Parent = other.m_Parent;
+		Decompose();
+	}
+
+	Transform::Transform(Transform&& other)
+	{
+		m_TransformMat = other.m_TransformMat;
+		m_Parent = std::move(other.m_Parent);
+	
+		Decompose();
+
 	}
 
 	const glm::vec3& Transform::GetPosition() const
@@ -36,12 +54,14 @@ namespace gwcEngine
 	void Transform::SetPosition(const glm::vec3& pos)
 	{
 		m_Position = pos;
+		UpdateTansformMatrix();
 		m_OnChange.raiseEvent(*this);
 	}
 
 	void Transform::SetScale(const glm::vec3& scale)
 	{
 		m_Scale = scale;
+		UpdateTansformMatrix();
 		m_OnChange.raiseEvent(*this);
 	}
 
@@ -62,6 +82,13 @@ namespace gwcEngine
 	void Transform::SetParent(const Ref<Transform>& parent)
 	{
 		m_Parent = parent;
+		m_OnChange.raiseEvent(*this);
+	}
+
+	void Transform::SetTransform(const glm::mat4& transform)
+	{
+		m_TransformMat = transform;
+		Decompose();
 		m_OnChange.raiseEvent(*this);
 	}
 
@@ -93,6 +120,7 @@ namespace gwcEngine
 	void Transform::Translate(const glm::vec3& direction, float distance)
 	{
 		m_Position += direction * distance;
+		m_OnChange.raiseEvent(*this);
 	}
 
 	glm::vec3 Transform::GetCompoundPosition() const
@@ -133,5 +161,10 @@ namespace gwcEngine
 		m_Forward = glm::normalize(glm::vec4(0, 0, -1, 1) * glm::mat4(GetCompoundRotation()));
 		m_Right = glm::normalize(glm::vec4(1, 0, 0, 1) * glm::mat4(GetCompoundRotation()));
 		m_Up = glm::normalize(glm::vec4(0, 1, 0, 1) * glm::mat4(GetCompoundRotation()));
+	}
+
+	void Transform::Decompose()
+	{
+		glm::decompose(m_TransformMat, m_Scale, m_Rotation, m_Position, m_Scew,m_Perspective);
 	}
 }

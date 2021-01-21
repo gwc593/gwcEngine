@@ -16,22 +16,10 @@ void main()
 	gl_Position = u_ViewProjection * u_Transform* vec4(a_Position,1.0);
 	v_Position = a_Position;
 	
-	v_normColour = vec4(a_Normal,1.0);
+
+	v_normColour = vec4((mat3(transpose(inverse(u_Transform))) * a_Normal),1.0);
 	
-	if(a_Normal.x<0){
-		v_normColour.y= -a_Normal.x;
-		v_normColour.z= -a_Normal.x;
-	}
-	
-	if(a_Normal.y<0){
-		v_normColour.x= -a_Normal.y;
-		v_normColour.z= -a_Normal.y;
-	}
-	
-	if(a_Normal.z<0){
-		v_normColour.y= -a_Normal.z;
-		v_normColour.x= -a_Normal.z;
-	}
+
 }
 
 #type fragment

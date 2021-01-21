@@ -179,10 +179,10 @@ namespace gwcEngine
 			glGetActiveUniform(m_Renderer_ID, (GLuint)i, sizeof(name) - 1, &nameLen, &num, &type, name);
 			switch (type) {
 			case GL_NONE:        gwcType = ShaderDataType::None; break;
-			case GL_FLOAT:       gwcType = ShaderDataType::Float1;break;
-			case GL_FLOAT_VEC2:  gwcType = ShaderDataType::Float2;break;
-			case GL_FLOAT_VEC3:  gwcType = ShaderDataType::Float3;break;
-			case GL_FLOAT_VEC4:  gwcType = ShaderDataType::Float4;break;
+			case GL_FLOAT:       gwcType = ShaderDataType::Float;break;
+			case GL_FLOAT_VEC2:  gwcType = ShaderDataType::Vec2;break;
+			case GL_FLOAT_VEC3:  gwcType = ShaderDataType::Vec3;break;
+			case GL_FLOAT_VEC4:  gwcType = ShaderDataType::Vec4;break;
 			case GL_FLOAT_MAT3:  gwcType = ShaderDataType::Mat3; break;
 			case GL_FLOAT_MAT4:  gwcType = ShaderDataType::Mat4; break;
 			case GL_INT:         gwcType = ShaderDataType::Int; break;
@@ -190,6 +190,7 @@ namespace gwcEngine
 			case GL_INT_VEC3:    gwcType = ShaderDataType::Int3; break;
 			case GL_INT_VEC4:    gwcType = ShaderDataType::Int4; break;
 			case GL_BOOL:        gwcType = ShaderDataType::Bool; break;
+			case GL_SAMPLER_2D:  gwcType = ShaderDataType::Sampler2D; break;
 			}
 			m_Uniforms.push_back( ShaderUniform::Create(name,gwcType,this));
 		}
@@ -252,6 +253,12 @@ namespace gwcEngine
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	
+	void OpenGLShader::UploadTexture2D(const std::string& name, const Ref<Texture2D>& texture)
+	{
+		PROFILE_FUNCTION();
+		glUseProgram(m_Renderer_ID);
+		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		texture->Bind();
+	}
 
 }

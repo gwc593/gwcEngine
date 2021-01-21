@@ -1,6 +1,6 @@
 #pragma once
 #include"tinyxml.h"
-#include "gwcEngine/Components/Render/Mesh.h"
+#include "gwcEngine/Components/Renderable/Mesh.h"
 namespace gwcEngine
 {
 	enum class ModelFormat

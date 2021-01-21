@@ -2,9 +2,9 @@
 #include"gwcEngine/ECS/System.h"
 #include "gwcEngine/ECS/ECS.h"
 #include "gwcEngine/Components/Physics/Transform.h"
-#include "gwcEngine/Components/Render/Mesh.h"
+#include "gwcEngine/Components/Renderable/Mesh.h"
 #include "gwcEngine/Renderer/Material.h"
-#include "gwcEngine/Components/Render/MeshRenderer.h"
+#include "gwcEngine/Components/Renderable/MeshRenderer.h"
 #include<set>
 
 namespace gwcEngine
