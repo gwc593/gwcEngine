@@ -2,7 +2,7 @@
 #include "RendererAPI.h"
 #include"RenderCommand.h"
 #include"Shader/Shader.h"
-#include "Material.h"
+#include "gwcEngine/Components/Renderable/Material.h"
 
 
 namespace gwcEngine
@@ -21,7 +21,7 @@ namespace gwcEngine
 
 	public:
 
-		static void BeginScene(const Ref<CameraBase>& camera); //TODO - take in scene params, lights etc
+		static void BeginScene(); //TODO - take in scene params, lights etc
 
 		static void SetActiveCamera(const Ref<CameraBase>& camera);
 		static void SetViewProjection(const glm::mat4& vp);

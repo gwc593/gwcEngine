@@ -2,7 +2,7 @@
 #include "ModelLoader.h"
 #include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Components/Renderable/MeshRenderer.h"
-#include "gwcEngine/Renderer/Material.h"
+#include "gwcEngine/Components/Renderable/Material.h"
 
 
 namespace gwcEngine

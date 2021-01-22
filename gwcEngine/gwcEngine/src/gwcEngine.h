@@ -20,9 +20,8 @@
 
 //Rendering
 #include "gwcEngine/Renderer/Renderer.h"
-#include "gwcEngine/Renderer/RenderLayer.h"
+
 #include "gwcEngine/Renderer/RenderCommand.h"
-#include "gwcEngine/Renderer/Material.h"
 #include "gwcEngine/Renderer/FrameBuffer.h"
 #include "gwcEngine/Renderer/Texture.h"
 #include "gwcEngine/Renderer/Shader/Buffer.h"
@@ -41,6 +40,8 @@
 
 
 #include "gwcEngine/Components/Renderable/Mesh.h"
+#include "gwcEngine/Components/Renderable/Material.h"
+#include "gwcEngine/Components/Renderable/RenderLayer.h"
 #include "gwcEngine/Components/Renderable/MeshRenderer.h"
 #include "gwcEngine/Components/Renderable/LineRenderer.h"
 

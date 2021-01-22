@@ -3,7 +3,7 @@
 #include "gwcEngine/ECS/ECS.h"
 #include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Components/Renderable/Mesh.h"
-#include "gwcEngine/Renderer/Material.h"
+#include "gwcEngine/Components/Renderable/Material.h"
 #include "gwcEngine/Components/Renderable/MeshRenderer.h"
 #include<set>
 
@@ -46,8 +46,7 @@ namespace gwcEngine
 			m_Signature[m_ECSManager->FindComponentID<gwcEngine::Transform>()] = true;
 			m_Signature[m_ECSManager->FindComponentID<gwcEngine::Mesh>()] = true;
 			m_Signature[m_ECSManager->FindComponentID<gwcEngine::Material>()] = true;
-			m_Signature[m_ECSManager->FindComponentID<gwcEngine::MeshRenderer>()] = true;
-			
+			m_Signature[m_ECSManager->FindComponentID<gwcEngine::MeshRenderer>()] = true;	
 		}
 
 		bool ECS_UpdateCallback(const GameObject& gameObject)

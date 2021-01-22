@@ -78,7 +78,7 @@ namespace gwcEngine {
 
 			if (!m_Minimised) {
 				Time::BeginFrame();
-
+				Renderer::BeginScene();
 
 				//update layers
 				for (Layer* layer : m_LayerStack)

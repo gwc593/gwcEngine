@@ -18,6 +18,9 @@ namespace gwcEngine
 		}
 	}
 
+	Ref<Shader> Panel::m_UnlitTextureShader = nullptr;
+	Ref<Shader> Panel::m_DefaultShader = nullptr;
+
 	Panel::Panel(uint32_t width, uint32_t height, Ref<Transform> mainTrans, Ref<CameraBase> capturingCamera, Ref<CameraBase> renderingCamera)
 		:m_Width(width), m_Height(height), m_MainTransform(mainTrans), m_RenderingCamera(renderingCamera), m_CapturingCamera(capturingCamera), m_Anchor(gwcEngine::Anchor::Center)
 	{
@@ -46,8 +49,10 @@ namespace gwcEngine
 		Input::GetMouseMovedEvent().subscribe(c_OnMouseMoved);
 
 		//setup panel shader
-		m_UnlitTextureShader = gwcEngine::Shader::Create("assets/Shaders/PanelCapture.glsl");
-		m_DefaultShader = gwcEngine::Shader::Create("assets/Shaders/PanelBackground.glsl");
+		if(m_UnlitTextureShader == nullptr)
+			m_UnlitTextureShader = gwcEngine::Shader::Create("assets/Shaders/PanelCapture.glsl");
+		if (m_DefaultShader == nullptr)
+			m_DefaultShader = gwcEngine::Shader::Create("assets/Shaders/PanelBackground.glsl");
 
 		m_UnlitTextureShader->UploadUniformFloat("u_border_width", 0.001f);
 		m_DefaultShader->UploadUniformFloat("u_border_width", 0.001f);

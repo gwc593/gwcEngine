@@ -51,15 +51,18 @@ struct LightProps{
 	float quadraticAttenuation;
 };
 
-uniform LightProps Lights[MaxLights];
-
-
 in vec4 v_Normal;
 in vec4 v_Colour;
 
 uniform vec4 u_Ambient = vec4(0.1,0.1,0.1,1);
+uniform LightProps Lights[MaxLights];
 
 void main()
 {
+	for(int i = 0; i<MaxLights; i++){
+		if(Lights[i].isEnabled){
+			int a = 1;
+		}
+	}
 	color = min(v_Colour*u_Ambient,vec4(1.0))+vec4(v_Normal.x)*u_Ambient;
 }

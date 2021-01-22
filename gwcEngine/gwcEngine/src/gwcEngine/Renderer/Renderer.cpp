@@ -6,10 +6,10 @@ namespace gwcEngine
 {
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
 
-	void Renderer::BeginScene(const Ref<CameraBase>& camera)
+	void Renderer::BeginScene()
 	{
 		//TODO -shader data cube maps etc etc
-		m_SceneData->ViewProjectionMatrix = camera->GetViewProjectionMatrix();
+
 
 	}
 

@@ -12,7 +12,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnAttach()
 	{
-
 		// make camera entity
 		auto CameraEnt = gwcEngine::Entity::Create("MainCamera");
 		auto CameraComp = CameraEnt->AddComponent<gwcEngine::Camera>(gwcEngine::CreateRef<gwcEngine::PerspectiveCamera>(58.0, gwcEngine::Application::Get()->GetWindow().GetWidth(), gwcEngine::Application::Get()->GetWindow().GetHeight(), 0.1f, 10.0f));
@@ -28,7 +27,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		auto RenderLayer = CameraEnt->AddComponent<gwcEngine::RenderLayer>();
 		RenderLayer->RegisterLayer("Default");
 		RenderLayer->ActivateLayer("Default");
-
 
 		//make panel entity
 		auto testPanel = gwcEngine::Entity::Create("3DPanel");

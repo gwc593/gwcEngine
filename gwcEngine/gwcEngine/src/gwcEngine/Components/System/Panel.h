@@ -56,8 +56,8 @@ namespace gwcEngine
 		std::tuple<int32_t,int32_t> m_Center;
 		float m_AspectRatio;
 
-		Ref<Shader> m_UnlitTextureShader;
-		Ref<Shader> m_DefaultShader;
+		static Ref<Shader> m_UnlitTextureShader;
+		static Ref<Shader> m_DefaultShader;
 		Mesh m_RenderPlane;
 
 		Ref<CameraBase> m_RenderingCamera;

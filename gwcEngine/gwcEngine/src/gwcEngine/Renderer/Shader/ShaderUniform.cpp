@@ -28,6 +28,7 @@ namespace gwcEngine
 			case ShaderDataType::Int4:break;
 			case ShaderDataType::Bool:break;
 			case ShaderDataType::Sampler2D: return new OpenGLUniformTexture2D(name, shader);
+			default: break;
 			}
 			GE_CORE_WARN("{0} (type) {1} is not currently supported by the material system and therefore cannot be modified at runtime", name, type);
 			return nullptr;
