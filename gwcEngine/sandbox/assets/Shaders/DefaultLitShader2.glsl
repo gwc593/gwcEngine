@@ -63,7 +63,7 @@ uniform LightProps u_Lights[MaxLights];
 
 void main()
 {
-	vec3 scatteredLight = vec3(0.0);
+	vec3 scatteredLight = vec3(u_Ambient.rgb);
 	vec3 reflectedLight = vec3(0.0);
 	
 	//loop over all lights

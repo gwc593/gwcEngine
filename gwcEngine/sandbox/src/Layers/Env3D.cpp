@@ -85,8 +85,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		//Move and rotate cube
 		auto cubeTransform = gameObject->GetComponent<gwcEngine::Transform>();
-		cubeTransform->SetPosition(glm::vec3(r - 0.5f, g - 0.5f, b - 0.5f) * 4.0f);
-		cubeTransform->SetRotation(glm::vec3(r, g, b) * 600.0f);
+		cubeTransform->SetPosition(glm::vec3(r - 0.5f, g - 0.5f, b - 0.5f) * 5.0f);
+		//cubeTransform->SetRotation(glm::vec3(r, g, b) * 600.0f);
 	}
 
 	void Env3D::OnUpdate()

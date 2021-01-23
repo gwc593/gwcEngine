@@ -35,7 +35,7 @@ namespace gwcEngine
 		{
 			SetType(LightType::Point);
 			SetColour({ 1,1,1 });
-			SetScatterAmount(0.3f);
+			SetScatterAmount(1.0f);
 			m_LightProps.isEnabled = true;
 		}
 
@@ -43,7 +43,7 @@ namespace gwcEngine
 		{
 			SetType(type);
 			SetColour({ 0.3,0.3,0.3 });
-			SetScatterAmount(0.1f);
+			SetScatterAmount(1.0f);
 			m_LightProps.isEnabled = true;
 		}
 
