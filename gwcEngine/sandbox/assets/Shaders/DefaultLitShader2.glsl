@@ -47,6 +47,7 @@ struct LightProps{
 	float constantAttenuation;
 	float linearAttenuation;
 	float quadraticAttenuation;
+	float strength;
 };
 
 in vec3 v_Normal;
@@ -55,8 +56,7 @@ in vec4 v_Position;
 
 
 uniform vec4 u_Ambient = vec4(0.1,0.1,0.1,1);
-uniform float u_Shininess = 1.0;
-uniform float u_Strength = 1.0;
+uniform float u_Shininess = 100;
 uniform vec3 u_EyeDirection = vec3(0,0,-1);
 uniform int u_NumLights = 0;
 uniform LightProps u_Lights[MaxLights];
@@ -107,7 +107,7 @@ void main()
 		if(diffuse == 0.0)
 			specular = 0.0;
 		else
-			specular = pow(specular,u_Shininess)* u_Strength;
+			specular = pow(specular,u_Shininess)* u_Lights[light].strength;
 			
 		scatteredLight += u_Lights[light].ambient*attenuation
 						+ u_Lights[light].colour * diffuse * attenuation;

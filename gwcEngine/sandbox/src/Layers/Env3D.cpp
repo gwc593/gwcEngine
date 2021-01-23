@@ -45,15 +45,33 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		gwcEngine::ModelLoader::LoadModel("assets/Models/Icon.dae", gwcEngine::ModelFormat::DAE);
 
 
-		//make light
-		auto light = gwcEngine::Entity::Create("Light");
-		light->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
-		light->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
-		light->AddComponent<gwcEngine::Light>()->SetColour({ 0,0,1 });
-		light->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
-		light->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Default");
-		light->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
-		light->AddComponent<gwcEngine::Material>();
+		//make lights
+		auto Bluelight = gwcEngine::Entity::Create("BlueLight");
+		Bluelight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
+		Bluelight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
+		Bluelight->AddComponent<gwcEngine::Light>()->SetColour({ 0,0,1 });
+		Bluelight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
+		Bluelight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Default");
+		Bluelight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
+		Bluelight->AddComponent<gwcEngine::Material>();
+
+		auto Redlight = gwcEngine::Entity::Create("RedLight");
+		Redlight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
+		Redlight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
+		Redlight->AddComponent<gwcEngine::Light>()->SetColour({ 1,0,0 });
+		Redlight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
+		Redlight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Default");
+		Redlight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
+		Redlight->AddComponent<gwcEngine::Material>();
+
+		auto Greenlight = gwcEngine::Entity::Create("GreenLight");
+		Greenlight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
+		Greenlight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
+		Greenlight->AddComponent<gwcEngine::Light>()->SetColour({ 0,1,0 });
+		Greenlight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
+		Greenlight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Default");
+		Greenlight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
+		Greenlight->AddComponent<gwcEngine::Material>();
 
 	}
 
@@ -101,7 +119,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			gwcEngine::Entity::Find("Icon")->GetComponent<gwcEngine::Material>()->SetValue("u_Colour",glm::vec4(1.0,0,0,1));
 		}
 
-		AnimateEntity(gwcEngine::Entity::Find("Light"));
+		AnimateEntity(gwcEngine::Entity::Find("RedLight"),1000);
+		AnimateEntity(gwcEngine::Entity::Find("GreenLight"),10000);
+		AnimateEntity(gwcEngine::Entity::Find("BlueLight"),2500);
 
 		
 	}

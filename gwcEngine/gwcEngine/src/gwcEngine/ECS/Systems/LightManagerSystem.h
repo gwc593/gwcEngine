@@ -67,6 +67,7 @@ namespace gwcEngine
 					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].constantAttenuation"), props.constantAttenuation);
 					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].linearAttenuation"), props.linearAttenuation);
 					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].quadraticAttenuation"), props.quadraticAttenuation);
+					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].strength"), props.strength);
 				}
 			}
 		}

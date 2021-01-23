@@ -22,8 +22,9 @@ namespace gwcEngine
 		float spotCutoff = 0;
 		float spotExponent = 0;
 		float constantAttenuation = 0;
-		float linearAttenuation = 0;
-		float quadraticAttenuation = 0.3;
+		float linearAttenuation = 0.05;
+		float quadraticAttenuation = 0.6;
+		float strength = 1.0;
 	}; 
 
 
@@ -80,6 +81,7 @@ namespace gwcEngine
 		void SetColour(const glm::vec3& colour) { m_LightProps.colour = colour; m_LightProps.ambient = colour * m_AmbientContribution; }
 		void SetScatterAmount(const float& amount) { m_AmbientContribution = amount; m_LightProps.ambient = m_LightProps.colour * m_AmbientContribution;}
 
+		void SetStrength(float strength) { m_LightProps.strength = strength; }
 	protected:
 		//Light Source Type
 		LightType m_Type;

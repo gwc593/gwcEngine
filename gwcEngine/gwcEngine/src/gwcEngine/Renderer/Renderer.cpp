@@ -1,6 +1,6 @@
 #include"gepch.h"
 #include"Renderer.h"
-#include "Platform/OpenGL/OpenGLShader.h"
+#include "gwcEngine/Renderer/Shader/Shader.h"
 #include "gwcEngine/Components/Cameras/Camera.h"
 namespace gwcEngine
 {
@@ -16,6 +16,13 @@ namespace gwcEngine
 	void Renderer::SetActiveCamera(const Ref<CameraBase>& camera)
 	{
 		m_SceneData->ViewProjectionMatrix = camera->GetViewProjectionMatrix();
+		for (auto shaderPTR : Shader::GetShaders()) {
+			auto shader = shaderPTR.lock();
+			auto trans = camera->GetTransform();
+			if(trans)
+				shader->UploadUniformVec3("u_EyeDirection", trans->Forward());
+		}
+
 	}
 
 	void Renderer::SetViewProjection(const glm::mat4& vp)
