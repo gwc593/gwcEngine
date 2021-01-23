@@ -134,7 +134,6 @@ namespace gwcEngine
 
 
 		m_Renderer_ID = program;
-		ParseUniforms();
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
@@ -194,6 +193,14 @@ namespace gwcEngine
 			}
 			m_Uniforms.push_back( ShaderUniform::Create(name,gwcType,this));
 		}
+	}
+
+	void OpenGLShader::UploadUniformBool(const std::string& name, bool state)
+	{
+		PROFILE_FUNCTION();
+		glUseProgram(m_Renderer_ID);
+		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		glUniform1i(location, state);
 	}
 
 	void OpenGLShader::UploadUniformInt(const std::string& name, const int& Int)

@@ -17,6 +17,8 @@ namespace gwcEngine
 		virtual void ParseAttributs() override {};
 		virtual void ParseUniforms() override;
 
+		virtual void UploadUniformBool(const std::string& name, bool state) override;
+
 		virtual void UploadUniformInt(const std::string& name, const int& Int) override;
 		
 		virtual void UploadUniformFloat(const std::string& name, const float& Float) override;

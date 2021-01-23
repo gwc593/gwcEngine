@@ -53,6 +53,19 @@ namespace gwcEngine
 		bool MatchesSignature(const Signature& signature);
 
 		static Ref<Entity> NullEntity;
+
+		friend std::ostream& operator<<(std::ostream& os, const Entity& e)
+		{
+			os << "Entity::" << e.GetName();
+			return os;
+		}
+
+		friend std::ostream& operator<<(std::ostream& os, const Ref<Entity>& e)
+		{
+			os << "Entity::" << e->GetName();
+			return os;
+		}
+
 	private:
 		EntityID m_ID;
 		Signature m_Signature;

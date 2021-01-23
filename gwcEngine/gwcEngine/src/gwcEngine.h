@@ -61,5 +61,6 @@
 #include "gwcEngine/ECS/Systems/LineRenderingSystem.h"
 #include "gwcEngine/ECS/Systems/LifeTimeSystem.h"
 #include "gwcEngine/ECS/Systems/MouseInteractionsSystem.h"
+#include "gwcEngine/ECS/Systems/LightManagerSystem.h"
 
 

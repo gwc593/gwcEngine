@@ -13,11 +13,11 @@ namespace gwcEngine
 			if (s_DefaultShader == nullptr)
 				s_DefaultShader = Shader::Create("assets/Shaders/DefaultLitShader2.glsl");
 			m_Shader = s_DefaultShader;
-			m_Uniforms = s_DefaultShader->m_Uniforms;
+			m_Uniforms = s_DefaultShader->GetUniforms();
 		};
 
 		Material(Ref<Shader> shader) :
-			m_Shader(shader),m_IsModified(false){m_Uniforms = shader->m_Uniforms;};
+			m_Shader(shader),m_IsModified(false){m_Uniforms = shader->GetUniforms();};
 
 		void SetShader(const Ref<Shader>& shader);
 

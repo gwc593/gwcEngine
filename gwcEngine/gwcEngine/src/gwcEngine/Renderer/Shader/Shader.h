@@ -20,6 +20,8 @@ namespace gwcEngine
 		virtual void ParseUniforms() = 0;
 		virtual void ParseAttributs() = 0;
 
+		virtual void UploadUniformBool(const std::string& name, bool state) = 0;
+
 		virtual void UploadUniformInt(const std::string& name, const int& Int) = 0;
 
 		virtual void UploadUniformFloat(const std::string& name, const float& Float) = 0;
@@ -36,8 +38,13 @@ namespace gwcEngine
 		static Ref<Shader> Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 		static Ref<Shader> Create(const std::string& shaderPath);
 
+		static const std::vector<std::weak_ptr<Shader>>& GetShaders() { return m_Shaders; }
 
+
+		const std::vector<ShaderUniform*> GetUniforms()const { return m_Uniforms; }
+	protected:
 		std::vector<ShaderUniform*> m_Uniforms;
-	private:
+		static std::vector<std::weak_ptr<Shader>> m_Shaders;
+
 	};
 }

@@ -87,6 +87,7 @@ namespace gwcEngine {
 				//update ECS
 				ECSManager::GetInstance()->OnEarlyUpdate(Time::GetDeltaTime());
 				ECSManager::GetInstance()->OnUpdate(Time::GetDeltaTime());
+				ECSManager::GetInstance()->OnLateUpdate(Time::GetDeltaTime());
 
 				//gwcEngine::Mesh::Cube();
 

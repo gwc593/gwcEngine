@@ -28,6 +28,11 @@ namespace gwcEngine
 
 		}
 
+		virtual void OnLateUpdate(const float& dT)
+		{
+
+		}
+
 		virtual void OnEntityRegistered(GameObject gameobject)
 		{
 
@@ -125,6 +130,13 @@ namespace gwcEngine
 		{
 			for (SystemID it = 0; it < NumberOfSystems(); it++) {
 				m_SystemArray[it]->OnUpdate(dT);
+			}
+		}
+
+		void OnLateUpdate(const float& dT)
+		{
+			for (SystemID it = 0; it < NumberOfSystems(); it++) {
+				m_SystemArray[it]->OnLateUpdate(dT);
 			}
 		}
 

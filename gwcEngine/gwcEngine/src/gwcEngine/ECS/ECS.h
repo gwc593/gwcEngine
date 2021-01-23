@@ -126,6 +126,12 @@ namespace gwcEngine
 			m_SystemManager.OnUpdate(dT);
 		}
 
+		void OnLateUpdate(const float& dT)
+		{
+			PROFILE_FUNCTION();
+			m_SystemManager.OnLateUpdate(dT);
+		}
+
 		Ref<ISystem> FindSystem(const std::string& sysName)
 		{
 			return m_SystemManager.FindSystem(sysName);

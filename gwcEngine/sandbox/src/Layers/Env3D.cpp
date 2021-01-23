@@ -44,6 +44,17 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		gwcEngine::ModelLoader::LoadModel("assets/Models/Icon.dae", gwcEngine::ModelFormat::DAE);
 
+
+		//make light
+		auto light = gwcEngine::Entity::Create("Light");
+		light->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
+		light->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
+		light->AddComponent<gwcEngine::Light>()->SetColour({ 0,0,1 });
+		light->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
+		light->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Default");
+		light->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
+		light->AddComponent<gwcEngine::Material>();
+
 	}
 
 	void Env3D::AnimateEntity(gwcEngine::GameObject gameObject, float offset)
@@ -87,8 +98,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		}
 
 		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::S)) {
-			gwcEngine::Entity::Find("Icon")->AddComponent<gwcEngine::LifeTime>(5);
+			gwcEngine::Entity::Find("Icon")->GetComponent<gwcEngine::Material>()->SetValue("u_Colour",glm::vec4(1.0,0,0,1));
 		}
+
+		AnimateEntity(gwcEngine::Entity::Find("Light"));
 
 		
 	}

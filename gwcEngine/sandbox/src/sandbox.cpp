@@ -30,6 +30,7 @@ public:
 		LoadModule(LineRenderingSystem, "LineRenderingSystem");
 		LoadModule(MeshRendererSystem, "MeshRendererSystem");
 		LoadModule(CameraSystem, "LifeTimeSystem");
+		LoadModule(LightManagerSystem, "LightManagerSystem");
 	}
 };
 

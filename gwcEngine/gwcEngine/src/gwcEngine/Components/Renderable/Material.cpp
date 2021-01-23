@@ -9,7 +9,7 @@ namespace gwcEngine
 	void Material::SetShader(const Ref<Shader>& shader)
 	{
 		m_Shader = shader;
-		m_Uniforms = shader->m_Uniforms;
+		m_Uniforms = shader->GetUniforms();
 	}
 
 }

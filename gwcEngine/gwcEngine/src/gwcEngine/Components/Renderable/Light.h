@@ -15,15 +15,15 @@ namespace gwcEngine
 		bool isLocal = false; //true for point and spot
 		bool isSpot = false;
 		glm::vec3 ambient = { 0,0,0 };
-		glm::vec3 colour = { 0,0,0 };
+		glm::vec3 colour = { 0.1,0.1,0.1 };
 		glm::vec3 position = { 0,0,0 };
-		glm::vec3 halfVector = { 0,0,0 }; //h := ( v + l ) / || v + l || ;   viewer, light have been normalised
+		glm::vec3 halfVector = { 1,0,0 }; //h := ( v + l ) / || v + l || ;   viewer, light have been normalised
 		glm::vec3 coneDirection = { 0,0,0 };
 		float spotCutoff = 0;
 		float spotExponent = 0;
 		float constantAttenuation = 0;
 		float linearAttenuation = 0;
-		float quadraticAttenuation = 0;
+		float quadraticAttenuation = 0.3;
 	}; 
 
 
@@ -32,20 +32,22 @@ namespace gwcEngine
 	public:
 		Light()
 		{
-			SetType(LightType::Directional);
-			SetColour({ 0.3,0.3,0.3 });
-			SetScatterAmount(0.f);
+			SetType(LightType::Point);
+			SetColour({ 1,1,1 });
+			SetScatterAmount(0.3f);
+			m_LightProps.isEnabled = true;
 		}
 
 		Light(const LightType& type)
 		{
 			SetType(type);
 			SetColour({ 0.3,0.3,0.3 });
-			SetScatterAmount(0.f);
+			SetScatterAmount(0.1f);
+			m_LightProps.isEnabled = true;
 		}
 
 
-		~Light();
+		~Light() = default;
 
 		const LightProps& GetProperties()const { return m_LightProps; }
 
@@ -55,19 +57,19 @@ namespace gwcEngine
 
 			switch (type) {
 			case LightType::Point: {
-				assert(false);
 				m_LightProps.isLocal = true;
 				m_LightProps.isSpot = false;
+				break;
 			}
 			case LightType::Spot: {
-				assert(false);
 				m_LightProps.isLocal = true;
 				m_LightProps.isSpot = true;
+				break;
 			}
 			case LightType::Directional: {
-				
 				m_LightProps.isLocal = false;
 				m_LightProps.isSpot = false;
+				break;
 			}
 
 			default:
