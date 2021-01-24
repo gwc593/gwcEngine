@@ -25,9 +25,9 @@ namespace gwcEngine
 		//todo - does this take into account relation to parent? i dont think it does.
 		const glm::vec3 GetPosition(const Space& space = Space::local) ;
 
-		const glm::quat& GetRotation() const;
+		const glm::quat GetRotation(const Space& space = Space::local) const;
 
-		const glm::vec3& GetScale() const;
+		const glm::vec3 GetScale(const Space& space) const;
 
 		glm::mat4 GetTransformMatrix();
 		
@@ -60,12 +60,6 @@ namespace gwcEngine
 	private:
 
 		void Decompose();
-		glm::vec3 GetCompoundPosition() const;
-
-
-		glm::quat GetCompoundRotation() const;
-
-		glm::vec3 GetCompoundScale() const;
 
 		void UpdateTansformMatrix();
 

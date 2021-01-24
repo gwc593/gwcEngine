@@ -48,13 +48,33 @@ namespace gwcEngine
 		return m_Position;
 	}
 
-	const glm::quat& Transform::GetRotation() const
+	const glm::quat Transform::GetRotation(const Space& space) const
 	{
-		return m_Rotation;
+		switch (space) {
+			case(Space::local): return m_Rotation;
+			case(Space::world): {
+
+				if (m_Parent == nullptr)
+					return m_Rotation;
+				else {
+					return m_Parent->GetRotation() * m_Rotation;
+				}
+			}
+		}
 	}
 
-	const glm::vec3& Transform::GetScale() const
+	const glm::vec3 Transform::GetScale(const Space& space) const
 	{
+		switch (space) {
+			case(Space::local): return m_Scale;
+			case(Space::world): {
+				if (m_Parent == nullptr)
+					return m_Scale;
+				else {
+					return m_Scale * m_Parent->GetScale(Space::world);
+				}
+			}
+		}
 		return m_Scale;
 	}
 
@@ -132,32 +152,6 @@ namespace gwcEngine
 		m_OnChange.raiseEvent(*this);
 	}
 
-	glm::vec3 Transform::GetCompoundPosition() const
-	{
-		if (m_Parent == nullptr)
-			return m_Position;
-		else {
-			return m_Position + m_Parent->GetPosition();
-		}
-	}
-
-	glm::quat Transform::GetCompoundRotation() const
-	{
-		if (m_Parent == nullptr)
-			return m_Rotation;
-		else {
-			return m_Parent->GetRotation() * m_Rotation;
-		}
-	}
-
-	glm::vec3 Transform::GetCompoundScale() const
-	{
-		if (m_Parent == nullptr)
-			return m_Scale;
-		else {
-			return m_Scale * m_Parent->GetScale();
-		}
-	}
 
 	void Transform::UpdateTansformMatrix()
 	{
@@ -167,9 +161,9 @@ namespace gwcEngine
 		if (m_Parent != nullptr)
 			m_TransformMat = m_Parent->GetTransformMatrix()* m_TransformMat;
 
-		m_Forward = glm::rotate(GetCompoundRotation(), glm::vec4(0, 0, -1, 1));
-		m_Right = glm::rotate(GetCompoundRotation(), glm::vec4(1, 0, 0, 1));
-		m_Up = glm::rotate(GetCompoundRotation(), glm::vec4(0,1, 0, 1));
+		m_Forward = glm::rotate(GetRotation(Space::world), glm::vec4(0, 0, -1, 1));
+		m_Right = glm::rotate(GetRotation(Space::world), glm::vec4(1, 0, 0, 1));
+		m_Up = glm::rotate(GetRotation(Space::world), glm::vec4(0,1, 0, 1));
 
 	}
 
