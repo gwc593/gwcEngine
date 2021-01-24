@@ -146,7 +146,7 @@ namespace gwcEngine
 		if (m_Parent == nullptr)
 			return m_Rotation;
 		else {
-			return m_Rotation + m_Parent->GetRotation();
+			return m_Parent->GetRotation() * m_Rotation;
 		}
 	}
 
@@ -167,9 +167,10 @@ namespace gwcEngine
 		if (m_Parent != nullptr)
 			m_TransformMat = m_Parent->GetTransformMatrix()* m_TransformMat;
 
-		m_Forward = glm::vec4(0, 0, -1, 1) * glm::mat4(GetCompoundRotation());
-		m_Right = glm::vec4(1, 0, 0, 1) * glm::mat4(GetCompoundRotation());
-		m_Up = glm::vec4(0, 1, 0, 1) * glm::mat4(GetCompoundRotation());
+		m_Forward = glm::rotate(GetCompoundRotation(), glm::vec4(0, 0, -1, 1));
+		m_Right = glm::rotate(GetCompoundRotation(), glm::vec4(1, 0, 0, 1));
+		m_Up = glm::rotate(GetCompoundRotation(), glm::vec4(0,1, 0, 1));
+
 	}
 
 	void Transform::Decompose()

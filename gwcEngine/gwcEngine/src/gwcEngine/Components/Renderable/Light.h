@@ -19,11 +19,11 @@ namespace gwcEngine
 		glm::vec3 position = { 0,0,0 };
 		glm::vec3 halfVector = { 1,0,0 }; //h := ( v + l ) / || v + l || ;   viewer, light have been normalised
 		glm::vec3 coneDirection = { 0,0,0 };
-		float spotCutoff = 0.65;
-		float spotExponent = 3;
-		float constantAttenuation = 0;
-		float linearAttenuation = 0.1;
-		float quadraticAttenuation = 0.3;
+		float spotCutoff = 0.96;
+		float spotExponent = 0.8;
+		float constantAttenuation = 0.1;
+		float linearAttenuation = 0.2;
+		float quadraticAttenuation = 0.4;
 		float strength = 1.0;
 	}; 
 
