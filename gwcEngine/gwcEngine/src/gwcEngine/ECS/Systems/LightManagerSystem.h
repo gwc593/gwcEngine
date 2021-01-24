@@ -59,7 +59,7 @@ namespace gwcEngine
 					shader->UploadUniformBool(std::string("u_Lights[") + std::to_string(i) + std::string("].isSpot"), props.isSpot);
 					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].ambient"), props.ambient);
 					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].colour"), props.colour);
-					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].position"), trans->GetPosition());
+					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].position"), trans->GetPosition(Space::world));
 					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].halfVector"), props.halfVector);
 					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].coneDirection"), -trans->Up());
 					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].spotCutoff"), props.spotCutoff);

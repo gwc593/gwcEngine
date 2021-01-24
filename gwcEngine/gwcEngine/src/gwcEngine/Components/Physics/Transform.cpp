@@ -7,10 +7,10 @@ namespace gwcEngine
 	Transform::Transform()
 	{
 		m_Parent = nullptr;
-		SetRotation({ 0.0f, 0.0f, 0.0f });
-		m_Position = glm::vec3(0.0f);
-		m_Scale = glm::vec3(1.0f);
 		m_TransformMat = glm::mat4(1.0f);
+		SetRotation({ 0.0f, 0.0f, 0.0f });
+		SetPosition({ 0,0,0 });
+		SetScale({ 1,1,1 });
 
 		m_Forward = { 0,0,-1 };
 		m_Up = { 0,1,0 };
@@ -34,8 +34,17 @@ namespace gwcEngine
 
 	}
 
-	const glm::vec3& Transform::GetPosition() const
+	const glm::vec3 Transform::GetPosition(const Space& space)
 	{
+		switch (space) {
+			case(Space::local): return m_Position;
+			case(Space::world): {
+
+				glm::vec4 homoPos = GetTransformMatrix() * glm::vec4(0, 0, 0, 1.0);
+				return  { homoPos.x,homoPos.y,homoPos.z };
+
+			}
+		}
 		return m_Position;
 	}
 

@@ -6,6 +6,12 @@
 
 namespace gwcEngine
 {
+	enum class Space
+	{
+		local = 0,
+		world
+	};
+
 	class Transform
 	{
 	public:
@@ -17,7 +23,7 @@ namespace gwcEngine
 		
 
 		//todo - does this take into account relation to parent? i dont think it does.
-		const glm::vec3& GetPosition() const;
+		const glm::vec3 GetPosition(const Space& space = Space::local) ;
 
 		const glm::quat& GetRotation() const;
 
