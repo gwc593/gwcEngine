@@ -21,7 +21,7 @@ void DebugCam::OnAttach()
 	//make panel entity
 	auto testPanel = gwcEngine::Entity::Create("DebugPanel");
 	auto panTran = testPanel->AddComponent<gwcEngine::Transform>();
-	auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 1000, panTran));
+	auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 700, panTran));
 	pan->SetPosition(-500, 0, gwcEngine::Anchor::TopRight);
 	pan->SetCaptureCamera(*CameraComp);
 

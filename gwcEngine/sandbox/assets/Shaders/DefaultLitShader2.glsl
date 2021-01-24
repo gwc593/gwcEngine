@@ -17,7 +17,7 @@ out vec4 v_Colour;
 void main()
 {
 	gl_Position = u_ViewProjection * u_Transform* vec4(a_Position,1.0);
-	v_Position =  u_ViewProjection * u_Transform* vec4(a_Position,1.0);
+	v_Position =  u_Transform* vec4(a_Position,1.0);
 	
 	v_UV = a_TexCoord;
 	
@@ -109,10 +109,10 @@ void main()
 		else
 			specular = pow(specular,u_Shininess)* u_Lights[light].strength;
 			
-		scatteredLight += u_Lights[light].ambient*attenuation
-						+ u_Lights[light].colour * diffuse * attenuation;
+		scatteredLight += u_Lights[light].ambient*attenuation*u_Lights[light].strength
+						+ u_Lights[light].colour * diffuse * attenuation*u_Lights[light].strength;
 						
-		reflectedLight += u_Lights[light].colour * specular * attenuation;
+		reflectedLight += u_Lights[light].colour * specular * attenuation*u_Lights[light].strength;
 	
 	}
 	

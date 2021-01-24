@@ -9,6 +9,11 @@ namespace gwcEngine
 
 	ShaderUniform* ShaderUniform::Create(const std::string& name, const ShaderDataType& type, Shader* shader)
 	{
+		//forbidden uniforms
+		if (name == "u_Lights" || 
+			name == "u_NumLights")
+			return nullptr;
+
 		switch (Renderer::GetAPI()) 
 		{
 		case RendererAPI::API::None: GE_CORE_ERROR("No rendering API selected"); break;
@@ -26,11 +31,11 @@ namespace gwcEngine
 			case ShaderDataType::Int2:break;
 			case ShaderDataType::Int3:break;
 			case ShaderDataType::Int4:break;
-			case ShaderDataType::Bool:break;
+			case ShaderDataType::Bool: return new OpenGLUniformBool(name, shader);
 			case ShaderDataType::Sampler2D: return new OpenGLUniformTexture2D(name, shader);
 			default: break;
 			}
-			GE_CORE_WARN("{0} (type) {1} is not currently supported by the material system and therefore cannot be modified at runtime", name, type);
+			GE_CORE_WARN("Uniform {0} (type) {1} is not currently supported by the material system and therefore cannot be modified at runtime", name, type);
 			return nullptr;
 		}
 		

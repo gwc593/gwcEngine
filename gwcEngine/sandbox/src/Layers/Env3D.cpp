@@ -31,7 +31,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		//make panel entity
 		auto testPanel = gwcEngine::Entity::Create("3DPanel");
 		auto panTran = testPanel->AddComponent<gwcEngine::Transform>();
-		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 1000, panTran));
+		auto pan = *testPanel->AddComponent<gwcEngine::Ref<gwcEngine::Panel>>(gwcEngine::Panel::Create(1000, 700, panTran));
 		pan->SetCaptureCamera(*CameraComp);
 
 		//make line entity
@@ -42,6 +42,12 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		lineRenderer->ActivateLayer("Debug");
 
 
+		//spotLight
+		auto spotLight = gwcEngine::Entity::Create("spotLight");
+		spotLight->AddComponent<gwcEngine::Transform>()->SetPosition({ 0, 0, 2 });
+		spotLight->AddComponent<gwcEngine::Light>(gwcEngine::LightType::Spot);
+		spotLight->GetComponent<gwcEngine::Light>()->SetStrength(3.0);
+
 		gwcEngine::ModelLoader::LoadModel("assets/Models/Icon.dae", gwcEngine::ModelFormat::DAE);
 
 
@@ -50,24 +56,27 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		Bluelight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
 		Bluelight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
 		Bluelight->AddComponent<gwcEngine::Light>()->SetColour({ 0,0,1 });
+		Bluelight-> GetComponent<gwcEngine::Light>()->SetStrength(0.5);
 		Bluelight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
 		Bluelight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Default");
 		Bluelight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
 		Bluelight->AddComponent<gwcEngine::Material>();
-
+		
 		auto Redlight = gwcEngine::Entity::Create("RedLight");
 		Redlight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
 		Redlight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
 		Redlight->AddComponent<gwcEngine::Light>()->SetColour({ 1,0,0 });
+		Redlight->GetComponent<gwcEngine::Light>()->SetStrength(0.5);
 		Redlight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
 		Redlight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Default");
 		Redlight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
 		Redlight->AddComponent<gwcEngine::Material>();
-
+		
 		auto Greenlight = gwcEngine::Entity::Create("GreenLight");
 		Greenlight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
 		Greenlight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
 		Greenlight->AddComponent<gwcEngine::Light>()->SetColour({ 0,1,0 });
+		Greenlight->GetComponent<gwcEngine::Light>()->SetStrength(0.5);
 		Greenlight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
 		Greenlight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Default");
 		Greenlight->AddComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
@@ -96,10 +105,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 		if (hex != nullptr)
 			hex->GetComponent<gwcEngine::Transform>()->SetRotation({ 0,gwcEngine::Time::GetTime() * 120.0f,0 });
-			//AnimateEntity(hex,3000);
 
 		static gwcEngine::Ref<gwcEngine::Transform> lineTr = nullptr;
-
 		if (lineTr == nullptr) {
 			lineTr = gwcEngine::Entity::Find("Line")->GetComponent<gwcEngine::Transform>();
 		}
@@ -115,10 +122,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			lineTr->SetScale(glm::normalize(ray.GetDirection())*20000000.0f);
 		}
 
-		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::S)) {
-			gwcEngine::Entity::Find("Icon")->GetComponent<gwcEngine::Material>()->SetValue("u_Colour",glm::vec4(1.0,0,0,1));
-		}
 
+		auto& trans = gwcEngine::Entity::Find("spotLight")->GetComponent<gwcEngine::Transform>();
+		trans->SetRotation({ 90 ,0,gwcEngine::Time::GetTime() * 45 });
 		AnimateEntity(gwcEngine::Entity::Find("RedLight"),1000);
 		AnimateEntity(gwcEngine::Entity::Find("GreenLight"),10000);
 		AnimateEntity(gwcEngine::Entity::Find("BlueLight"),2500);

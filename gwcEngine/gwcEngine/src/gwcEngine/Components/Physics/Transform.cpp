@@ -158,9 +158,9 @@ namespace gwcEngine
 		if (m_Parent != nullptr)
 			m_TransformMat = m_Parent->GetTransformMatrix()* m_TransformMat;
 
-		m_Forward = glm::normalize(glm::vec4(0, 0, -1, 1) * glm::mat4(GetCompoundRotation()));
-		m_Right = glm::normalize(glm::vec4(1, 0, 0, 1) * glm::mat4(GetCompoundRotation()));
-		m_Up = glm::normalize(glm::vec4(0, 1, 0, 1) * glm::mat4(GetCompoundRotation()));
+		m_Forward = glm::vec4(0, 0, -1, 1) * glm::mat4(GetCompoundRotation());
+		m_Right = glm::vec4(1, 0, 0, 1) * glm::mat4(GetCompoundRotation());
+		m_Up = glm::vec4(0, 1, 0, 1) * glm::mat4(GetCompoundRotation());
 	}
 
 	void Transform::Decompose()

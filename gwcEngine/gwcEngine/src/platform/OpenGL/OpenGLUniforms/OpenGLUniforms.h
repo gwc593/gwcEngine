@@ -4,5 +4,6 @@
 #include"OpenGLUniformVec3.h"
 #include"OpenGLUniformVec2.h"
 #include"OpenGLUniformFloat.h"
+#include"OpenGLUniformBool.h"
 #include"OpenGLUniformTexture2D.h"
 
