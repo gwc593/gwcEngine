@@ -89,14 +89,13 @@ project "gwcEngine"
 		optimize "on"
 
 	filter "configurations:Dist"
-		defines "GE_DIST"
+		defines{"GE_PROFILING","GE_DIST"}
 		runtime "Release"
 		optimize "on"
 		
 	filter "configurations:Profiling"
-		runtime "Debug"
-		symbols "on"
-		defines{"GE_PROFILING"}
+		runtime "Release"
+		defines{"GE_PROFILING","GE_DIST"}
 		optimize "on"
 
 
@@ -161,7 +160,6 @@ project "sandbox"
 		optimize "on"
 		
 	filter "configurations:Profiling"
-		runtime "Debug"
-		symbols "on"
-		defines{"GE_PROFILING"}
+		runtime "Release"
+		defines{"GE_PROFILING","GE_DIST"}
 		optimize "on"

@@ -28,6 +28,7 @@ namespace gwcEngine
 
 		virtual void OnUpdate(const float& dT)
 		{
+			PROFILE_FUNCTION();
 			for (auto GO : m_GameObjectArray) {
 				if (GO->GetComponent<LifeTime>()->GetLifeRemaining() <= 0) {
 					Entity::Destroy(GO);

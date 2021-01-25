@@ -14,7 +14,7 @@ namespace gwcEngine
 		virtual ~IComponent() = default;
 		ComponentID GetID() { return m_ID; }
 	protected:
-		ComponentID m_ID;
+		ComponentID m_ID = MAX_COMPONENTS;
 	};
 
 

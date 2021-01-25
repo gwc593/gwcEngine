@@ -95,6 +95,7 @@ namespace gwcEngine
 
 		bool ECS_UpdateCallback(const GameObject& gameObject)
 		{
+			PROFILE_FUNCTION();
 			auto found = m_Cameras.find(gameObject);
 
 			//if keep

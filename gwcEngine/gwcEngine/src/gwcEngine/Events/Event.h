@@ -24,7 +24,7 @@ namespace gwcEngine
 		Ref<EventCallback<T...>> subscribe(const std::function<bool(T...)>& callbackFN)const;
 
 		void subscribePriority(const Ref<EventCallback<T...>>& callback)const;
-		Ref<EventCallback<T...>>& subscribePriority(std::function<bool(T...)> callbackFN)const;
+		Ref<EventCallback<T...>> subscribePriority(std::function<bool(T...)> callbackFN)const;
 
 		void unsubscribe(const Ref < EventCallback<T...>>& callback)const;
 		void unsubscribe(const uint32_t& id)const;
@@ -67,7 +67,7 @@ namespace gwcEngine
 	}
 
 	template<typename... T>
-	Ref<EventCallback<T...>>& Event<T...>::subscribePriority(std::function<bool(T...)> callbackFN) const
+	Ref<EventCallback<T...>> Event<T...>::subscribePriority(std::function<bool(T...)> callbackFN) const
 	{
 		Ref<EventCallback<T...>> callback{ new EventCallback<T...>(callbackFN) };
 

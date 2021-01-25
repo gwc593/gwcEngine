@@ -25,7 +25,7 @@ namespace gwcEngine
 		Decompose();
 	}
 
-	Transform::Transform(Transform&& other)
+	Transform::Transform(Transform&& other) noexcept
 	{
 		m_TransformMat = other.m_TransformMat;
 		m_Parent = std::move(other.m_Parent);
@@ -61,6 +61,8 @@ namespace gwcEngine
 				}
 			}
 		}
+
+		return m_Rotation;
 	}
 
 	const glm::vec3 Transform::GetScale(const Space& space) const

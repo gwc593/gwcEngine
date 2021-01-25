@@ -34,6 +34,7 @@ namespace gwcEngine
 
 		virtual void OnLateUpdate(const float& dT)
 		{
+			PROFILE_FUNCTION();
 			UploadLightData();
 		}
 
@@ -50,8 +51,8 @@ namespace gwcEngine
 		{
 			for (auto shaderPtr : Shader::GetShaders()) {
 				auto shader = shaderPtr.lock();
-				shader->UploadUniformInt("u_NumLights", m_GameObjectArray.size());
-				for (int i = 0; (i < MAX_LIGHTS) && (i < m_GameObjectArray.size()); ++i) {
+				shader->UploadUniformInt("u_NumLights", (int)m_GameObjectArray.size());
+				for (size_t i = 0; (i < MAX_LIGHTS) && (i < m_GameObjectArray.size()); ++i) {
 					auto props = m_GameObjectArray[i]->GetComponent<Light>()->GetProperties();
 					auto trans = m_GameObjectArray[i]->GetComponent<Transform>();
 					shader->UploadUniformBool(std::string("u_Lights[") + std::to_string(i) + std::string("].isEnabled"), props.isEnabled?1:0);

@@ -27,3 +27,8 @@ project "Glad"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+
+	filter "configurations:Profiling"
+		runtime "Release"
+		defines{"GE_PROFILING","GE_DIST"}
+		optimize "on"

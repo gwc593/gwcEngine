@@ -96,9 +96,9 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 	{
 		////Make the material change colour with time
 		float t = gwcEngine::Time::GetTime()+offset;
-		float r = 0.5f * (glm::sin(1.6f * glm::cos(1.0f * t) + 45.0f) + 1.0f);
-		float g = 0.5f * (glm::sin(0.333f * 1.3f * glm::cos(1.8f * t)) + 1.0f);
-		float b = 0.5f * (glm::sin(2.2f * glm::cos(1.4 * t)) + 1.0f);
+		float r = 0.5f * ((float)glm::sin(1.6f * (float)glm::cos(1.0f * t) + 45.0f) + 1.0f);
+		float g = 0.5f * ((float)glm::sin(0.333f * 1.3f * (float)glm::cos(1.8f * t)) + 1.0f);
+		float b = 0.5f * ((float)glm::sin(2.2f * (float)glm::cos(1.4 * t)) + 1.0f);
 
 		//Move and rotate cube
 		auto cubeTransform = gameObject->GetComponent<gwcEngine::Transform>();
@@ -108,11 +108,6 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 	void Env3D::OnUpdate()
 	{
-
-		auto hex = gwcEngine::Entity::Find("Icon");
-
-		if (hex != nullptr)
-			hex->GetComponent<gwcEngine::Transform>()->SetRotation({ 0,gwcEngine::Time::GetTime() * 120.0f,0 });
 
 		static gwcEngine::Ref<gwcEngine::Transform> lineTr = nullptr;
 		if (lineTr == nullptr) {
@@ -124,7 +119,7 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 			//panel ray poistion
 			//TODO - NOW ray should be owned by the cursor, panel or camera, or system?
 			//     - Ray should be owned by panel, created on mouse over and destroyed on mouse exit.
-			auto panel = *(gwcEngine::Entity::Find("3DPanel")->GetComponent<gwcEngine::Ref<gwcEngine::Panel>>());
+			static auto panel = *(gwcEngine::Entity::Find("3DPanel")->GetComponent<gwcEngine::Ref<gwcEngine::Panel>>());
 			auto ray = panel->GetWorldRay(gwcEngine::Input::GetMousePosition());
 			lineTr->SetPosition(ray.GetOrigin());
 			lineTr->SetScale(glm::normalize(ray.GetDirection()) * 20000000.0f);
@@ -132,10 +127,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 		gwcEngine::Entity::Find("parent")->GetComponent<gwcEngine::Transform>()->SetRotation({ 0, gwcEngine::Time::GetTime() * 45, 0 });
-		
 		gwcEngine::Entity::Find("BlueLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ 1.5f * glm::sin(gwcEngine::Time::GetTime()),0,-1.5 * glm::sin(gwcEngine::Time::GetTime()) });
 		gwcEngine::Entity::Find("RedLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ -1.5f * glm::sin(gwcEngine::Time::GetTime()),0,-1.5 * glm::sin(gwcEngine::Time::GetTime()) });
 		gwcEngine::Entity::Find("GreenLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ 0,0,1.5f * glm::sin(gwcEngine::Time::GetTime()) });
 
+		GE_TRACE("FPS = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());
 		
 	}

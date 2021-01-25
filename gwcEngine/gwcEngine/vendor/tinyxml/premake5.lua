@@ -19,10 +19,23 @@ project "tinyxml"
 		"TIXML_USE_STL"
 	}
 
+
 	filter "configurations:Debug"
+		defines {"GE_DEBUG","GE_ENABLE_ASSERTS"}
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
+		defines "GE_RELEASE"
 		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Dist"
+		defines "GE_DIST"
+		runtime "Release"
+		optimize "on"
+		
+	filter "configurations:Profiling"
+		runtime "Release"
+		defines{"GE_PROFILING","GE_DIST"}
 		optimize "on"

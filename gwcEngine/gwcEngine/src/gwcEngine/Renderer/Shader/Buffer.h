@@ -48,11 +48,20 @@ namespace gwcEngine
 		uint32_t Size;
 		bool Normalised;
 		
-		BufferElement() {}
+		BufferElement()
+		{
+			m_Count = 0;
+			Normalised = false;
+			Offset = 0;
+			Size = 0;
+			Type = ShaderDataType::None;
+			Name = "";
+		}
 
 		BufferElement(ShaderDataType type, const std::string& name, bool normalised = false) 
 			:Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalised(normalised)
 		{
+			m_Count = 0;
 		}
 
 		uint32_t GetComponentCount() const 

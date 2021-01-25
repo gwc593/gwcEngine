@@ -7,8 +7,6 @@ namespace gwcEngine
 {
 	void CameraBase::CalculateViewMatrix()
 	{
-	
-		glm::mat4 transform;
 		if (m_Transform != nullptr)
 			m_ViewMatrix = glm::inverse(m_Transform->GetTransformMatrix());
 		else
