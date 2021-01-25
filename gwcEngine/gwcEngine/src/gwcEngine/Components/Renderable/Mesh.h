@@ -1,7 +1,6 @@
 #pragma once
 #include"gwcEngine/ECS/ECS.h"
 #include"gwcEngine/Renderer/Shader/VertexArray.h"
-
 namespace gwcEngine 
 {
 	class Mesh 

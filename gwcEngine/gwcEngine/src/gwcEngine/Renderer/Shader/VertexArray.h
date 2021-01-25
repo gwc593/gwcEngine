@@ -1,6 +1,7 @@
 #pragma once
 #include<memory>
-#include"gwcEngine/Renderer/Shader/Buffer.h"
+#include"gwcEngine/Renderer/Shader/VertexBuffer.h"
+#include"gwcEngine/Renderer/Shader/IndexBuffer.h"
 
 namespace gwcEngine
 {

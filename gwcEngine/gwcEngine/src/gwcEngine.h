@@ -10,8 +10,9 @@
 #include "gwcEngine/Core/Time.h"
 
 
-//assest Management
+//Asset Management
 #include "gwcEngine/AssetManagment/ModelLoader.h"
+
 //Input
 #include "gwcEngine/Core/KeyCodes.h"
 #include "gwcEngine/Core/MouseButtonCodes.h"
@@ -24,9 +25,8 @@
 #include "gwcEngine/Renderer/RenderCommand.h"
 #include "gwcEngine/Renderer/FrameBuffer.h"
 #include "gwcEngine/Renderer/Texture.h"
-#include "gwcEngine/Renderer/Shader/Buffer.h"
 #include "gwcEngine/Renderer/Shader/Shader.h"
-#include "gwcEngine/Renderer/Shader/VertexArray.h"
+
 
 //Components
 #include "gwcEngine/Components/System/Cursor.h"
@@ -45,7 +45,7 @@
 #include "gwcEngine/Components/Renderable/MeshRenderer.h"
 #include "gwcEngine/Components/Renderable/LineRenderer.h"
 
-#include "gwcEngine/Components/Cameras/Camera.h"
+
 #include "gwcEngine/Components/Cameras/OrthographicCamera.h"
 #include "gwcEngine/Components/Cameras/PerspectiveCamera.h"
 

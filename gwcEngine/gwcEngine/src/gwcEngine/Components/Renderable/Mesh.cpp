@@ -1,8 +1,6 @@
 #include "gepch.h"
 #include "Mesh.h"
 
-#include "gwcEngine/Renderer/Renderer.h"
-
 namespace gwcEngine
 {
 
