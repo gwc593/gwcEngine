@@ -131,6 +131,11 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		gwcEngine::Entity::Find("RedLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ -1.5f * glm::sin(gwcEngine::Time::GetTime()),0,-1.5 * glm::sin(gwcEngine::Time::GetTime()) });
 		gwcEngine::Entity::Find("GreenLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ 0,0,1.5f * glm::sin(gwcEngine::Time::GetTime()) });
 
-		GE_TRACE("FPS = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());
+		if (gwcEngine::Input::KeyDown(gwcEngine::KeyCode::G)) {
+			auto testBuf = gwcEngine::UniformBuffer::Create("LightBlock");
+			testBuf->SyncData();
+			auto shade = gwcEngine::Entity::Find("Floor")->GetComponent<gwcEngine::Material>()->GetShader();
+			testBuf->BindShader(shade);
+		}
 		
 	}

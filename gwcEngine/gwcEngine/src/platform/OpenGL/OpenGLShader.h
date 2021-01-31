@@ -7,6 +7,7 @@ namespace gwcEngine
 {
 	class OpenGLShader : public Shader
 	{
+		friend class OpenGLUniformBuffer;
 	public:
 		OpenGLShader(const std::string& vertextSrc, const std::string& fragmentSrc);
 		OpenGLShader(const std::string& shaderPath);

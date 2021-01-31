@@ -5,6 +5,7 @@
 #include "gwcEngine/Components/Renderable/Mesh.h"
 #include "gwcEngine/Components/Renderable/Material.h"
 #include "gwcEngine/Components/Renderable/MeshRenderer.h"
+#include "gwcEngine/ECS/Systems/LightManagerSystem.h"
 #include<set>
 
 namespace gwcEngine
@@ -86,7 +87,7 @@ namespace gwcEngine
 								auto mesh = gameObject->GetComponent<gwcEngine::Mesh>();
 								auto transform = gameObject->GetComponent<gwcEngine::Transform>();
 								auto material = gameObject->GetComponent<gwcEngine::Material>();
-
+								LightManagerSystem::GetLightingUBO()->BindShader(material->GetShader());
 								Renderer::Submit(mesh->GetVertexArray(), material, transform->GetTransformMatrix());
 							}
 						}
