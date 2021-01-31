@@ -5,8 +5,10 @@
 #include "gwcEngine/Components/Physics/Transform.h"
 #include "gwcEngine/Components/Renderable/Light.h"
 #include "gwcEngine/Renderer/Shader/Shader.h"
+#include "gwcEngine/Renderer/Shader/UniformBuffer.h"
 
 #define MAX_LIGHTS 20
+
 namespace gwcEngine
 {
 	class LightManagerSystem : public ISystem
@@ -17,7 +19,31 @@ namespace gwcEngine
 			m_name = name;
 			RegisterRequiredComponents();
 			InitSignature();
+
+			if(!s_LightUniformBuffer)
+				s_LightUniformBuffer = UniformBuffer::Create("LightBlock");
+
+			UniformBufferStruct LightStruct;
+			LightStruct.AddElement("isEnabled", UniformBufferTypes::Bool);
+			LightStruct.AddElement("isLocal", UniformBufferTypes::Bool);
+			LightStruct.AddElement("isSpot", UniformBufferTypes::Bool);
+			LightStruct.AddElement("ambient", UniformBufferTypes::Vec4);
+			LightStruct.AddElement("colour", UniformBufferTypes::Vec4);
+			LightStruct.AddElement("position", UniformBufferTypes::Vec4);
+			LightStruct.AddElement("halfVector", UniformBufferTypes::Vec4);
+			LightStruct.AddElement("coneDirection", UniformBufferTypes::Vec4);
+			LightStruct.AddElement("spotCutoff", UniformBufferTypes::Float);
+			LightStruct.AddElement("spotExponent", UniformBufferTypes::Float);
+			LightStruct.AddElement("constantAttenuation", UniformBufferTypes::Float);
+			LightStruct.AddElement("linearAttenuation", UniformBufferTypes::Float);
+			LightStruct.AddElement("quadraticAttenuation", UniformBufferTypes::Float);
+			LightStruct.AddElement("strength", UniformBufferTypes::Float);
+
+			s_LightUniformBuffer->AddElement("numLights", UniformBufferTypes::Int);
+			s_LightUniformBuffer->AddStructure("lights", LightStruct, 20);
 		}
+
+		static const UniformBuffer* GetLightingUBO() { return s_LightUniformBuffer; }
 
 		virtual void RegisterRequiredComponents() override
 		{
@@ -49,28 +75,38 @@ namespace gwcEngine
 	protected:
 		void UploadLightData()
 		{
-			for (auto shaderPtr : Shader::GetShaders()) {
-				auto shader = shaderPtr.lock();
-				shader->UploadUniformInt("u_NumLights", (int)m_GameObjectArray.size());
-				for (size_t i = 0; (i < MAX_LIGHTS) && (i < m_GameObjectArray.size()); ++i) {
-					auto props = m_GameObjectArray[i]->GetComponent<Light>()->GetProperties();
-					auto trans = m_GameObjectArray[i]->GetComponent<Transform>();
-					shader->UploadUniformBool(std::string("u_Lights[") + std::to_string(i) + std::string("].isEnabled"), props.isEnabled?1:0);
-					shader->UploadUniformBool(std::string("u_Lights[") + std::to_string(i) + std::string("].isLocal"), props.isLocal);
-					shader->UploadUniformBool(std::string("u_Lights[") + std::to_string(i) + std::string("].isSpot"), props.isSpot);
-					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].ambient"), props.ambient);
-					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].colour"), props.colour);
-					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].position"), trans->GetPosition(Space::world));
-					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].halfVector"), props.halfVector);
-					shader->UploadUniformVec3(std::string("u_Lights[") + std::to_string(i) + std::string("].coneDirection"), -trans->Up());
-					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].spotCutoff"), props.spotCutoff);
-					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].spotExponent"), props.spotExponent);
-					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].constantAttenuation"), props.constantAttenuation);
-					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].linearAttenuation"), props.linearAttenuation);
-					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].quadraticAttenuation"), props.quadraticAttenuation);
-					shader->UploadUniformFloat(std::string("u_Lights[") + std::to_string(i) + std::string("].strength"), props.strength);
-				}
+			int numLights = (int)m_GameObjectArray.size();
+			s_LightUniformBuffer->Set("numLights", &numLights,sizeof(int));
+			for (size_t i = 0; (i < MAX_LIGHTS) && (i < m_GameObjectArray.size()); ++i) {
+				auto props = m_GameObjectArray[i]->GetComponent<Light>()->GetProperties();
+				auto trans = m_GameObjectArray[i]->GetComponent<Transform>();
+
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].isEnabled", &props.isEnabled, sizeof(bool));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].isLocal", &props.isLocal, sizeof(bool));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].isSpot", &props.isSpot, sizeof(bool));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].ambient", &props.ambient, sizeof(glm::vec4));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].colour", &props.colour, sizeof(glm::vec4));
+
+				auto pos = glm::vec4(trans->GetPosition(Space::world), 1.0);
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].position", &pos,sizeof(glm::vec4));
+
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].halfVector", &props.halfVector, sizeof(glm::vec4));
+				auto cd = glm::vec4(-trans->Up(), 1.0);
+
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].coneDirection", &cd, sizeof(glm::vec4));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].spotCutoff", &props.spotCutoff, sizeof(float));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].spotExponent", &props.spotExponent, sizeof(float));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].constantAttenuation", &props.constantAttenuation, sizeof(float));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].linearAttenuation", &props.linearAttenuation, sizeof(float));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].quadraticAttenuation", &props.quadraticAttenuation, sizeof(float));
+				s_LightUniformBuffer->Set("lights[" + std::to_string(i) + "].strength", &props.strength, sizeof(float));
 			}
+
+			s_LightUniformBuffer->SyncData();
+
+			
 		}
+
+		static UniformBuffer* s_LightUniformBuffer;
 	};
 }

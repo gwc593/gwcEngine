@@ -26,6 +26,7 @@
 #include "gwcEngine/Renderer/FrameBuffer.h"
 #include "gwcEngine/Renderer/Texture.h"
 #include "gwcEngine/Renderer/Shader/Shader.h"
+#include "gwcEngine/Renderer/Shader/UniformBuffer.h"
 
 
 //Components
