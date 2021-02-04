@@ -7,7 +7,7 @@
 #include "gwcEngine/Renderer/Shader/Shader.h"
 #include "gwcEngine/Renderer/Shader/UniformBuffer.h"
 
-#define MAX_LIGHTS 20
+#define MAX_LIGHTS 100
 
 namespace gwcEngine
 {
@@ -40,7 +40,7 @@ namespace gwcEngine
 			LightStruct.AddElement("strength", UniformBufferTypes::Float);
 
 			s_LightUniformBuffer->AddElement("numLights", UniformBufferTypes::Int);
-			s_LightUniformBuffer->AddStructure("lights", LightStruct, 20);
+			s_LightUniformBuffer->AddStructure("lights", LightStruct, MAX_LIGHTS);
 		}
 
 		static const UniformBuffer* GetLightingUBO() { return s_LightUniformBuffer; }

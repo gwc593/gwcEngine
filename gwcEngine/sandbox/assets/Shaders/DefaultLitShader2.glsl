@@ -31,7 +31,7 @@ void main()
 
 layout(location = 0) out vec4 fragColour;
 
-const int MaxLights = 20;
+const int MaxLights = 100;
 
 struct LightProps{
 	bool isEnabled;

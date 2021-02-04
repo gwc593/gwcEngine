@@ -20,7 +20,9 @@
 #include<sstream>
 #include<vector>
 #include<unordered_map>
+#include<map>
 #include<unordered_set>
+#include<set>
 
 #include"gwcEngine/Debugging/Profiling/Instrumentor.h"
 

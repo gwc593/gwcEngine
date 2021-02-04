@@ -6,7 +6,6 @@
 #include "gwcEngine/Components/Renderable/Material.h"
 #include "gwcEngine/Components/Renderable/MeshRenderer.h"
 #include "gwcEngine/ECS/Systems/LightManagerSystem.h"
-#include<set>
 
 namespace gwcEngine
 {
