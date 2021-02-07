@@ -34,10 +34,13 @@ namespace gwcEngine
 		virtual void UploadTexture2D(const std::string& name, const Ref<Texture2D>& texture) override;
 
 	private:
+		const GLint GetLocation(const std::string& name) const;
+
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& shaderSource);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderElements);
 	private:
 		uint32_t m_Renderer_ID;
+		mutable std::unordered_map<std::string, GLint> m_uniformLocation;
 	};
 }
 

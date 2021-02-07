@@ -23,8 +23,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		CamMesh->GetComponent<gwcEngine::MeshRenderer>()->RegisterLayer("Debug");
 		CamMesh->GetComponent<gwcEngine::MeshRenderer>()->ActivateLayer("Debug");
 		CamMesh->GetComponent<gwcEngine::Transform>()->SetParent(CameraTransform);
-		CameraTransform->SetPosition({ 0,2.5,4 });
-		CameraTransform->SetRotation({ -45,0,0 });
+		CameraTransform->SetPosition({ 0,1,5 });
+		CameraTransform->SetRotation({ -15,0,0 });
 		auto RenderLayer = CameraEnt->AddComponent<gwcEngine::RenderLayer>();
 		RenderLayer->RegisterLayer("Default");
 		RenderLayer->ActivateLayer("Default");
@@ -44,23 +44,19 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 		auto parent = gwcEngine::Entity::Create("parent")->AddComponent<gwcEngine::Transform>();
-		//spotLight
-		auto spotLight = gwcEngine::Entity::Create("spotLight");
-		spotLight->AddComponent<gwcEngine::Transform>()->SetPosition({ 0.5, 3, 0 });
-		spotLight->GetComponent<gwcEngine::Transform>()->SetRotation({ 45,0,0 });
-		spotLight->GetComponent<gwcEngine::Transform>()->SetParent(parent);
-		spotLight->AddComponent<gwcEngine::Light>(gwcEngine::LightType::Spot);
-		spotLight->GetComponent<gwcEngine::Light>()->SetStrength(3.0);
+		auto lightParent = gwcEngine::Entity::Create("lightParent")->AddComponent<gwcEngine::Transform>();
+		lightParent->SetParent(parent);
 
-		gwcEngine::ModelLoader::LoadModel("assets/Models/Floor.dae", gwcEngine::ModelFormat::DAE);
-
+		//add icon
+		gwcEngine::ModelLoader::LoadModel("assets/Models/icon.dae", gwcEngine::ModelFormat::DAE);
+		gwcEngine::Entity::Find("Icon")->GetComponent<gwcEngine::Transform>()->SetParent(parent);
 
 
 		//make lights
 		auto Bluelight = gwcEngine::Entity::Create("BlueLight");
 		Bluelight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
-		Bluelight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
-		Bluelight->GetComponent<gwcEngine::Transform>()->SetParent(parent);
+		Bluelight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.3,0.3,0.3, });
+		Bluelight->GetComponent<gwcEngine::Transform>()->SetParent(lightParent);
 		Bluelight->AddComponent<gwcEngine::Light>()->SetColour({ 0,0,1 });
 		Bluelight-> GetComponent<gwcEngine::Light>()->SetStrength(0.5);
 		Bluelight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
@@ -70,8 +66,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		
 		auto Redlight = gwcEngine::Entity::Create("RedLight");
 		Redlight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
-		Redlight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
-		Redlight->GetComponent<gwcEngine::Transform>()->SetParent(parent);
+		Redlight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.3,0.3,0.3, });
+		Redlight->GetComponent<gwcEngine::Transform>()->SetParent(lightParent);
 		Redlight->AddComponent<gwcEngine::Light>()->SetColour({ 1,0,0 });
 		Redlight->GetComponent<gwcEngine::Light>()->SetStrength(0.5);
 		Redlight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
@@ -81,8 +77,8 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 		
 		auto Greenlight = gwcEngine::Entity::Create("GreenLight");
 		Greenlight->AddComponent<gwcEngine::Transform>()->SetPosition({ 1,0,0 });
-		Greenlight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.1,0.1,0.1, });
-		Greenlight->GetComponent<gwcEngine::Transform>()->SetParent(parent);
+		Greenlight->GetComponent<gwcEngine::Transform>()->SetScale({ 0.3,0.3,0.3, });
+		Greenlight->GetComponent<gwcEngine::Transform>()->SetParent(lightParent);
 		Greenlight->AddComponent<gwcEngine::Light>()->SetColour({ 0,1,0 });
 		Greenlight->GetComponent<gwcEngine::Light>()->SetStrength(0.5);
 		Greenlight->AddComponent<gwcEngine::Mesh>(gwcEngine::Mesh::Cube());
@@ -127,9 +123,10 @@ glm::vec4 blueColour = { 0.0f,0.0f,1.0f, 1.0f };
 
 
 		gwcEngine::Entity::Find("parent")->GetComponent<gwcEngine::Transform>()->SetRotation({ 0, gwcEngine::Time::GetTime() * 45, 0 });
-		gwcEngine::Entity::Find("BlueLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ 1.5f * glm::sin(gwcEngine::Time::GetTime()),0,-1.5 * glm::sin(gwcEngine::Time::GetTime()) });
-		gwcEngine::Entity::Find("RedLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ -1.5f * glm::sin(gwcEngine::Time::GetTime()),0,-1.5 * glm::sin(gwcEngine::Time::GetTime()) });
-		gwcEngine::Entity::Find("GreenLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ 0,0,1.5f * glm::sin(gwcEngine::Time::GetTime()) });
+		gwcEngine::Entity::Find("lightParent")->GetComponent<gwcEngine::Transform>()->SetRotation({ gwcEngine::Time::GetTime() * 85, 0,gwcEngine::Time::GetTime() * 145 });
+		gwcEngine::Entity::Find("BlueLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ 2.5f * glm::sin(gwcEngine::Time::GetTime()+50),0,-2.5 * glm::sin(gwcEngine::Time::GetTime()+2000) });
+		gwcEngine::Entity::Find("RedLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ -2.5f * glm::sin(gwcEngine::Time::GetTime()+885),0,-2.5 * glm::sin(gwcEngine::Time::GetTime()+6) });
+		gwcEngine::Entity::Find("GreenLight")->GetComponent<gwcEngine::Transform>()->SetPosition({ 0,0,2.5f * glm::sin(gwcEngine::Time::GetTime()+1) });
 
 		GE_TRACE("FPS = {0}", 1.0f / gwcEngine::Time::GetDeltaTime());
 		

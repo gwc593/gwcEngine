@@ -199,7 +199,7 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		glUniform1i(location, state);
 	}
 
@@ -207,7 +207,7 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		glUniform1i(location, Int);
 	}
 
@@ -215,7 +215,7 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		glUniform1f(location, Float);
 	}
 
@@ -223,7 +223,7 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		glUniform2fv(location, 1, glm::value_ptr(vec2));
 	}
 
@@ -231,7 +231,7 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		glUniform3fv(location, 1,glm::value_ptr(vec3));
 	}
 
@@ -239,7 +239,7 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		glUniform4fv(location, 1, glm::value_ptr(vec4));
 	}
 
@@ -248,7 +248,7 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
@@ -256,7 +256,7 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
@@ -264,8 +264,22 @@ namespace gwcEngine
 	{
 		PROFILE_FUNCTION();
 		glUseProgram(m_Renderer_ID);
-		GLint location = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		GLint location = GetLocation(name);
 		texture->Bind();
+	}
+
+
+	const GLint OpenGLShader::GetLocation(const std::string& name) const
+	{
+		if (m_uniformLocation.find(name) != m_uniformLocation.end())
+			return m_uniformLocation[name];
+
+		glUseProgram(m_Renderer_ID);
+		GLint loc = glGetUniformLocation(m_Renderer_ID, name.c_str());
+		if (loc != -1)
+			m_uniformLocation[name] = loc;
+
+		return loc;
 	}
 
 }
