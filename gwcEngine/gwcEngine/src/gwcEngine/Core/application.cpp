@@ -1,5 +1,5 @@
 #include "gepch.h"
-#include "Application.h"
+#include "application.h"
 
 #include"gwcEngine/Renderer/Renderer.h"
 #include"gwcEngine/Components/System/Panel.h"

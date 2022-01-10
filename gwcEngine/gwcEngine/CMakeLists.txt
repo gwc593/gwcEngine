@@ -9,6 +9,7 @@ add_subdirectory("vendor/Glad")
 add_subdirectory("vendor/tinyxml")
 
 set(SRC  
+    "src/gepch.cpp"
     "src/gwcEngine/Core/Log.cpp"
     "src/gwcEngine/Core/Time.cpp"
     "src/gwcEngine/Core/Input.cpp"
@@ -58,6 +59,14 @@ add_definitions("-DGLEW_STATIC" "-DGE_BUILD_DLL" "-DGLFW_INCLUDE_NONE" "-DTIXML_
 link_directories("")
 
 include_directories("src"
+    "src/gwcEngine/Core"
+    "src/gwcEngine/AssetManagment"
+    "src/gwcEngine/Components"
+    "src/gwcEngine/Debugging"
+    "src/gwcEngine/Renderer"
+    "src/gwcEngine/Renderer/Shader"
+    "src/gwcEngine/Events"
+    "src/gwcEngine/ECS"
     "vendor/spdlog/include"
     "vendor/tinyxml"
     "vendor/GLFW/include"
@@ -66,6 +75,6 @@ include_directories("src"
     "vendor/stb_image")
 
 add_library(gwcEngine STATIC ${SRC})
-target_precompile_headers(gwcEngine PRIVATE "src/gepch.h")
+#target_precompile_headers(gwcEngine PRIVATE "src/gepch.h")
 target_compile_options(gwcEngine PRIVATE -save-temps=obj)
-target_link_libraries(gwcEngine "GLFW" "Glad" "opengl32" "tinyxml")
+target_link_libraries(gwcEngine "GLFW" "Glad" "GL" "tinyxml" "pthread" "X11" "Xrandr" "Xi" "dl")

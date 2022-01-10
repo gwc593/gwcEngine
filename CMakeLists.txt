@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(openGLProject C CXX ASM)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE Release)
@@ -15,11 +15,11 @@ set(CMAKE_CXX_STANDARD 17)  # or newer
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 
-set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wfatal-errors")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wfatal-errors")
 
-set(CMAKE_C_FLAGS_DEBUG "-g -O0 -Wall")
-set(CMAKE_C_FLAGS_RELEASE "-O3 -Wall")
+set(CMAKE_C_FLAGS_DEBUG "-g -O0 -Wfatal-errors")
+set(CMAKE_C_FLAGS_RELEASE "-O3 -Wfatal-errors")
 
 
 add_subdirectory("gwcEngine")

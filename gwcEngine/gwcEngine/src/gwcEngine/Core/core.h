@@ -11,7 +11,8 @@
 		#define GE_API
 	#endif	
 #else
-	#error gwcEngine only supports windows at the moment.
+		#define GE_API
+//	#error gwcEngine only supports windows at the moment.
 #endif // GE_PLATFORM_WINDOWS
 
 #ifdef GE_ENABLE_ASSERTS

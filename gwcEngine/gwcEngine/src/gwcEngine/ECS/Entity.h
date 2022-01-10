@@ -5,7 +5,7 @@ namespace gwcEngine
 
 	class Application;
 	
-	class Entity: public std::enable_shared_from_this<Entity>
+    class Entity: public std::enable_shared_from_this<Entity>
 	{
 		
 	public:

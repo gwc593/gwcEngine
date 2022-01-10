@@ -13,7 +13,10 @@ namespace gwcEngine
 		#ifdef GE_PLATFORM_WINDOWS
 				m_Platform = PlatformOS::Windows;
 		#endif // GE_PLATFORM_WINDOWS
-
+        
+        #ifdef GE_PLATFORM_LINUX
+                m_Platform = PlatformOS::Linux;
+        #endif
 		return m_Platform;
 
 	}
